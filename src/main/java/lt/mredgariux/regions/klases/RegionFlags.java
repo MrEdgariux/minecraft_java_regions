@@ -13,6 +13,12 @@ public class RegionFlags {
     public boolean useButtons = false;
     public boolean useChest = false;
 
+    public boolean useFurnace = false;
+    public boolean useCraftingTable = false;
+    public boolean editSigns = false;
+    public boolean useEnderChest = false;
+    public boolean useWorldEdit = false;
+
     public boolean enter = true;
     public boolean leave = true;
 

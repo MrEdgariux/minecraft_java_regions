@@ -39,6 +39,25 @@ public class Region {
         return pos2;
     }
 
+    public boolean containsLocation(Location loc) {
+        if (!loc.getWorld().equals(pos1.getWorld())) {
+            return false;
+        }
+
+        int minX = Math.min(pos1.getBlockX(), pos2.getBlockX());
+        int maxX = Math.max(pos1.getBlockX(), pos2.getBlockX());
+
+        int minY = Math.min(pos1.getBlockY(), pos2.getBlockY());
+        int maxY = Math.max(pos1.getBlockY(), pos2.getBlockY());
+
+        int minZ = Math.min(pos1.getBlockZ(), pos2.getBlockZ());
+        int maxZ = Math.max(pos1.getBlockZ(), pos2.getBlockZ());
+
+        return loc.getBlockX() >= minX && loc.getBlockX() <= maxX
+                && loc.getBlockY() >= minY && loc.getBlockY() <= maxY
+                && loc.getBlockZ() >= minZ && loc.getBlockZ() <= maxZ;
+    }
+
     public RegionFlags getFlags() {
         return flags;
     }

@@ -1,6 +1,8 @@
 package lt.mredgariux.regions.databases;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import lt.mredgariux.regions.klases.Region;
 import lt.mredgariux.regions.klases.RegionFlags;
 import org.bukkit.Bukkit;
@@ -186,6 +188,53 @@ public class Database {
             plugin.getLogger().info("Region " + name + " deleted.");
         } catch (SQLException e) {
             plugin.getLogger().severe(e.getMessage());
+        }
+    }
+
+    public void synchronizeRegionFlags() {
+        List<Region> regions = getRegionList(); // Fetch all regions
+        boolean updated = false; // Track if we made any updates
+
+        for (Region region : regions) {
+            RegionFlags currentFlags = region.getFlags(); // Flags stored in the database
+            String storedFlagsJson = gson.toJson(currentFlags); // JSON from database
+
+            // Parse stored JSON as an object
+            JsonObject storedFlags = JsonParser.parseString(storedFlagsJson).getAsJsonObject();
+            JsonObject latestFlags = gson.toJsonTree(new RegionFlags()).getAsJsonObject(); // Default flags
+
+            boolean modified = false;
+
+            // **Step 1: Add new flags if missing**
+            for (String key : latestFlags.keySet()) {
+                if (!storedFlags.has(key)) { // New flag detected
+                    storedFlags.add(key, latestFlags.get(key)); // Add with default value
+                    modified = true;
+                }
+            }
+
+            // **Step 2: Remove old flags that no longer exist**
+            List<String> keysToRemove = new ArrayList<>();
+            for (String key : storedFlags.keySet()) {
+                if (!latestFlags.has(key)) { // Old flag detected
+                    keysToRemove.add(key);
+                    modified = true;
+                }
+            }
+            keysToRemove.forEach(storedFlags::remove);
+
+            // **Step 3: Update database if changes were made**
+            if (modified) {
+                RegionFlags updatedFlags = gson.fromJson(storedFlags, RegionFlags.class);
+                updateRegionFlags(region.getName(), updatedFlags);
+                updated = true;
+            }
+        }
+
+        if (updated) {
+            plugin.getLogger().info("Region flags synchronized successfully.");
+        } else {
+            plugin.getLogger().info("No flag changes detected.");
         }
     }
 

@@ -2,7 +2,11 @@ package lt.mredgariux.regions;
 
 import lt.mredgariux.regions.commands.rgCommand;
 import lt.mredgariux.regions.databases.Database;
+import lt.mredgariux.regions.events.*;
 import lt.mredgariux.regions.klases.Region;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -15,14 +19,34 @@ public final class main extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
+
+        PluginManager pluginManager = getServer().getPluginManager();
+        if (!pluginManager.isPluginEnabled("WorldEdit")) {
+            getLogger().severe("WorldEdit plugin is not enabled!");
+            getServer().getPluginManager().disablePlugin(this);
+        }
+        if (!this.getDataFolder().exists()) {
+            if (!getDataFolder().mkdir()) {
+                getLogger().severe("Could not create data folder!");
+                getServer().getPluginManager().disablePlugin(this);
+            }
+        }
+
         database = new Database(this);
         database.connect();
         database.createTables();
+        database.synchronizeRegionFlags();
         regionList = database.getRegionList();
 
         // Commands
         this.getCommand("rg").setExecutor(new rgCommand(this));
-        getLogger().info("Plugin is active, securing the server.");
+        Bukkit.getPluginManager().registerEvents(new BuildingEvent(this), (Plugin) this);
+        Bukkit.getPluginManager().registerEvents(new PvPEvent(), (Plugin) this);
+        Bukkit.getPluginManager().registerEvents(new ExplosionEvents(), (Plugin) this);
+        Bukkit.getPluginManager().registerEvents(new EntryEvents(), (Plugin) this);
+        Bukkit.getPluginManager().registerEvents(new UseEvents(), (Plugin) this);
+        new WorldEditEvent();
+        getLogger().info("Plugin is active, securing the server nxj.");
 
     }
 
@@ -42,5 +66,14 @@ public final class main extends JavaPlugin {
 
     public void addRegion(Region region) {
         regionList.add(region);
+    }
+
+    public void updateRegion(Region region) {
+        for (int i = 0; i < regionList.size(); i++) {
+            if (regionList.get(i).getName().equalsIgnoreCase(region.getName())) {
+                regionList.set(i, region); // Atnaujina regioną sąraše
+                return;
+            }
+        }
     }
 }
