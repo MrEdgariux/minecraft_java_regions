@@ -15,10 +15,14 @@ repositories {
         name = "sonatype"
         url = "https://oss.sonatype.org/content/groups/public/"
     }
+    maven { url = "https://maven.enginehub.org/repo/" }
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
+    compileOnly('com.sk89q.worldedit:worldedit-core:7.4.0-SNAPSHOT')
+
+    implementation 'com.google.code.gson:gson:2.11.0'
 }
 
 def targetJavaVersion = 21

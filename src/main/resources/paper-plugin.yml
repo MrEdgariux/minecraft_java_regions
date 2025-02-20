@@ -2,3 +2,13 @@ name: Regions
 version: '0.1'
 main: lt.mredgariux.regions.main
 api-version: '1.21'
+depends: ["WorldEdit"]
+commands:
+  rg:
+    description: "Regions"
+    permission: "regions"
+permissions:
+  regions.create:
+    description: "Create regions"
+  regions.list:
+    description: "List regions"
