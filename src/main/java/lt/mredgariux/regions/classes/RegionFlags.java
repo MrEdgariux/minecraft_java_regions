@@ -1,4 +1,4 @@
-package lt.mredgariux.regions.klases;
+package lt.mredgariux.regions.classes;
 
 public class RegionFlags {
     public boolean breakBlocks = false;

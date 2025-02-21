@@ -1,7 +1,10 @@
 package lt.mredgariux.regions.events;
 
-import lt.mredgariux.regions.klases.Region;
+import lt.mredgariux.regions.api.RegionEnterEvent;
+import lt.mredgariux.regions.api.RegionLeaveEvent;
+import lt.mredgariux.regions.classes.Region;
 import lt.mredgariux.regions.utils.EventFunctions;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -39,6 +42,9 @@ public class EntryEvents implements Listener {
                     return;
                 }
             }
+
+            RegionEnterEvent enterEvent = new RegionEnterEvent(player, toRegion);
+            Bukkit.getPluginManager().callEvent(enterEvent);
         }
 
         // Prevent leaving a region
@@ -57,6 +63,9 @@ public class EntryEvents implements Listener {
                     EventFunctions.sendNoSpamMessage(player, "&cYou don't have permission to leave this area.");
                 }
             }
+
+            RegionLeaveEvent leaveEvent = new RegionLeaveEvent(player, toRegion);
+            Bukkit.getPluginManager().callEvent(leaveEvent);
         }
     }
 }

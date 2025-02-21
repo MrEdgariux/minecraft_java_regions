@@ -1,7 +1,7 @@
 package lt.mredgariux.regions.events;
 
-import lt.mredgariux.regions.klases.Region;
-import lt.mredgariux.regions.klases.RegionFlags;
+import lt.mredgariux.regions.classes.Region;
+import lt.mredgariux.regions.classes.RegionFlags;
 import lt.mredgariux.regions.utils.EventFunctions;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

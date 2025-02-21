@@ -1,4 +1,4 @@
-package lt.mredgariux.regions.klases;
+package lt.mredgariux.regions.classes;
 
 import org.bukkit.Location;
 

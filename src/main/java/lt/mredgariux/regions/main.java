@@ -1,20 +1,22 @@
 package lt.mredgariux.regions;
 
+import lt.mredgariux.regions.api.RegionAPI;
 import lt.mredgariux.regions.commands.rgCommand;
 import lt.mredgariux.regions.databases.Database;
 import lt.mredgariux.regions.events.*;
-import lt.mredgariux.regions.klases.Region;
+import lt.mredgariux.regions.classes.Region;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public final class main extends JavaPlugin {
-    private List<Region> regionList;
+    private Map<String, Region> regionList;
     private Database database;
+    public static RegionAPI api;
 
     @Override
     public void onEnable() {
@@ -38,6 +40,8 @@ public final class main extends JavaPlugin {
         database.synchronizeRegionFlags();
         regionList = database.getRegionList();
 
+        api = new RegionAPI(regionList);
+
         // Commands
         this.getCommand("rg").setExecutor(new rgCommand(this));
         Bukkit.getPluginManager().registerEvents(new BuildingEvent(this), (Plugin) this);
@@ -60,20 +64,19 @@ public final class main extends JavaPlugin {
         return database;
     }
 
-    public List<Region> getRegionList() {
+    public Map<String, Region> getRegionList() {
         return regionList;
     }
 
     public void addRegion(Region region) {
-        regionList.add(region);
+        regionList.put(region.getName(), region);
     }
 
     public void updateRegion(Region region) {
-        for (int i = 0; i < regionList.size(); i++) {
-            if (regionList.get(i).getName().equalsIgnoreCase(region.getName())) {
-                regionList.set(i, region); // Atnaujina regioną sąraše
-                return;
-            }
-        }
+        regionList.put(region.getName(), region);
+    }
+
+    public void removeRegion(Region region) {
+        regionList.remove(region.getName());
     }
 }

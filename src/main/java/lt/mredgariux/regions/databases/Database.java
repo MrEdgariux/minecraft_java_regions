@@ -3,21 +3,19 @@ package lt.mredgariux.regions.databases;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import lt.mredgariux.regions.klases.Region;
-import lt.mredgariux.regions.klases.RegionFlags;
+import lt.mredgariux.regions.classes.Region;
+import lt.mredgariux.regions.classes.RegionFlags;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class Database {
     private Connection connection;
-    private Plugin plugin;
+    private final Plugin plugin;
     private final Gson gson = new Gson();
 
     public Database(Plugin plugin) {
@@ -149,8 +147,8 @@ public class Database {
         return null;
     }
 
-    public List<Region> getRegionList() {
-        List<Region> regions = new ArrayList<Region>();
+    public Map<String, Region> getRegionList() {
+        Map<String, Region> regions = new HashMap<>();
         String sql = "SELECT * FROM regions";
         try (PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
             ResultSet rs = pstmt.executeQuery();
@@ -171,7 +169,7 @@ public class Database {
 
                 Region regionas = new Region(rs.getString("name"), pos1, pos2, owner);
                 regionas.setFlags(flags);
-                regions.add(regionas);
+                regions.put(rs.getString("name"), regionas);
             }
         } catch (SQLException e) {
             plugin.getLogger().severe(e.getMessage());
@@ -192,10 +190,10 @@ public class Database {
     }
 
     public void synchronizeRegionFlags() {
-        List<Region> regions = getRegionList(); // Fetch all regions
+        Map<String, Region> regions = getRegionList(); // Fetch all regions
         boolean updated = false; // Track if we made any updates
 
-        for (Region region : regions) {
+        for (Region region : regions.values()) {
             RegionFlags currentFlags = region.getFlags(); // Flags stored in the database
             String storedFlagsJson = gson.toJson(currentFlags); // JSON from database
 

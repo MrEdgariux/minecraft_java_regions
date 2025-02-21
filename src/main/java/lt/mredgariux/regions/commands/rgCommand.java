@@ -6,8 +6,8 @@ import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.session.SessionManager;
 import lt.mredgariux.regions.databases.Database;
-import lt.mredgariux.regions.klases.Region;
-import lt.mredgariux.regions.klases.RegionFlags;
+import lt.mredgariux.regions.classes.Region;
+import lt.mredgariux.regions.classes.RegionFlags;
 import lt.mredgariux.regions.main;
 import lt.mredgariux.regions.messages.eng;
 import lt.mredgariux.regions.utils.ChatManager;
@@ -22,8 +22,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
 import java.lang.reflect.Field;
+import java.util.Map;
 
 public class rgCommand implements CommandExecutor {
     private final WorldEdit wedit = WorldEdit.getInstance();
@@ -116,9 +116,8 @@ public class rgCommand implements CommandExecutor {
                         RegionFlags regFlags = reg.getFlags();
 
                         Field field = RegionFlags.class.getDeclaredField(flag);
-                        field.setAccessible(true); // Leidžiame keisti privačius laukus
+                        field.setAccessible(true);
 
-                        // Nustatome reikšmę pagal tipą
                         if (field.getType().equals(boolean.class)) {
                             field.set(regFlags, Boolean.parseBoolean(value));
                         } else if (field.getType().equals(String.class)) {
@@ -160,8 +159,8 @@ public class rgCommand implements CommandExecutor {
                         for (Field field : RegionFlags.class.getDeclaredFields()) {
                             field.setAccessible(true);
                             try {
-                                Object value = field.get(regFlags); // Gauna lauko reikšmę
-                                String name = field.getName(); // Gauna lauko pavadinimą
+                                Object value = field.get(regFlags);
+                                String name = field.getName();
                                 ChatManager.sendMessage(player, "&8 - &6" + name + "&8:&6 " + value, eng.prefix);
                             } catch (IllegalAccessException e) {
                                 plugin.getLogger().severe(e.getMessage());
@@ -181,12 +180,41 @@ public class rgCommand implements CommandExecutor {
                     }
 
                     ChatManager.sendMessage(player, "&cList of regions:", eng.prefix);
-                    for (Region reg : ((main) plugin).getRegionList()) {
-                        ChatManager.sendMessage(player, String.format("&7 - &6%s &7- &6Owned by: %s", reg.getName(), Bukkit.getOfflinePlayer(reg.getOwner()).getName()), eng.prefix);
+
+                    for (Map.Entry<String, Region> reg : ((main) plugin).getRegionList().entrySet()) {
+                        Region region = reg.getValue();
+                        ChatManager.sendMessage(player, String.format(
+                                "&7 - &6%s &7- &6Owned by: %s",
+                                region.getName(),
+                                Bukkit.getOfflinePlayer(region.getOwner()).getName()
+                        ), eng.prefix);
                     }
+
                     break;
                 case "delete":
-                    ChatManager.sendMessage(player, "&cDelete command not implemented yet!", eng.prefix);
+                    if (!player.hasPermission("regions.delete")) {
+                        ChatManager.sendMessage(player, eng.commands_rg_no_permission, eng.prefix);
+                        break;
+                    }
+                    if (args.length == 1) {
+                        ChatManager.sendMessage(player, "&cUsage: /region delete <name>", eng.prefix);
+                        break;
+                    }
+
+                    try {
+                        String region_name = args[1];
+                        Region reg = database.getRegion(region_name);
+                        if (!database.existRegion(region_name) || reg == null) {
+                            ChatManager.sendMessage(player, "&cRegion " + region_name + " does not exist", eng.prefix);
+                            break;
+                        }
+
+                        database.deleteRegion(region_name);
+                        ((main) plugin).removeRegion(reg);
+                    } catch (Exception e) {
+                        plugin.getLogger().severe(e.getMessage());
+                        ChatManager.sendMessage(player, "&cSomething gone wrong here...", eng.prefix);
+                    }
                     break;
                 default:
                     ChatManager.sendMessage(player, "&cUnknown subcommand!", eng.prefix);
@@ -194,10 +222,12 @@ public class rgCommand implements CommandExecutor {
             }
             return false;
         } else {
-            ChatManager.sendMessage(player, "&aRegions - Re-Developted by MrEdgariux!", eng.prefix);
+            ChatManager.sendMessage(player, "&aRegions - &6Re-Developed by &cMrEdgariux!", eng.prefix);
             ChatManager.sendMessage(player, "&7- &6/rg create <name>", eng.prefix);
             ChatManager.sendMessage(player, "&7- &6/rg list", eng.prefix);
             ChatManager.sendMessage(player, "&7- &6/rg flag <name> <flag> <value>", eng.prefix);
+            ChatManager.sendMessage(player, "&7- &6/rg flags <name>", eng.prefix);
+            ChatManager.sendMessage(player, "&7- &6/rg delete <name>", eng.prefix);
         }
         return false;
     }

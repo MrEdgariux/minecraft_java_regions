@@ -1,6 +1,6 @@
 package lt.mredgariux.regions.utils;
 
-import lt.mredgariux.regions.klases.Region;
+import lt.mredgariux.regions.classes.Region;
 import lt.mredgariux.regions.main;
 import lt.mredgariux.regions.messages.eng;
 import org.bukkit.Location;
@@ -21,7 +21,8 @@ public class EventFunctions {
      */
     public static Region getHighestPriorityRegion(Location location) {
         Region highestPriorityRegion = null;
-        for (Region reg : ((main) plugin).getRegionList()) {
+
+        for (Region reg : ((main) plugin).getRegionList().values()) {
             if (reg.containsLocation(location)) {
                 if (highestPriorityRegion == null || getRegionVolume(reg) < getRegionVolume(highestPriorityRegion)) {
                     highestPriorityRegion = reg;
