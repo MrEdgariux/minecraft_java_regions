@@ -5,24 +5,31 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class RegionLeaveEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
 
     private final Player player;
-    private final Region region;
+    private final Region fromRegion;
+    private final Region toRegion;
 
-    public RegionLeaveEvent(Player player, Region region) {
+    public RegionLeaveEvent(Player player, Region fromRegion, Region toRegion) {
         this.player = player;
-        this.region = region;
+        this.fromRegion = fromRegion;
+        this.toRegion = toRegion;
     }
 
-    public Player getPlayer() {
+    public @NotNull Player getPlayer() {
         return player;
     }
 
-    public Region getRegion() {
-        return region;
+    public @Nullable Region getFromRegion() {
+        return fromRegion;
+    }
+
+    public @Nullable Region getToRegion() {
+        return toRegion;
     }
 
     @Override

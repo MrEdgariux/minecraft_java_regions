@@ -43,7 +43,7 @@ public class EntryEvents implements Listener {
                 }
             }
 
-            RegionEnterEvent enterEvent = new RegionEnterEvent(player, toRegion);
+            RegionEnterEvent enterEvent = new RegionEnterEvent(player, fromRegion, toRegion);
             Bukkit.getPluginManager().callEvent(enterEvent);
         }
 
@@ -64,7 +64,7 @@ public class EntryEvents implements Listener {
                 }
             }
 
-            RegionLeaveEvent leaveEvent = new RegionLeaveEvent(player, toRegion);
+            RegionLeaveEvent leaveEvent = new RegionLeaveEvent(player, fromRegion, toRegion);
             Bukkit.getPluginManager().callEvent(leaveEvent);
         }
     }
