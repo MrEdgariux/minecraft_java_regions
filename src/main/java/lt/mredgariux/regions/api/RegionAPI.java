@@ -9,10 +9,10 @@ import java.util.Map;
 import java.util.UUID;
 
 public class RegionAPI {
-    private final Map<String, Region> regions = new HashMap<>();
+    private Map<String, Region> regions = new HashMap<>();
 
     public RegionAPI(Map<String, Region> regionList) {
-        this.regions.putAll(regionList);
+        this.regions = regionList;
     }
 
     public RegionAPI() {}

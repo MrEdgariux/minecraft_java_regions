@@ -23,6 +23,7 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.Map;
 
 public class rgCommand implements CommandExecutor {
@@ -105,7 +106,7 @@ public class rgCommand implements CommandExecutor {
                     try {
                         String region_name = args[1];
                         String flag = args[2];
-                        String value = args[3];
+                        String value = String.join(" ", Arrays.copyOfRange(args, 3, args.length));
 
                         Region reg = database.getRegion(region_name);
                         if (!database.existRegion(region_name) || reg == null) {
@@ -159,7 +160,7 @@ public class rgCommand implements CommandExecutor {
                         for (Field field : RegionFlags.class.getDeclaredFields()) {
                             field.setAccessible(true);
                             try {
-                                Object value = field.get(regFlags);
+                                Object value = field.get(regFlags) == "" ? null : field.get(regFlags);
                                 String name = field.getName();
                                 ChatManager.sendMessage(player, "&8 - &6" + name + "&8:&6 " + value, eng.prefix);
                             } catch (IllegalAccessException e) {

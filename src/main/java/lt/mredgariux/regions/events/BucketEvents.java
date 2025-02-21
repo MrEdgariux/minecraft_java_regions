@@ -6,21 +6,13 @@ import lt.mredgariux.regions.utils.EventFunctions;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
+import org.bukkit.event.player.PlayerBucketFillEvent;
 
-public class BuildingEvent implements Listener {
-    private final Plugin plugin;
-
-    public BuildingEvent(Plugin plugin) {
-        this.plugin = plugin;
-    }
-
-    @EventHandler(priority = EventPriority.HIGH)
-    public void onBuild(BlockPlaceEvent event) {
+public class BucketEvents implements Listener {
+    @EventHandler
+    public void onBucketUse(PlayerBucketEmptyEvent event) {
         Player player = event.getPlayer();
         Location loc = event.getBlock().getLocation();
         Region highestPriorityRegion = EventFunctions.getHighestPriorityRegion(loc);
@@ -30,15 +22,15 @@ public class BuildingEvent implements Listener {
                 return;
             }
             RegionFlags flags = highestPriorityRegion.getFlags();
-            if (!flags.buildBlocks) {
+            if (!flags.useBuckets) {
                 event.setCancelled(true);
-                EventFunctions.sendNoSpamMessage(player, "&cYou cannot place blocks in this region.");
+                EventFunctions.sendNoSpamMessage(player, "&cYou cannot use buckets in this region.");
             }
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
-    public void onBreak(BlockBreakEvent event) {
+    @EventHandler
+    public void onBucketUse(PlayerBucketFillEvent event) {
         Player player = event.getPlayer();
         Location loc = event.getBlock().getLocation();
         Region highestPriorityRegion = EventFunctions.getHighestPriorityRegion(loc);
@@ -48,9 +40,9 @@ public class BuildingEvent implements Listener {
                 return;
             }
             RegionFlags flags = highestPriorityRegion.getFlags();
-            if (!flags.breakBlocks) {
+            if (!flags.useBuckets) {
                 event.setCancelled(true);
-                EventFunctions.sendNoSpamMessage(player, "&cYou cannot break blocks in this region.");
+                EventFunctions.sendNoSpamMessage(player, "&cYou cannot use buckets in this region.");
             }
         }
     }

@@ -26,7 +26,7 @@ public class ExplosionEvents implements Listener {
             for (Block block : event.blockList()) {
                 Location loc = block.getLocation();
                 Region highestPriorityRegion = EventFunctions.getHighestPriorityRegion(loc);
-                if (highestPriorityRegion != null && !highestPriorityRegion.getFlags().enderdragonDestruction) {
+                if (highestPriorityRegion != null && !highestPriorityRegion.getFlags().enderDragonDestroyBlocks) {
                     event.setCancelled(true);
                 }
             }

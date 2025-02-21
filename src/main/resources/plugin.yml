@@ -1,5 +1,5 @@
 name: Regions
-version: '0.1'
+version: '1.0'
 main: lt.mredgariux.regions.main
 api-version: '1.20'
 depends: ["WorldEdit"]
@@ -12,3 +12,11 @@ permissions:
     description: "Create regions"
   regions.list:
     description: "List regions"
+  regions.bypass.use.*:
+    description: "Bypass any useEvent event cancellations"
+  regions.bypass.build.*:
+    description: "Bypass any build event cancellations"
+  regions.bypass.break.*:
+    description: "Bypass any break event cancellations"
+  regions.bypass.we.*:
+    description: "Bypass worldedit cancellations"

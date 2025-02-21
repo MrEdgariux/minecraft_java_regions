@@ -4,19 +4,20 @@ public class RegionFlags {
     public boolean breakBlocks = false;
     public boolean buildBlocks = false;
 
+    public boolean destroyPaintings = false;
+    public boolean destroyItemFrames = false;
+
     public boolean eatCake = false;
     public boolean pvp = false;
     public boolean tnt = false;
-    public boolean enderdragonDestruction = false;
+    public boolean enderDragonDestroyBlocks = false;
+    public boolean editSigns = false;
 
     public boolean usePressurePlates = false;
     public boolean useButtons = false;
-    public boolean useChest = false;
-
-    public boolean useFurnace = false;
-    public boolean useCraftingTable = false;
-    public boolean editSigns = false;
-    public boolean useEnderChest = false;
+    public boolean useContainerBlocks = false;
+    public boolean useItemFrames = false;
+    public boolean useBuckets = false;
     public boolean useWorldEdit = false;
 
     public boolean enter = true;
@@ -25,9 +26,9 @@ public class RegionFlags {
     public boolean needPermissionToEnter = false;
     public boolean needPermissionToLeave = false;
 
-    public String enterPermission = null;
-    public String leavePermission = null;
+    public String enterPermission = "";
+    public String leavePermission = "";
 
-    public String enterMessage = null;
-    public String leaveMessage = null;
+    public String enterMessage = "";
+    public String leaveMessage = "";
 }

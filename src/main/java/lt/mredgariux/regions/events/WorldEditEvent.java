@@ -11,6 +11,7 @@ import lt.mredgariux.regions.classes.Region;
 import lt.mredgariux.regions.utils.EventFunctions;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import java.util.Objects;
 
@@ -27,9 +28,15 @@ public class WorldEditEvent {
 
                                 Location loc = new Location(Bukkit.getWorld(Objects.requireNonNull(event.getWorld()).getName()), pos.x(), pos.y(), pos.z());
                                 Region region = EventFunctions.getHighestPriorityRegion(loc);
+                                Player player = Bukkit.getPlayer(event.getActor().getName());
+
+                                if (player == null) return getExtent().setBlock(pos, block);
 
                                 if (region != null && !region.getFlags().useWorldEdit) {
-                                    EventFunctions.sendNoSpamMessage(Bukkit.getPlayer(event.getActor().getName()), "&cYou cannot use WorldEdit in this region.");
+                                    if (player.hasPermission("regions.bypass.we." + region.getName())) {
+                                        return getExtent().setBlock(pos, block); // Allowing use of the worldedit
+                                    }
+                                    EventFunctions.sendNoSpamMessage(player, "&cYou cannot use WorldEdit in this region.");
                                     return false;
                                 }
 

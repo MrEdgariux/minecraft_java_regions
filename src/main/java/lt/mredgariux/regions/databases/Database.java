@@ -205,8 +205,8 @@ public class Database {
 
             // **Step 1: Add new flags if missing**
             for (String key : latestFlags.keySet()) {
-                if (!storedFlags.has(key)) { // New flag detected
-                    storedFlags.add(key, latestFlags.get(key)); // Add with default value
+                if (!storedFlags.has(key)) {
+                    storedFlags.add(key, latestFlags.get(key));
                     modified = true;
                 }
             }
@@ -214,7 +214,7 @@ public class Database {
             // **Step 2: Remove old flags that no longer exist**
             List<String> keysToRemove = new ArrayList<>();
             for (String key : storedFlags.keySet()) {
-                if (!latestFlags.has(key)) { // Old flag detected
+                if (!latestFlags.has(key) && storedFlags.get(key) != null) {
                     keysToRemove.add(key);
                     modified = true;
                 }
