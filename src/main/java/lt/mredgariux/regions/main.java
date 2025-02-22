@@ -27,6 +27,9 @@ public final class main extends JavaPlugin {
             getLogger().severe("WorldEdit plugin is not enabled!");
             getServer().getPluginManager().disablePlugin(this);
         }
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
+            getLogger().warning("Could not find PlaceholderAPI!");
+        }
         if (!this.getDataFolder().exists()) {
             if (!getDataFolder().mkdir()) {
                 getLogger().severe("Could not create data folder!");

@@ -4,6 +4,7 @@ import lt.mredgariux.regions.api.RegionEnterEvent;
 import lt.mredgariux.regions.api.RegionLeaveEvent;
 import lt.mredgariux.regions.classes.Region;
 import lt.mredgariux.regions.utils.EventFunctions;
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -117,8 +118,14 @@ public class EntryEvents implements Listener {
             }
 
             if (!Objects.equals(toRegion.getFlags().enterMessage, "")) {
-                Component titletxt = Component.text("");
-                Title title = Title.title(titletxt, Component.text(toRegion.getFlags().enterMessage, NamedTextColor.GOLD));
+                Title title;
+                if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+                    String message = PlaceholderAPI.setPlaceholders(player, toRegion.getFlags().enterMessage);
+                    title = Title.title(Component.text(""), Component.text(message, NamedTextColor.GOLD));
+                } else {
+                    title = Title.title(Component.text(""), Component.text(toRegion.getFlags().enterMessage, NamedTextColor.GOLD));
+                }
+
                 player.showTitle(title);
             }
 
@@ -144,6 +151,18 @@ public class EntryEvents implements Listener {
                     event.setCancelled(true);
                     EventFunctions.sendNoSpamMessage(player, "&cYou don't have permission to leave this area.");
                 }
+            }
+
+            if (!Objects.equals(fromRegion.getFlags().leaveMessage, "")) {
+                Title title;
+                if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+                    String message = PlaceholderAPI.setPlaceholders(player, fromRegion.getFlags().leaveMessage);
+                    title = Title.title(Component.text(""), Component.text(message, NamedTextColor.GOLD));
+                } else {
+                    title = Title.title(Component.text(""), Component.text(fromRegion.getFlags().leaveMessage, NamedTextColor.GOLD));
+                }
+
+                player.showTitle(title);
             }
 
             RegionLeaveEvent leaveEvent = new RegionLeaveEvent(player, fromRegion, toRegion);

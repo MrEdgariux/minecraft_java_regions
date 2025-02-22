@@ -3,6 +3,8 @@ version: '1.0'
 main: lt.mredgariux.regions.main
 api-version: '1.20'
 depends: ["WorldEdit"]
+softdepend:
+  - "PlaceholderAPI"
 commands:
   rg:
     description: "Regions"
