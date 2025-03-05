@@ -56,4 +56,16 @@ public class EventFunctions {
             }.runTaskLater(plugin, 10);
         }
     }
+
+    public static void sendNoSpamMessage(Player player, String message, Long duration) {
+        if (!noSpam.contains(player)) {
+            ChatManager.sendMessage(player, message, eng.prefix);
+            noSpam.add(player);
+            new BukkitRunnable() {
+                public void run() {
+                    noSpam.remove(player);
+                }
+            }.runTaskLater(plugin, duration);
+        }
+    }
 }

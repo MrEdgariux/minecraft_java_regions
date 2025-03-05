@@ -53,6 +53,7 @@ public final class main extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new EntryEvents(), (Plugin) this);
         Bukkit.getPluginManager().registerEvents(new UseEvents(), (Plugin) this);
         Bukkit.getPluginManager().registerEvents(new BucketEvents(), (Plugin) this);
+        Bukkit.getPluginManager().registerEvents(new FireSpreadEvent(), (Plugin) this);
         new WorldEditEvent();
         getLogger().info("Plugin is active, securing the server nxj.");
 

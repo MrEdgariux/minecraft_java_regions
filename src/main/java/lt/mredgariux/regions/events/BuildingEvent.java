@@ -4,6 +4,7 @@ import lt.mredgariux.regions.classes.Region;
 import lt.mredgariux.regions.classes.RegionFlags;
 import lt.mredgariux.regions.utils.EventFunctions;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -30,6 +31,9 @@ public class BuildingEvent implements Listener {
                 return;
             }
             RegionFlags flags = highestPriorityRegion.getFlags();
+            if (!flags.allowPlaceSpecificBlocks.isEmpty() && flags.allowPlaceSpecificBlocks.contains(event.getBlock().getType().name())) {
+                return;
+            }
             if (!flags.buildBlocks) {
                 event.setCancelled(true);
                 EventFunctions.sendNoSpamMessage(player, "&cYou cannot place blocks in this region.");
@@ -48,6 +52,9 @@ public class BuildingEvent implements Listener {
                 return;
             }
             RegionFlags flags = highestPriorityRegion.getFlags();
+            if (!flags.allowBreakSpecificBlocks.isEmpty() && flags.allowBreakSpecificBlocks.contains(event.getBlock().getType().name())) {
+                return;
+            }
             if (!flags.breakBlocks) {
                 event.setCancelled(true);
                 EventFunctions.sendNoSpamMessage(player, "&cYou cannot break blocks in this region.");

@@ -24,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 public class rgCommand implements CommandExecutor {
@@ -99,7 +100,7 @@ public class rgCommand implements CommandExecutor {
                     }
 
                     if (args.length < 4) {
-                        ChatManager.sendMessage(player, "&cUsage: /region flag <name> <flag> <value>", eng.prefix);
+                        ChatManager.sendMessage(player, "&cUsage: /region flag <name> <flag> <value> [add/rem]", eng.prefix);
                         break;
                     }
 
@@ -107,6 +108,7 @@ public class rgCommand implements CommandExecutor {
                         String region_name = args[1];
                         String flag = args[2];
                         String value = String.join(" ", Arrays.copyOfRange(args, 3, args.length));
+                        String valueBlock = args[3];
 
                         Region reg = database.getRegion(region_name);
                         if (!database.existRegion(region_name) || reg == null) {
@@ -122,7 +124,29 @@ public class rgCommand implements CommandExecutor {
                         if (field.getType().equals(boolean.class)) {
                             field.set(regFlags, Boolean.parseBoolean(value));
                         } else if (field.getType().equals(String.class)) {
-                            field.set(regFlags, value);
+                            if (value.equals("null") || value.equals("none")) {
+                                field.set(regFlags, "");
+                            } else {
+                                field.set(regFlags, value);
+                            }
+                        } else if (field.getType().equals(List.class)) {
+                            Object fieldValue = field.get(regFlags);
+                            if (fieldValue instanceof List<?> list) {
+                                List<String> flagList = (List<String>) list; // Kastingas į List<String>
+
+                                if (args.length > 4 && args[4].equalsIgnoreCase("add")) {
+                                    flagList.add(valueBlock);  // pridėti naują elementą į sąrašą
+                                } else if (args.length > 4 && args[4].equalsIgnoreCase("rem")) {
+                                    flagList.remove(valueBlock);  // pridėti naują elementą į sąrašą
+                                } else {
+                                    ChatManager.sendMessage(player, "&cInvalid operation for List flag (add/rem)", eng.prefix);
+                                    break;
+                                }
+                                field.set(regFlags, flagList);  // nustatyti atnaujintą sąrašą atgal
+                            } else {
+                                ChatManager.sendMessage(player, "&cFlag is not a List", eng.prefix);
+                                break;
+                            }
                         } else {
                             ChatManager.sendMessage(player, "&cUnknown field type", eng.prefix);
                             break;
@@ -130,9 +154,17 @@ public class rgCommand implements CommandExecutor {
                         reg.setFlags(regFlags);
                         ((main) plugin).updateRegion(reg);
                         database.updateRegionFlags(region_name, regFlags);
-                        ChatManager.sendMessage(player, "&aFlag " + flag + " for " + region_name + " updated to " + value, eng.prefix);
+                        if (value.equals("null") || value.equals("none")) {
+                            ChatManager.sendMessage(player, "&cFlag " + flag + " for " + region_name + " deleted successfully", eng.prefix);
+                            break;
+                        }
+                        if (value.contains(" ") && !value.contains("add")) {
+                            ChatManager.sendMessage(player, "&aFlag " + flag + " for " + region_name + " updated to " + value, eng.prefix);
+                        } else {
+                            ChatManager.sendMessage(player, "&aFlag " + flag + " for " + region_name + " updated to " + valueBlock, eng.prefix);
+                        }
 
-                    } catch (NoSuchFieldException | IllegalAccessException e) {
+                    } catch (Exception e) {
                         ChatManager.sendMessage(player, "&cUnknown flag provided", eng.prefix);
                     }
                     break;
@@ -162,7 +194,19 @@ public class rgCommand implements CommandExecutor {
                             try {
                                 Object value = field.get(regFlags) == "" ? null : field.get(regFlags);
                                 String name = field.getName();
-                                ChatManager.sendMessage(player, "&8 - &6" + name + "&8:&6 " + value, eng.prefix);
+                                String type;
+                                if (value instanceof List<?> list) {
+                                    type = "List";
+                                } else if (value instanceof String[]) {
+                                    type = "List (String)";
+                                } else if (value instanceof String) {
+                                    type = "String";
+                                } else if (value instanceof Boolean) {
+                                    type = "Boolean";
+                                } else {
+                                    type = "Unknown";
+                                }
+                                ChatManager.sendMessage(player, "&8 - &6Flag Type&8:&6 " + type + " &8- &6" + name + "&8:&6 " + value, eng.prefix);
                             } catch (IllegalAccessException e) {
                                 plugin.getLogger().severe(e.getMessage());
                                 ChatManager.sendMessage(player, "&cSomething gone wrong while getting flags...", eng.prefix);

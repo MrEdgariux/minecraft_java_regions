@@ -7,7 +7,6 @@ import lt.mredgariux.regions.utils.EventFunctions;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -47,7 +46,7 @@ public class EntryEvents implements Listener {
             }
 
             // Check if permission is required
-            if (toRegion.getFlags().needPermissionToEnter && !Objects.equals(toRegion.getFlags().enterPermission, "")) {
+            if (!Objects.equals(toRegion.getFlags().enterPermission, "")) {
                 if (!player.hasPermission(toRegion.getFlags().enterPermission)) {
                     event.setCancelled(true);
                     EventFunctions.sendNoSpamMessage(player, "&cYou don't have permission to enter this area. Caused by: &6" + event.getCause().name());
@@ -72,7 +71,7 @@ public class EntryEvents implements Listener {
             }
 
             // Check if permission is required
-            if (fromRegion.getFlags().needPermissionToLeave && !Objects.equals(fromRegion.getFlags().leavePermission, "")) {
+            if (!Objects.equals(fromRegion.getFlags().leavePermission, "")) {
                 if (!player.hasPermission(fromRegion.getFlags().leavePermission)) {
                     event.setCancelled(true);
                     EventFunctions.sendNoSpamMessage(player, "&cYou don't have permission to leave this area. Caused by: &6" + event.getCause().name());
@@ -109,7 +108,7 @@ public class EntryEvents implements Listener {
             }
 
             // Check if permission is required
-            if (toRegion.getFlags().needPermissionToEnter && !Objects.equals(toRegion.getFlags().enterPermission, "")) {
+            if (!Objects.equals(toRegion.getFlags().enterPermission, "")) {
                 if (!player.hasPermission(toRegion.getFlags().enterPermission)) {
                     event.setCancelled(true);
                     EventFunctions.sendNoSpamMessage(player, "&cYou don't have permission to enter this area.");
@@ -146,7 +145,7 @@ public class EntryEvents implements Listener {
             }
 
             // Check if permission is required
-            if (fromRegion.getFlags().needPermissionToLeave && !Objects.equals(fromRegion.getFlags().leavePermission, "")) {
+            if (!Objects.equals(fromRegion.getFlags().leavePermission, "")) {
                 if (!player.hasPermission(fromRegion.getFlags().leavePermission)) {
                     event.setCancelled(true);
                     EventFunctions.sendNoSpamMessage(player, "&cYou don't have permission to leave this area.");

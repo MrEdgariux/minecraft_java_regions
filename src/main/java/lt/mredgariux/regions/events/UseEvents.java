@@ -16,6 +16,7 @@ import org.bukkit.event.hanging.HangingPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.BlockInventoryHolder;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.InventoryHolder;
 
 import java.util.Objects;
 
@@ -40,7 +41,7 @@ public class UseEvents implements Listener {
             return;
         }
 
-        if (block.getBlockData() instanceof BlockInventoryHolder) {
+        if (block.getBlockData() instanceof InventoryHolder) {
             if (!highestPriorityRegion.getFlags().useContainerBlocks) {
                 event.setCancelled(true);
                 EventFunctions.sendNoSpamMessage(player, "&cYou cannot use " + block.getType().name().toLowerCase().replace("_", " ") + " in this region.");
@@ -48,23 +49,50 @@ public class UseEvents implements Listener {
             return;
         }
 
+        String blokas = block.getType().name().toLowerCase().replace("_", " ");
+
         switch (block.getType()) {
+            case CRAFTING_TABLE:
+                if (!highestPriorityRegion.getFlags().useCraftingTable) {
+                    event.setCancelled(true);
+                    EventFunctions.sendNoSpamMessage(player, "&cYou cannot use " + blokas + " in this region.");
+                }
+                break;
+            case FURNACE:
+                if (!highestPriorityRegion.getFlags().useFurnace) {
+                    event.setCancelled(true);
+                    EventFunctions.sendNoSpamMessage(player, "&cYou cannot use " + blokas + " in this region.");
+                }
+                break;
+
+            case CHEST:
+                if (!highestPriorityRegion.getFlags().useChest) {
+                    event.setCancelled(true);
+                    EventFunctions.sendNoSpamMessage(player, "&cYou cannot use " + blokas + " in this region.");
+                }
+                break;
+            case ENDER_CHEST:
+                if (!highestPriorityRegion.getFlags().useEnderChest) {
+                    event.setCancelled(true);
+                    EventFunctions.sendNoSpamMessage(player, "&cYou cannot use " + blokas + " in this region.");
+                }
+                break;
             case LEVER, ACACIA_BUTTON, BAMBOO_BUTTON, BIRCH_BUTTON, CHERRY_BUTTON, CRIMSON_BUTTON, DARK_OAK_BUTTON, JUNGLE_BUTTON, MANGROVE_BUTTON, OAK_BUTTON, SPRUCE_BUTTON, STONE_BUTTON, POLISHED_BLACKSTONE_BUTTON, WARPED_BUTTON:
                 if (!highestPriorityRegion.getFlags().useButtons) {
                     event.setCancelled(true);
-                    EventFunctions.sendNoSpamMessage(player, "&cYou cannot use " + block.getType().name().toLowerCase().replace("_", " ") + " in this region.");
+                    EventFunctions.sendNoSpamMessage(player, "&cYou cannot use " + blokas + " in this region.");
                 }
                 break;
             case ACACIA_PRESSURE_PLATE, BAMBOO_PRESSURE_PLATE, BIRCH_PRESSURE_PLATE, CHERRY_PRESSURE_PLATE, CRIMSON_PRESSURE_PLATE, DARK_OAK_PRESSURE_PLATE, HEAVY_WEIGHTED_PRESSURE_PLATE, JUNGLE_PRESSURE_PLATE, LIGHT_WEIGHTED_PRESSURE_PLATE, MANGROVE_PRESSURE_PLATE, OAK_PRESSURE_PLATE, POLISHED_BLACKSTONE_PRESSURE_PLATE, SPRUCE_PRESSURE_PLATE, STONE_PRESSURE_PLATE, WARPED_PRESSURE_PLATE:
                 if (!highestPriorityRegion.getFlags().usePressurePlates) {
                     event.setCancelled(true);
-                    EventFunctions.sendNoSpamMessage(player, "&cYou cannot use " + block.getType().name().toLowerCase().replace("_", " ") + " in this region.");
+                    EventFunctions.sendNoSpamMessage(player, "&cYou cannot use " + blokas + " in this region.");
                 }
                 break;
             case CAKE:
                 if (!highestPriorityRegion.getFlags().eatCake) {
                     event.setCancelled(true);
-                    EventFunctions.sendNoSpamMessage(player, "&cYou cannot eat cakes in this region.");
+                    EventFunctions.sendNoSpamMessage(player, "&cYou cannot eat " + blokas + " in this region.");
                 }
                 break;
             default:
