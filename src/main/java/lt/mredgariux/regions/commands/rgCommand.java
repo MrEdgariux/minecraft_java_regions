@@ -256,6 +256,7 @@ public class rgCommand implements CommandExecutor {
 
                         database.deleteRegion(region_name);
                         ((main) plugin).removeRegion(reg);
+                        ChatManager.sendMessage(player, "&aRegion " + region_name + " deleted successfully", eng.prefix);
                     } catch (Exception e) {
                         plugin.getLogger().severe(e.getMessage());
                         ChatManager.sendMessage(player, "&cSomething gone wrong here...", eng.prefix);
