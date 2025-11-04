@@ -50,7 +50,11 @@ public class rgCommand implements CommandExecutor {
         if (args.length > 0) {
             switch (args[0].toLowerCase()) {
                 case "reload":
-                    ChatManager.sendMessage(player, "&cNot implemented yet!", eng.prefix);
+                    if (((main) plugin).reloadPlugin()) {
+                        ChatManager.sendMessage(player, lang, "plugin-reloaded");
+                    } else {
+                        ChatManager.sendMessage(player, lang, "plugin-reload-failed");
+                    }
                     break;
                 case "create":
                     if (!player.hasPermission("regions.create")) {

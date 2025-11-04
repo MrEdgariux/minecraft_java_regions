@@ -96,6 +96,25 @@ public final class main extends JavaPlugin {
         return lang;
     }
 
+    public boolean reloadPlugin() {
+        try {
+            this.reloadConfig();
+            FileConfiguration config = this.getConfig();
+
+            lang.loadLanguages();
+            lang.setDefaultLang(config.getString("language", "en"));
+
+            database.synchronizeRegionFlags();
+            regionList = database.getRegionList();
+            api = new RegionAPI(regionList);
+
+            return true;
+        } catch (Exception e) {
+            getLogger().severe("[Regions | Critical] An error occurred during plugin reload:" + e.getMessage());
+            return false;
+        }
+    }
+
     @Override
     public void onDisable() {
         // Plugin shutdown logic

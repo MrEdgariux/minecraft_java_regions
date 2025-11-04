@@ -1,6 +1,8 @@
 prefix: "&8[&4Regions&8]"
 no-permission: "&cYou do not have permission to run this command."
 unknown-subcommand: "&cUnknown subcommand."
+plugin-reloaded: "&aRegions plugin has been reloaded."
+plugin-reload-failed: "&cFailed to reload the Regions plugin. &4Server may be vulnerable!"
 
 help-header: "&6--- &eRegion Commands Help &6---"
 help-create: "&e/region create <name> &7- Create a new region."
