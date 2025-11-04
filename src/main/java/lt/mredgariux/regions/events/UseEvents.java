@@ -1,6 +1,5 @@
 package lt.mredgariux.regions.events;
 
-import io.papermc.paper.event.player.PlayerItemFrameChangeEvent;
 import lt.mredgariux.regions.classes.Region;
 import lt.mredgariux.regions.utils.EventFunctions;
 import org.bukkit.Location;
@@ -12,9 +11,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
+import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.hanging.HangingPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.BlockInventoryHolder;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.InventoryHolder;
 
@@ -104,9 +103,10 @@ public class UseEvents implements Listener {
     }
 
     @EventHandler
-    public void itemFrames(PlayerItemFrameChangeEvent event) {
+    public void itemFrames(HangingPlaceEvent event) {
         Player player = event.getPlayer();
-        Location loc = event.getItemFrame().getLocation();
+        if (player == null) return;
+        Location loc = event.getBlock().getLocation();
         Region highestPriorityRegion = EventFunctions.getHighestPriorityRegion(loc);
 
         if (highestPriorityRegion != null && !highestPriorityRegion.getFlags().useItemFrames) {
@@ -115,6 +115,16 @@ public class UseEvents implements Listener {
             }
             event.setCancelled(true);
             EventFunctions.sendNoSpamMessage(player, "&cYou cannot modify item frames in this region.");
+        }
+    }
+
+    @EventHandler
+    public void itemFrames(HangingBreakEvent event) {
+        Location loc = event.getEntity().getLocation();
+        Region highestPriorityRegion = EventFunctions.getHighestPriorityRegion(loc);
+
+        if (highestPriorityRegion != null && !highestPriorityRegion.getFlags().useItemFrames) {
+            event.setCancelled(true);
         }
     }
 

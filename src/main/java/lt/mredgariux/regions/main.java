@@ -26,56 +26,62 @@ public final class main extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
 
-        String versionString = Bukkit.getBukkitVersion();
-        String numericPart = versionString.split("-")[0];
+        try {
 
-        String[] parts = numericPart.split("\\.");
-        int major = Integer.parseInt(parts[0]);
-        int minor = Integer.parseInt(parts[1]);
-        int patch = parts.length > 2 ? Integer.parseInt(parts[2]) : 0;
+            String versionString = Bukkit.getBukkitVersion();
+            String numericPart = versionString.split("-")[0];
 
-        getLogger().info("Detected Minecraft version: " + major + "." + minor + "." + patch);
+            String[] parts = numericPart.split("\\.");
+            int major = Integer.parseInt(parts[0]);
+            int minor = Integer.parseInt(parts[1]);
+            int patch = parts.length > 2 ? Integer.parseInt(parts[2]) : 0;
 
-        PluginManager pluginManager = getServer().getPluginManager();
-        if (!pluginManager.isPluginEnabled("WorldEdit")) {
-            getLogger().severe("[Regions | Requirements] WorldEdit plugin is not enabled!");
-            getServer().getPluginManager().disablePlugin(this);
-        }
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
-            getLogger().warning("[Regions | Optionals] Could not find PlaceholderAPI! You may not be able to use placeholders in messages.");
-        }
-        if (!this.getDataFolder().exists()) {
-            if (!getDataFolder().mkdir()) {
-                getLogger().severe("Could not create data folder!");
+            getLogger().info("Detected Minecraft version: " + major + "." + minor + "." + patch);
+
+            PluginManager pluginManager = getServer().getPluginManager();
+            if (!pluginManager.isPluginEnabled("WorldEdit")) {
+                getLogger().severe("[Regions | Requirements] WorldEdit plugin is not enabled!");
                 getServer().getPluginManager().disablePlugin(this);
             }
+            if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
+                getLogger().warning("[Regions | Optionals] Could not find PlaceholderAPI! You may not be able to use placeholders in messages.");
+            }
+            if (!this.getDataFolder().exists()) {
+                if (!getDataFolder().mkdir()) {
+                    getLogger().severe("Could not create data folder!");
+                    getServer().getPluginManager().disablePlugin(this);
+                }
+            }
+
+            lang = new LanguageManager(this);
+            lang.loadLanguages();
+
+            database = new Database(this);
+            database.connect();
+            database.createTables();
+            database.synchronizeRegionFlags();
+            regionList = database.getRegionList();
+
+            api = new RegionAPI(regionList);
+
+            // Commands
+            this.getCommand("rg").setExecutor(new rgCommand(this));
+
+            // Events
+            Bukkit.getPluginManager().registerEvents(new BuildingEvent(this), this);
+            Bukkit.getPluginManager().registerEvents(new PvPEvent(), this);
+            Bukkit.getPluginManager().registerEvents(new ExplosionEvents(), this);
+            Bukkit.getPluginManager().registerEvents(new EntryEvents(), this);
+            Bukkit.getPluginManager().registerEvents(new UseEvents(), this);
+            Bukkit.getPluginManager().registerEvents(new BucketEvents(), this);
+            Bukkit.getPluginManager().registerEvents(new FireSpreadEvent(), this);
+            new WorldEditEvent();
+
+            getLogger().info("[Regions] Plugin activated - Server security enabled.");
+        } catch (Exception e) {
+            getLogger().severe("[Regions | Critical] An error occurred during plugin startup:" + e.getMessage());
+            getServer().getPluginManager().disablePlugin(this);
         }
-
-        lang = new LanguageManager(this);
-        lang.loadLanguages();
-
-        database = new Database(this);
-        database.connect();
-        database.createTables();
-        database.synchronizeRegionFlags();
-        regionList = database.getRegionList();
-
-        api = new RegionAPI(regionList);
-
-        // Commands
-        this.getCommand("rg").setExecutor(new rgCommand(this));
-
-        // Events
-        Bukkit.getPluginManager().registerEvents(new BuildingEvent(this), this);
-        Bukkit.getPluginManager().registerEvents(new PvPEvent(), this);
-        Bukkit.getPluginManager().registerEvents(new ExplosionEvents(), this);
-        Bukkit.getPluginManager().registerEvents(new EntryEvents(), this);
-        Bukkit.getPluginManager().registerEvents(new UseEvents(), this);
-        Bukkit.getPluginManager().registerEvents(new BucketEvents(), this);
-        Bukkit.getPluginManager().registerEvents(new FireSpreadEvent(), this);
-        new WorldEditEvent();
-
-        getLogger().info("[Regions] Plugin activated - Server security enabled.");
 
     }
 

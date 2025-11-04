@@ -49,7 +49,6 @@ public class LanguageManager {
      */
     public String get(Player player, String key, Object... args) {
         String lang = defaultLang;
-        // Optionally: per-player language map (add later)
         return format(getRaw(lang, key), player, args);
     }
 
@@ -79,6 +78,7 @@ public class LanguageManager {
 
         // Replace numeric args (%0%, %1%, etc.)
         for (int i = 0; i < args.length; i++) {
+            System.out.printf(String.valueOf(i) + " - " + args[i] + "\n");
             message = message.replace("%" + i + "%", String.valueOf(args[i]));
         }
 

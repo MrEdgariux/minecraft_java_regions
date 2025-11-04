@@ -1,8 +1,9 @@
 name: Regions
-version: '1.0'
+version: '0.2'
 main: lt.mredgariux.regions.main
 api-version: '1.20'
-depends: ["WorldEdit"]
+depends:
+  - "WorldEdit"
 softdepend:
   - "PlaceholderAPI"
 commands:

@@ -1,9 +1,10 @@
 plugins {
     id 'java'
+    id 'com.gradleup.shadow' version '9.2.2'
 }
 
 group = 'lt.mredgariux'
-version = '0.1'
+version = '0.2'
 
 repositories {
     mavenCentral()
@@ -19,14 +20,15 @@ repositories {
         url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
     }
     maven { url = "https://maven.enginehub.org/repo/" }
-
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.20.6-R0.1-SNAPSHOT")
-    compileOnly('com.sk89q.worldedit:worldedit-core:7.4.0-SNAPSHOT')
+    compileOnly('com.sk89q.worldedit:worldedit-core:7.3.10-SNAPSHOT')
     compileOnly 'me.clip:placeholderapi:2.11.6'
     implementation 'com.google.code.gson:gson:2.11.0'
+    implementation 'net.kyori:adventure-api:4.17.0'
+    implementation 'net.kyori:adventure-text-serializer-legacy:4.17.0'
 }
 
 def targetJavaVersion = 21
@@ -45,7 +47,12 @@ tasks.withType(JavaCompile).configureEach {
     if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
         options.release.set(targetJavaVersion)
     }
+
+    shadowJar {
+        archiveClassifier.set('')
+    }
 }
+
 
 processResources {
     def props = [version: version]
