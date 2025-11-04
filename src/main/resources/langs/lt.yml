@@ -1,0 +1,31 @@
+prefix: "&8[&4Regionai&8]"
+no-permission: "&cNeturite leidimo vykdyti šios komandos."
+unknown-subcommand: "&cNežinoma subkomanda."
+
+help-header: "&6--- &eRegionų komandų pagalba &6---"
+help-create: "&e/region create <pavadinimas> &7- Sukurti naują regioną."
+help-delete: "&e/region delete <pavadinimas> &7- Ištrinti esamą regioną."
+help-list: "&e/region list &7- Išvardyti visus regionus."
+help-flag: "&e/region flag <pavadinimas> <vėliava> <reikšmė> [add/rem] &7- Nustatyti regiono vėliavą."
+help-flags: "&e/region flags <pavadinimas> &7- Išvardyti visas regiono vėliavas."
+
+region-created: "&aRegionas &e%0% &asėkmingai sukurtas."
+region-deleted: "&aRegionas &e%0% &asėkmingai ištrintas."
+region-not-found: "&cRegionas &e%0% &cnerastas."
+region-exists: "&cRegionas &l%0%&c jau egzistuoja"
+region-list-header: "&6Regionų sąrašas:"
+
+flags-not-list: "&cVėliava nėra sąrašo tipo."
+flags-invalid-operation: "&cNeleistina operacija sąrašo tipo vėliavai (add/rem)"
+flags-unknown-type: "&cNežinomas vėliavos tipas: &e%0%&c."
+flags-unset-success: "&aVėliava &e%0% &aregionui &e%1% &asėkmingai nuimta."
+flags-updated-success: "&aVėliava &e%0% &aregionui &e%1% &asėkmingai atnaujinta į &e%2%&a."
+flags-list-header: "&6Regiono &e%0%&6 vėliavos:"
+
+usage-command-create: "&eNaudojimas: &6/region create <pavadinimas>"
+usage-command-flag: "&cNaudojimas: /region flag <pavadinimas> <vėliava> <reikšmė> [add/rem]"
+usage-command-flags: "&cNaudojimas: /region flags <pavadinimas>"
+usage-command-delete: "&cNaudojimas: /region delete <pavadinimas>"
+
+error-message: "&cĮvyko klaida apdorojant jūsų užklausą."
+error-worldedit-no-selection: "&cNorėdami naudoti šią komandą, su WorldEdit pažymėkite regioną."

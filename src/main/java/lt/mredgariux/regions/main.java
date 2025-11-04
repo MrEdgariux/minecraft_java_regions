@@ -7,10 +7,13 @@ import lt.mredgariux.regions.events.*;
 import lt.mredgariux.regions.classes.Region;
 import lt.mredgariux.regions.utils.LanguageManager;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
+import java.lang.module.Configuration;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +30,6 @@ public final class main extends JavaPlugin {
         // Plugin startup logic
 
         try {
-
             String versionString = Bukkit.getBukkitVersion();
             String numericPart = versionString.split("-")[0];
 
@@ -36,7 +38,7 @@ public final class main extends JavaPlugin {
             int minor = Integer.parseInt(parts[1]);
             int patch = parts.length > 2 ? Integer.parseInt(parts[2]) : 0;
 
-            getLogger().info("Detected Minecraft version: " + major + "." + minor + "." + patch);
+            getLogger().info("Detected Minecraft version: " + major + "." + minor + "." + patch); // Soon I will try to add checking systems.
 
             PluginManager pluginManager = getServer().getPluginManager();
             if (!pluginManager.isPluginEnabled("WorldEdit")) {
@@ -50,11 +52,16 @@ public final class main extends JavaPlugin {
                 if (!getDataFolder().mkdir()) {
                     getLogger().severe("Could not create data folder!");
                     getServer().getPluginManager().disablePlugin(this);
+                    return;
                 }
+
+                this.saveDefaultConfig();
             }
+            FileConfiguration config = this.getConfig();
 
             lang = new LanguageManager(this);
             lang.loadLanguages();
+            lang.setDefaultLang(config.getString("language", "en"));
 
             database = new Database(this);
             database.connect();

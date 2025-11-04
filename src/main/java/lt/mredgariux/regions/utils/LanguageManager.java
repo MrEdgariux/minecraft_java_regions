@@ -37,7 +37,7 @@ public class LanguageManager {
         if (files == null) return;
 
         for (File file : files) {
-            String langCode = file.getName().replace(".yml", "");
+            String langCode = file.getName().replace(".yml", "").toLowerCase();
             FileConfiguration config = YamlConfiguration.loadConfiguration(file);
             languages.put(langCode, config);
             plugin.getLogger().info("Loaded language: " + langCode);
@@ -78,7 +78,6 @@ public class LanguageManager {
 
         // Replace numeric args (%0%, %1%, etc.)
         for (int i = 0; i < args.length; i++) {
-            System.out.printf(String.valueOf(i) + " - " + args[i] + "\n");
             message = message.replace("%" + i + "%", String.valueOf(args[i]));
         }
 
