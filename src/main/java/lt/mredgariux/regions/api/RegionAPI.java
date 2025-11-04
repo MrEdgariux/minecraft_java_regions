@@ -9,13 +9,22 @@ import java.util.Map;
 import java.util.UUID;
 
 public class RegionAPI {
+    private static RegionAPI instance;
+
     private Map<String, Region> regions = new HashMap<>();
 
     public RegionAPI(Map<String, Region> regionList) {
         this.regions = regionList;
+        instance = this;
     }
 
-    public RegionAPI() {}
+    public RegionAPI() {
+        instance = this;
+    }
+
+    public static RegionAPI getInstance() {
+        return instance;
+    }
 
     // Add a region
     public void addRegion(Region region) {
@@ -63,10 +72,8 @@ public class RegionAPI {
         Location pos1 = region.getPos1();
         Location pos2 = region.getPos2();
 
-        int volume = Math.abs(pos1.getBlockX() - pos2.getBlockX() + 1) *
+        return Math.abs(pos1.getBlockX() - pos2.getBlockX() + 1) *
                 Math.abs(pos1.getBlockY() - pos2.getBlockY() + 1) *
                 Math.abs(pos1.getBlockZ() - pos2.getBlockZ() + 1);
-
-        return volume;
     }
 }

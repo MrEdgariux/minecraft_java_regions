@@ -56,21 +56,6 @@ public class ChatManager {
     }
 
     /**
-     * Siunčia žinutę su prefiksu (pridedant PREFIX su spalvomis).
-     *
-     * @param player  Žaidėjas, kuriam siunčiame žinutę.
-     * @param message Žinutė su "&" spalvų kodais.
-     */
-    public static void sendMessageNoPrefix(Player player, String message) {
-        Component finalMessage = decodeLegacyMessage(message);
-        player.sendMessage(finalMessage);
-    }
-
-    public static void sendMessage(Player player, String message) {
-        sendMessage(player, message, "&8[&4Serveris&8]"); // Numatytoji reikšmė
-    }
-
-    /**
      * Siunčia tik žinutę (be prefikso).
      *
      * @param player  Žaidėjas, kuriam siunčiame žinutę.
@@ -84,7 +69,37 @@ public class ChatManager {
             finalMessage = decodeLegacyMessage("&8[&4Serveris&8] ").append(decodeLegacyMessage(message));
         }
         player.sendMessage(finalMessage);
+    }
 
+    /**
+     * Siunčia tik žinutę (be prefikso).
+     *
+     * @param player  Žaidėjas, kuriam siunčiame žinutę.
+     * @param lang LanguageManager objektas
+     * @param key Žinutės raktas Language faile
+     */
+    public static void sendMessage(Player player, LanguageManager lang, String key) {
+        Component finalMessage;
+        String prefix = lang.get("prefix");
+        String message = lang.get(player, key);
+        if (prefix != null) {
+            finalMessage = decodeLegacyMessage( prefix + " ").append(decodeLegacyMessage(message));
+        } else {
+            finalMessage = decodeLegacyMessage(message);
+        }
+        player.sendMessage(finalMessage);
+    }
+
+    public static void sendMessage(Player player, LanguageManager lang, String key, Object... args) {
+        Component finalMessage;
+        String prefix = lang.get("prefix");
+        String message = lang.get(player, key, args);
+        if (prefix != null) {
+            finalMessage = decodeLegacyMessage( prefix + " ").append(decodeLegacyMessage(message));
+        } else {
+            finalMessage = decodeLegacyMessage(message);
+        }
+        player.sendMessage(finalMessage);
     }
 
     /**

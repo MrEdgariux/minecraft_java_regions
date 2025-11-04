@@ -1,0 +1,31 @@
+prefix: "&8[&4Regions&8]"
+no-permission: "&cYou do not have permission to run this command."
+unknown-subcommand: "&cUnknown subcommand."
+
+help-header: "&6--- &eRegion Commands Help &6---"
+help-create: "&e/region create <name> &7- Create a new region."
+help-delete: "&e/region delete <name> &7- Delete an existing region."
+help-list: "&e/region list &7- List all regions."
+help-flag: "&e/region flag <name> <flag> <value> [add/rem] &7- Set a flag for a region."
+help-flags: "&e/region flags <name> &7- List all flags for a region."
+
+region-created: "&aRegion &e%0 &ahas been created successfully."
+region-deleted: "&aRegion &e%0 &ahas been deleted successfully."
+region-not-found: "&cRegion &e%0 &cwas not found."
+region-exists: "&cRegion &l%0%c already exists"
+region-list-header: "&6List of regions:"
+
+flags-not-list: "&cFlag is not a list type."
+flags-invalid-operation: "cInvalid operation for List flag (add/rem)"
+flags-unknown-type: "&cUnknown flag type for flag: &e%0&c."
+flags-unset-success: "&aFlag &e%0 &afor &e%1 &ahas been unset successfully."
+flags-updated-success: "&aFlag &e%0 &afor &e%1 &ahas been updated to &e%2 &asuccessfully."
+flags-list-header: "&6Flags for region &e%0&6:"
+
+usage-command-create: "&eUsage: &6/region create <name>"
+usage-command-flag: "&cUsage: /region flag <name> <flag> <value> [add/rem]"
+usage-command-flags: "&cUsage: /region flags <name>"
+usage-command-delete: "&cUsage: /region delete <name>"
+
+error-message: "&cAn error occurred while processing your request."
+error-worldedit-no-selection: "&cSelect a region with WorldEdit to use this command."
