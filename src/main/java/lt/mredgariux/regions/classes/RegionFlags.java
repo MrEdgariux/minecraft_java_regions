@@ -1,43 +1,94 @@
 package lt.mredgariux.regions.classes;
 
+import lt.mredgariux.regions.enums.RegionFlagEnum;
+
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 public class RegionFlags {
-    public boolean breakBlocks = false;
-    public boolean buildBlocks = false;
 
-    public boolean destroyPaintings = false;
-    public boolean destroyItemFrames = false;
+    private final Map<RegionFlagEnum, Object> flags =
+            new EnumMap<>(RegionFlagEnum.class);
 
-    public boolean eatCake = false;
-    public boolean pvp = false;
-    public boolean tnt = false;
-    public boolean enderDragonDestroyBlocks = false;
-    public boolean editSigns = false;
+    private boolean isDirty = false;
 
-    public boolean usePressurePlates = false;
-    public boolean useButtons = false;
-    public boolean useChest = false;
-    public boolean useFurnace = false;
-    public boolean useCraftingTable = false;
-    public boolean useEnderChest = false;
-    public boolean useContainerBlocks = false;
-    public boolean useItemFrames = false;
-    public boolean useBuckets = false;
-    public boolean fireSpread = false;
-    public boolean useWorldEdit = false;
-    public boolean useThrowablePotions = false;
+    public RegionFlags() {
+        for (RegionFlagEnum flag : RegionFlagEnum.values()) {
+            flags.put(flag, flag.getDefaultValue());
+        }
+    }
 
-    public boolean enter = true;
-    public boolean leave = true;
+    public Map<RegionFlagEnum, Object> getFlags() {
+        return flags;
+    }
 
-    public String enterPermission = "";
-    public String leavePermission = "";
+    public boolean getBoolean(RegionFlagEnum flag) {
+        Object value = flags.get(flag);
+        if (!(value instanceof Boolean)) {
+            throw new IllegalArgumentException(flag.toString() + " does not contain a boolean");
+        }
+        return (Boolean) value;
+    }
 
-    public List<String> allowBreakSpecificBlocks = new ArrayList<>();
-    public List<String> allowPlaceSpecificBlocks = new ArrayList<>();
+    public String getString(RegionFlagEnum flag) {
+        Object value = flags.get(flag);
+        if (!(value instanceof String)) {
+            throw new IllegalArgumentException(flag.toString() + " does not contain a string");
+        }
+        return (String) value;
+    }
 
-    public String enterMessage = "";
-    public String leaveMessage = "";
+    public String[] getStringArray(RegionFlagEnum flag) {
+        Object value = flags.get(flag);
+        if (!(value instanceof String[])) {
+            throw new IllegalArgumentException(flag.toString() + " does not contain a string array");
+        }
+        return (String[]) value;
+    }
+
+    public List<String> getStringList(RegionFlagEnum flag) {
+        Object value = flags.get(flag);
+        if (!(value instanceof String[] array)) {
+            throw new IllegalArgumentException(
+                    flag + " does not contain a string array"
+            );
+        }
+        return new ArrayList<>(List.of(array));
+    }
+
+    public void set(RegionFlagEnum flag, Object value) {
+        flags.put(flag, value);
+        isDirty = true;
+    }
+
+    public void setStringArray(RegionFlagEnum flag, String[] value) {
+        if (flag.getType() != String[].class) {
+            throw new IllegalArgumentException(flag.name() + " does not accept a string array");
+        }
+        this.set(flag, value);
+    }
+
+    public void setBoolean(RegionFlagEnum flag, boolean value) {
+        if (flag.getType() != Boolean.class) {
+            throw new IllegalArgumentException(flag.name() + " does not accept a boolean");
+        }
+        this.set(flag, value);
+    }
+
+    public void setString(RegionFlagEnum flag, String value) {
+        if (flag.getType() != String.class) {
+            throw new IllegalArgumentException(flag.name() + " does not accept a string");
+        }
+        this.set(flag, value);
+    }
+
+    public boolean isDirty() {
+        return isDirty;
+    }
+
+    public void resetDirty(boolean dirty) {
+        isDirty = dirty;
+    }
 }

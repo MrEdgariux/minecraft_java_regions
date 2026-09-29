@@ -11,12 +11,15 @@ import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Database {
-    private Connection connection;
     private final Plugin plugin;
     private final Gson gson = new Gson();
+    private Connection connection;
 
     public Database(Plugin plugin) {
         this.plugin = plugin;
@@ -57,7 +60,6 @@ public class Database {
                 "world TEXT, " +
                 "x1 INT, y1 INT, z1 INT, " +
                 "x2 INT, y2 INT, z2 INT, " +
-                "owner TEXT, " +
                 "flags TEXT" +
                 ");";
         try (Statement stmt = getConnection().createStatement()) {
@@ -66,14 +68,53 @@ public class Database {
         } catch (SQLException e) {
             plugin.getLogger().severe(e.getMessage());
         }
+
+        migrations();
     }
 
-    public int insertRegion(String name, Location location1, Location location2, String owner, RegionFlags flags) {
+    public void removeOwnerField() {
+        if (!hasColumn("regions", "owner")) {
+            return;
+        }
+
+        String sql = "ALTER TABLE regions DROP COLUMN owner";
+        try (Statement stmt = getConnection().createStatement()) {
+            stmt.execute(sql);
+            plugin.getLogger().info("Column 'owner' removed from table 'regions'.");
+        } catch (SQLException e) {
+            plugin.getLogger().severe("Failed to remove column 'owner' from table 'regions': " + e.getMessage());
+        }
+    }
+
+    private boolean hasColumn(String tableName, String columnName) {
+        String sql = "PRAGMA table_info(" + tableName + ")";
+        try (Statement stmt = getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                if (columnName.equalsIgnoreCase(rs.getString("name"))) {
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            plugin.getLogger().severe("Failed to inspect table '" + tableName + "': " + e.getMessage());
+        }
+        return false;
+    }
+
+    public void migrations() {
+        removeOwnerField();
+    }
+
+    public int insertRegion(Region region) {
+        return insertRegion(region.getName(), region.getPos1(), region.getPos2(), region.getFlags());
+    }
+
+    public int insertRegion(String name, Location location1, Location location2, RegionFlags flags) {
 
         if (location1.getWorld() != location2.getWorld()) {
             return -1;
         }
-        String sql = "INSERT INTO regions (name, world, x1, y1, z1, x2, y2, z2, owner, flags) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO regions (name, world, x1, y1, z1, x2, y2, z2, flags) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
             pstmt.setString(1, name);
@@ -84,8 +125,7 @@ public class Database {
             pstmt.setInt(6, location2.getBlockX());
             pstmt.setInt(7, location2.getBlockY());
             pstmt.setInt(8, location2.getBlockZ());
-            pstmt.setString(9, owner);
-            pstmt.setString(10, gson.toJson(flags)); // Serialize flags as JSON
+            pstmt.setString(9, gson.toJson(flags));
 
             int rowNr = pstmt.executeUpdate();
             plugin.getLogger().info("Region " + name + " inserted as " + rowNr);
@@ -112,6 +152,24 @@ public class Database {
         return false;
     }
 
+    private Region getRegionFromResponse(ResultSet rs) throws SQLException {
+        Location pos1 = new Location(
+                Bukkit.getWorld(rs.getString("world")),
+                rs.getInt("x1"), rs.getInt("y1"), rs.getInt("z1")
+        );
+        Location pos2 = new Location(
+                Bukkit.getWorld(rs.getString("world")),
+                rs.getInt("x2"), rs.getInt("y2"), rs.getInt("z2")
+        );
+
+        // Deserialize flags
+        RegionFlags flags = gson.fromJson(rs.getString("flags"), RegionFlags.class);
+
+        Region regionas = new Region(rs.getString("name"), pos1, pos2);
+        regionas.setFlags(flags);
+
+        return regionas;
+    }
 
     public Region getRegion(String name) {
         String sql = "SELECT * FROM regions WHERE name = ?";
@@ -121,23 +179,7 @@ public class Database {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                Location pos1 = new Location(
-                        Bukkit.getWorld(rs.getString("world")),
-                        rs.getInt("x1"), rs.getInt("y1"), rs.getInt("z1")
-                );
-                Location pos2 = new Location(
-                        Bukkit.getWorld(rs.getString("world")),
-                        rs.getInt("x2"), rs.getInt("y2"), rs.getInt("z2")
-                );
-                UUID owner = UUID.fromString(rs.getString("owner"));
-
-                // Deserialize flags
-                RegionFlags flags = gson.fromJson(rs.getString("flags"), RegionFlags.class);
-
-                Region regionas = new Region(rs.getString("name"), pos1, pos2, owner);
-                regionas.setFlags(flags);
-
-                return regionas;
+                return getRegionFromResponse(rs);
             } else {
                 plugin.getLogger().info("Region not found.");
             }
@@ -154,22 +196,8 @@ public class Database {
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                Location pos1 = new Location(
-                        Bukkit.getWorld(rs.getString("world")),
-                        rs.getInt("x1"), rs.getInt("y1"), rs.getInt("z1")
-                );
-                Location pos2 = new Location(
-                        Bukkit.getWorld(rs.getString("world")),
-                        rs.getInt("x2"), rs.getInt("y2"), rs.getInt("z2")
-                );
-                UUID owner = UUID.fromString(rs.getString("owner"));
-
-                // Deserialize flags
-                RegionFlags flags = gson.fromJson(rs.getString("flags"), RegionFlags.class);
-
-                Region regionas = new Region(rs.getString("name"), pos1, pos2, owner);
-                regionas.setFlags(flags);
-                regions.put(rs.getString("name"), regionas);
+                String name = rs.getString("name");
+                regions.put(name, getRegionFromResponse(rs));
             }
         } catch (SQLException e) {
             plugin.getLogger().severe(e.getMessage());

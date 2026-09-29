@@ -1,29 +1,30 @@
 package lt.mredgariux.regions.events;
 
 import lt.mredgariux.regions.classes.Region;
-import lt.mredgariux.regions.utils.EventFunctions;
+import lt.mredgariux.regions.enums.LangKey;
+import lt.mredgariux.regions.enums.RegionFlagEnum;
+import lt.mredgariux.regions.interfaces.PluginListener;
+import lt.mredgariux.regions.utils.expansions.chat_manager.NoSpamMessages;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.AreaEffectCloud;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityCombustByEntityEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.LingeringPotionSplashEvent;
-import org.bukkit.event.entity.PotionSplashEvent;
-import org.bukkit.event.entity.AreaEffectCloudApplyEvent;
+import org.bukkit.event.entity.*;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.projectiles.ProjectileSource;
 
 import java.util.*;
 
-public class PvPEvent implements Listener {
+public class PvPEvent extends PluginListener {
     private final Map<UUID, UUID> cloudToThrowerMap = new HashMap<>();
 
+    public PvPEvent(Plugin plugin) {
+        super(plugin);
+    }
 
     /**
      * Handles direct and indirect player-caused damage to other players
@@ -39,14 +40,14 @@ public class PvPEvent implements Listener {
         }
 
         // Check if either player is in a protected region
-        Region damagerRegion = EventFunctions.getHighestPriorityRegion(damager.getLocation());
-        Region victimRegion = EventFunctions.getHighestPriorityRegion(entityDamaged.getLocation());
+        Region damagerRegion = regionManager.getRegionByLocation(damager.getLocation());
+        Region victimRegion = regionManager.getRegionByLocation(entityDamaged.getLocation());
 
         // Cancel the event if either region has pvp disabled
-        if ((damagerRegion != null && !damagerRegion.getFlags().pvp) ||
-                (victimRegion != null && !victimRegion.getFlags().pvp)) {
+        if ((damagerRegion != null && !damagerRegion.getFlags().getBoolean(RegionFlagEnum.PVP)) ||
+                (victimRegion != null && !victimRegion.getFlags().getBoolean(RegionFlagEnum.PVP))) {
             event.setCancelled(true);
-            EventFunctions.sendNoSpamMessage(damager, "&cYou cannot pvp in this region.");
+            NoSpamMessages.sendMessage(damager, LangKey.FLAG_PVP_DENY_MESSAGE, config.cooldownMillis);
         }
     }
 
@@ -61,12 +62,12 @@ public class PvPEvent implements Listener {
         }
 
         // Check if the thrower is in a protected region
-        Region throwerRegion = EventFunctions.getHighestPriorityRegion(thrower.getLocation());
-        Region thrownAtRegion = EventFunctions.getHighestPriorityRegion(event.getPotion().getLocation());
+        Region throwerRegion = regionManager.getRegionByLocation(thrower.getLocation());
+        Region thrownAtRegion = regionManager.getRegionByLocation(event.getPotion().getLocation());
 
-        if ((throwerRegion != null && !throwerRegion.getFlags().useThrowablePotions) || (thrownAtRegion != null && !thrownAtRegion.getFlags().useThrowablePotions)) {
+        if ((throwerRegion != null && !throwerRegion.getFlags().getBoolean(RegionFlagEnum.USE_THROWABLE_POTIONS)) || (thrownAtRegion != null && !thrownAtRegion.getFlags().getBoolean(RegionFlagEnum.USE_THROWABLE_POTIONS))) {
             event.setCancelled(true);
-            EventFunctions.sendNoSpamMessage(thrower, "&cYou cannot throw potions in this region.");
+            NoSpamMessages.sendMessage(thrower, LangKey.FLAG_USE_THROWABLE_POTIONS_DENY_MESSAGE, config.cooldownMillis);
             return;
         }
 
@@ -74,16 +75,16 @@ public class PvPEvent implements Listener {
         event.getAffectedEntities().forEach(entity -> {
             if (entity instanceof Player victim && victim != thrower) {
                 // Check if the victim is in a protected region
-                Region victimRegion = EventFunctions.getHighestPriorityRegion(victim.getLocation());
+                Region victimRegion = regionManager.getRegionByLocation(victim.getLocation());
 
                 // If either region has pvp disabled
-                if ((throwerRegion != null && !throwerRegion.getFlags().pvp) ||
-                        (victimRegion != null && !victimRegion.getFlags().pvp)) {
+                if ((throwerRegion != null && !throwerRegion.getFlags().getBoolean(RegionFlagEnum.PVP)) ||
+                        (victimRegion != null && !victimRegion.getFlags().getBoolean(RegionFlagEnum.PVP))) {
                     for (PotionEffect type : event.getPotion().getEffects()) {
                         if (isHarmfulEffect(type.getType())) {
                             // Set intensity to 0 for this player
                             event.setIntensity(victim, 0);
-                            EventFunctions.sendNoSpamMessage(thrower, "&cYou cannot pvp in this region.");
+                            NoSpamMessages.sendMessage(thrower, LangKey.FLAG_PVP_DENY_MESSAGE, config.cooldownMillis);
                             return;
                         }
                     }
@@ -103,19 +104,19 @@ public class PvPEvent implements Listener {
         }
 
         // Check if the thrower is in a protected region
-        Region throwerRegion = EventFunctions.getHighestPriorityRegion(thrower.getLocation());
-        Region cloudRegion = EventFunctions.getHighestPriorityRegion(event.getAreaEffectCloud().getLocation());
+        Region throwerRegion = regionManager.getRegionByLocation(thrower.getLocation());
+        Region cloudRegion = regionManager.getRegionByLocation(event.getAreaEffectCloud().getLocation());
 
-        if ((throwerRegion != null && !throwerRegion.getFlags().useThrowablePotions) ||
-                (cloudRegion != null && !cloudRegion.getFlags().useThrowablePotions)) {
-            EventFunctions.sendNoSpamMessage(thrower, "&cYou cannot throw potions in this region.");
+        if ((throwerRegion != null && !throwerRegion.getFlags().getBoolean(RegionFlagEnum.USE_THROWABLE_POTIONS)) ||
+                (cloudRegion != null && !cloudRegion.getFlags().getBoolean(RegionFlagEnum.USE_THROWABLE_POTIONS))) {
+            NoSpamMessages.sendMessage(thrower, LangKey.FLAG_USE_THROWABLE_POTIONS_DENY_MESSAGE, config.cooldownMillis);
             event.setCancelled(true);
             return;
         }
 
         // If either region has pvp disabled
-        if ((throwerRegion != null && !throwerRegion.getFlags().pvp) ||
-                (cloudRegion != null && !cloudRegion.getFlags().pvp)) {
+        if ((throwerRegion != null && !throwerRegion.getFlags().getBoolean(RegionFlagEnum.PVP)) ||
+                (cloudRegion != null && !cloudRegion.getFlags().getBoolean(RegionFlagEnum.PVP))) {
             // Store the cloud's UUID mapped to the thrower's UUID for future reference
             cloudToThrowerMap.put(event.getAreaEffectCloud().getUniqueId(), thrower.getUniqueId());
 
@@ -135,8 +136,7 @@ public class PvPEvent implements Listener {
                 }
                 cloud.addCustomEffect(effect, true);
             }
-
-            EventFunctions.sendNoSpamMessage(thrower, "&cYou cannot pvp in this region.");
+            NoSpamMessages.sendMessage(thrower, LangKey.FLAG_PVP_DENY_MESSAGE, config.cooldownMillis);
         }
     }
 
@@ -181,18 +181,18 @@ public class PvPEvent implements Listener {
         }
 
         // Check region at cloud location
-        Region cloudRegion = EventFunctions.getHighestPriorityRegion(cloud.getLocation());
+        Region cloudRegion = regionManager.getRegionByLocation(cloud.getLocation());
 
         // Filter affected entities, removing players that are in protected regions
         event.getAffectedEntities().removeIf(entity -> {
             if (entity instanceof Player victim && !victim.getUniqueId().equals(thrower.getUniqueId())) {
-                Region victimRegion = EventFunctions.getHighestPriorityRegion(victim.getLocation());
+                Region victimRegion = regionManager.getRegionByLocation(victim.getLocation());
 
                 // If either region has pvp disabled
-                if ((cloudRegion != null && !cloudRegion.getFlags().pvp) ||
-                        (victimRegion != null && !victimRegion.getFlags().pvp)) {
+                if ((cloudRegion != null && !cloudRegion.getFlags().getBoolean(RegionFlagEnum.PVP)) ||
+                        (victimRegion != null && !victimRegion.getFlags().getBoolean(RegionFlagEnum.PVP))) {
                     // This event can fire multiple times, so don't spam
-                    EventFunctions.sendNoSpamMessage(thrower, "&cYou cannot pvp in this region.", 200L);
+                    NoSpamMessages.sendMessage(thrower, LangKey.FLAG_PVP_DENY_MESSAGE, config.cooldownMillis);
                     return true; // Remove this entity from affected entities
                 }
             }
@@ -214,14 +214,14 @@ public class PvPEvent implements Listener {
         }
 
         // Check if either player is in a protected region
-        Region combusterRegion = EventFunctions.getHighestPriorityRegion(combuster.getLocation());
-        Region victimRegion = EventFunctions.getHighestPriorityRegion(entityCombust.getLocation());
+        Region combusterRegion = regionManager.getRegionByLocation(combuster.getLocation());
+        Region victimRegion = regionManager.getRegionByLocation(entityCombust.getLocation());
 
         // Cancel the event if either region has pvp disabled
-        if ((combusterRegion != null && !combusterRegion.getFlags().pvp) ||
-                (victimRegion != null && !victimRegion.getFlags().pvp)) {
+        if ((combusterRegion != null && !combusterRegion.getFlags().getBoolean(RegionFlagEnum.PVP)) ||
+                (victimRegion != null && !victimRegion.getFlags().getBoolean(RegionFlagEnum.PVP))) {
             event.setCancelled(true);
-            EventFunctions.sendNoSpamMessage(combuster, "&cYou cannot pvp in this region.");
+            NoSpamMessages.sendMessage(combuster, LangKey.FLAG_PVP_DENY_MESSAGE, config.cooldownMillis);
         }
     }
 
@@ -231,9 +231,9 @@ public class PvPEvent implements Listener {
     @EventHandler
     public void onPlayerDamage(EntityDamageEvent event) {
         if (event.getEntity() instanceof Player entityDamaged) {
-            Region victimRegion = EventFunctions.getHighestPriorityRegion(entityDamaged.getLocation());
+            Region victimRegion = regionManager.getRegionByLocation(entityDamaged.getLocation());
 
-            if (victimRegion != null && !victimRegion.getFlags().pvp) {
+            if (victimRegion != null && !victimRegion.getFlags().getBoolean(RegionFlagEnum.PVP)) {
                 // If it's direct PvP damage, let the more specific handler above handle it
                 if (event instanceof EntityDamageByEntityEvent) {
                     return;

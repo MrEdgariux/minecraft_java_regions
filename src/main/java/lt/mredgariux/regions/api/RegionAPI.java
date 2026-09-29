@@ -4,26 +4,13 @@ import lt.mredgariux.regions.classes.Region;
 import lt.mredgariux.regions.classes.RegionFlags;
 import org.bukkit.Location;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public class RegionAPI {
-    private static RegionAPI instance;
-
-    private Map<String, Region> regions = new HashMap<>();
+    private final Map<String, Region> regions;
 
     public RegionAPI(Map<String, Region> regionList) {
         this.regions = regionList;
-        instance = this;
-    }
-
-    public RegionAPI() {
-        instance = this;
-    }
-
-    public static RegionAPI getInstance() {
-        return instance;
     }
 
     // Add a region

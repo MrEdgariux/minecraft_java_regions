@@ -2,33 +2,34 @@ package lt.mredgariux.regions.classes;
 
 import org.bukkit.Location;
 
-import java.util.UUID;
-
 public class Region {
     private final String name;
-    private Location pos1;
-    private Location pos2;
-    private final UUID owner;
+    private final Location pos1;
+    private final Location pos2;
+
+    private final long volume;
     private RegionFlags flags = new RegionFlags();
 
-    public Region(String name, Location pos1, Location pos2, UUID owner) {
+    private boolean needSync = true;
+
+    public Region(String name, Location pos1, Location pos2) {
         this.name = name;
         this.pos1 = pos1;
         this.pos2 = pos2;
-        this.owner = owner;
+
+        this.volume = calculateVolume(pos1, pos2);
+    }
+
+    private long calculateVolume(Location pos1, Location pos2) {
+        long x = Math.abs(pos1.getBlockX() - pos2.getBlockX()) + 1L;
+        long y = Math.abs(pos1.getBlockY() - pos2.getBlockY()) + 1L;
+        long z = Math.abs(pos1.getBlockZ() - pos2.getBlockZ()) + 1L;
+
+        return x * y * z;
     }
 
     public String getName() {
         return name;
-    }
-
-    public UUID getOwner() {
-        return owner;
-    }
-
-    public void reSetPositions(Location pos1, Location pos2) {
-        this.pos1 = pos1;
-        this.pos2 = pos2;
     }
 
     public Location getPos1() {
@@ -37,6 +38,10 @@ public class Region {
 
     public Location getPos2() {
         return pos2;
+    }
+
+    public long getVolume() {
+        return volume;
     }
 
     public boolean containsLocation(Location loc) {
@@ -64,5 +69,14 @@ public class Region {
 
     public void setFlags(RegionFlags flags) {
         this.flags = flags;
+        needSync = true;
+    }
+
+    public boolean needSync() {
+        return (needSync || flags.isDirty());
+    }
+
+    public void resetSync() {
+        needSync = false;
     }
 }

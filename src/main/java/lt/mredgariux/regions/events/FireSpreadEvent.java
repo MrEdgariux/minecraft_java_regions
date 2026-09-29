@@ -1,20 +1,26 @@
 package lt.mredgariux.regions.events;
 
 import lt.mredgariux.regions.classes.Region;
-import lt.mredgariux.regions.utils.EventFunctions;
+import lt.mredgariux.regions.enums.LangKey;
+import lt.mredgariux.regions.enums.RegionFlagEnum;
+import lt.mredgariux.regions.interfaces.PluginListener;
+import lt.mredgariux.regions.utils.expansions.chat_manager.NoSpamMessages;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
+import org.bukkit.plugin.Plugin;
 
-public class FireSpreadEvent implements Listener {
+public class FireSpreadEvent extends PluginListener {
+    public FireSpreadEvent(Plugin plugin) {
+        super(plugin);
+    }
+
     @EventHandler
     public void onFireSpread(BlockIgniteEvent event) {
         Location loc = event.getBlock().getLocation();
-        Region highestPriorityRegion = EventFunctions.getHighestPriorityRegion(loc);
-        if (highestPriorityRegion != null && !highestPriorityRegion.getFlags().fireSpread) {
+        Region highestPriorityRegion = regionManager.getRegionByLocation(loc);
+        if (highestPriorityRegion != null && !highestPriorityRegion.getFlags().getBoolean(RegionFlagEnum.FIRE_SPREAD)) {
             if (event.getPlayer() == null) {
                 event.setCancelled(true);
                 return;
@@ -23,15 +29,15 @@ public class FireSpreadEvent implements Listener {
                 return;
             }
             event.setCancelled(true);
-            EventFunctions.sendNoSpamMessage(event.getPlayer(), "&cYou cannot burn these blocks in this region.");
+            NoSpamMessages.sendMessage(event.getPlayer(), LangKey.FLAG_FIRE_SPREAD_DENY_MESSAGE, config.cooldownMillis);
         }
     }
 
     @EventHandler
     public void onFirePlace(BlockBurnEvent event) {
         Location loc = event.getBlock().getLocation();
-        Region highestPriorityRegion = EventFunctions.getHighestPriorityRegion(loc);
-        if (highestPriorityRegion != null && !highestPriorityRegion.getFlags().fireSpread) {
+        Region highestPriorityRegion = regionManager.getRegionByLocation(loc);
+        if (highestPriorityRegion != null && !highestPriorityRegion.getFlags().getBoolean(RegionFlagEnum.FIRE_SPREAD)) {
             event.setCancelled(true);
         }
     }

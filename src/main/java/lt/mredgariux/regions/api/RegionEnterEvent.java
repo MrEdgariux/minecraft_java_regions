@@ -20,6 +20,10 @@ public class RegionEnterEvent extends Event {
         this.toRegion = toRegion;
     }
 
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
     public @NotNull Player getPlayer() {
         return player;
     }
@@ -34,10 +38,6 @@ public class RegionEnterEvent extends Event {
 
     @Override
     public @NotNull HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
         return handlers;
     }
 }

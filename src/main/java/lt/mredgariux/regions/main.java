@@ -1,45 +1,42 @@
 package lt.mredgariux.regions;
 
+import lt.mredgariux.messages.chat.ChatManager;
+import lt.mredgariux.messages.language.LanguageManager;
 import lt.mredgariux.regions.api.RegionAPI;
-import lt.mredgariux.regions.commands.rgCommand;
-import lt.mredgariux.regions.databases.Database;
-import lt.mredgariux.regions.events.*;
+import lt.mredgariux.regions.classes.DatabaseManager;
+import lt.mredgariux.regions.classes.PluginConfig;
 import lt.mredgariux.regions.classes.Region;
-import lt.mredgariux.regions.utils.LanguageManager;
+import lt.mredgariux.regions.classes.RegionManager;
+import lt.mredgariux.regions.databases.repositories.RegionRepository;
+import lt.mredgariux.regions.enums.LangKey;
+import lt.mredgariux.regions.events.WorldEditEvent;
+import lt.mredgariux.regions.utils.RegistrarCenter;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
+import org.bukkit.scheduler.BukkitTask;
 
-import java.lang.module.Configuration;
-import java.util.List;
-import java.util.Map;
+import java.sql.SQLException;
+import java.util.Set;
 
 public final class main extends JavaPlugin {
 
+    private final PluginConfig config = new PluginConfig(getConfig());
+    private final RegionManager regionManager = new RegionManager();
     private LanguageManager lang;
+    private ChatManager chat;
+    private DatabaseManager databaseManager;
 
-    private Map<String, Region> regionList;
-    private Database database;
-    public static RegionAPI api;
+    private RegionAPI api;
+
+    private BukkitTask saveTask;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
 
         try {
-            String versionString = Bukkit.getBukkitVersion();
-            String numericPart = versionString.split("-")[0];
-
-            String[] parts = numericPart.split("\\.");
-            int major = Integer.parseInt(parts[0]);
-            int minor = Integer.parseInt(parts[1]);
-            int patch = parts.length > 2 ? Integer.parseInt(parts[2]) : 0;
-
-            getLogger().info("Detected Minecraft version: " + major + "." + minor + "." + patch); // Soon I will try to add checking systems.
-
             PluginManager pluginManager = getServer().getPluginManager();
             if (!pluginManager.isPluginEnabled("WorldEdit")) {
                 getLogger().severe("[Regions | Requirements] WorldEdit plugin is not enabled!");
@@ -59,32 +56,42 @@ public final class main extends JavaPlugin {
             }
             FileConfiguration config = this.getConfig();
 
-            lang = new LanguageManager(this);
+            lang = new LanguageManager(this, LangKey.class, config.getString("language", "en"));
             lang.loadLanguages();
-            lang.setDefaultLang(config.getString("language", "en"));
 
-            database = new Database(this);
-            database.connect();
-            database.createTables();
-            database.synchronizeRegionFlags();
-            regionList = database.getRegionList();
+            chat = new ChatManager(lang, getServer(), LangKey.PREFIX);
 
-            api = new RegionAPI(regionList);
+            databaseManager = new DatabaseManager(this);
+            databaseManager.connect();
 
-            // Commands
-            this.getCommand("rg").setExecutor(new rgCommand(this));
+            RegionRepository regionRepository = new RegionRepository(databaseManager);
 
-            // Events
-            Bukkit.getPluginManager().registerEvents(new BuildingEvent(this), this);
-            Bukkit.getPluginManager().registerEvents(new PvPEvent(), this);
-            Bukkit.getPluginManager().registerEvents(new ExplosionEvents(), this);
-            Bukkit.getPluginManager().registerEvents(new EntryEvents(), this);
-            Bukkit.getPluginManager().registerEvents(new UseEvents(), this);
-            Bukkit.getPluginManager().registerEvents(new BucketEvents(), this);
-            Bukkit.getPluginManager().registerEvents(new FireSpreadEvent(), this);
-            new WorldEditEvent();
+            Set<Region> regions = regionRepository.getRegions();
+            for (Region region : regions) {
+                region.resetSync(); // Reset sync status to avoid unnecessary database updates xD
+                regionManager.addRegion(region);
+            }
+            regions.clear();
+
+            api = new RegionAPI(regionManager.getRegions());
+
+            RegistrarCenter registrarCenter = new RegistrarCenter(this);
+
+            try {
+                registrarCenter.registerAll();
+            } catch (Exception e) {
+                getLogger().severe("[Regions | Critical] An error occurred during command / event registration:" + e.getMessage());
+                getServer().getPluginManager().disablePlugin(this);
+                return;
+            }
+
+            new WorldEditEvent(this);
 
             getLogger().info("[Regions] Plugin activated - Server security enabled.");
+
+            saveTask = Bukkit.getScheduler().runTaskTimerAsynchronously(this, this::saveAll, 20L, 20L);
+
+
         } catch (Exception e) {
             getLogger().severe("[Regions | Critical] An error occurred during plugin startup:" + e.getMessage());
             getServer().getPluginManager().disablePlugin(this);
@@ -92,52 +99,50 @@ public final class main extends JavaPlugin {
 
     }
 
-    public LanguageManager getLang() {
-        return lang;
+    public ChatManager getChatManager() {
+        return chat;
     }
 
-    public boolean reloadPlugin() {
-        try {
-            this.reloadConfig();
-            FileConfiguration config = this.getConfig();
+    public PluginConfig getPluginConfig() {
+        return config;
+    }
 
-            lang.loadLanguages();
-            lang.setDefaultLang(config.getString("language", "en"));
-
-            database.synchronizeRegionFlags();
-            regionList = database.getRegionList();
-            api = new RegionAPI(regionList);
-
-            return true;
-        } catch (Exception e) {
-            getLogger().severe("[Regions | Critical] An error occurred during plugin reload:" + e.getMessage());
-            return false;
-        }
+    public RegionAPI getAPI() {
+        return api;
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+
         getLogger().info("[Regions | Danger] - Plugin disabled. Server is no longer protected!");
     }
 
-    public Database getDatabase() {
-        return database;
+    public DatabaseManager getDatabaseManager() {
+        return databaseManager;
     }
 
-    public Map<String, Region> getRegionList() {
-        return regionList;
+    public RegionManager getRegionManager() {
+        return regionManager;
     }
 
-    public void addRegion(Region region) {
-        regionList.put(region.getName(), region);
-    }
+    private void saveAll() {
+        if (regionManager == null || databaseManager == null) {
+            return;
+        }
 
-    public void updateRegion(Region region) {
-        regionList.put(region.getName(), region);
-    }
+        Set<Region> regions = regionManager.getRegionsNeedSync();
+        if (regions.isEmpty()) {
+            return;
+        }
 
-    public void removeRegion(Region region) {
-        regionList.remove(region.getName());
+        RegionRepository regionRepository = new RegionRepository(databaseManager);
+
+        try {
+            regionRepository.saveRegions(regions);
+        } catch (SQLException e) {
+            getLogger().severe("[Regions | Critical] An error occurred while saving regions to the database: " + e.getMessage());
+            saveTask.cancel();
+        }
     }
 }

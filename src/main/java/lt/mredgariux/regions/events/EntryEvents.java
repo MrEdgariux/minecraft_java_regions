@@ -3,22 +3,25 @@ package lt.mredgariux.regions.events;
 import lt.mredgariux.regions.api.RegionEnterEvent;
 import lt.mredgariux.regions.api.RegionLeaveEvent;
 import lt.mredgariux.regions.classes.Region;
-import lt.mredgariux.regions.utils.EventFunctions;
-import me.clip.placeholderapi.PlaceholderAPI;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.title.Title;
+import lt.mredgariux.regions.enums.LangKey;
+import lt.mredgariux.regions.enums.RegionFlagEnum;
+import lt.mredgariux.regions.interfaces.PluginListener;
+import lt.mredgariux.regions.utils.expansions.chat_manager.NoSpamMessages;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.plugin.Plugin;
 
 import java.util.Objects;
 
-public class EntryEvents implements Listener {
+public class EntryEvents extends PluginListener {
+
+    public EntryEvents(Plugin plugin) {
+        super(plugin);
+    }
 
     @EventHandler
     public void onTeleport(PlayerTeleportEvent event) {
@@ -30,26 +33,23 @@ public class EntryEvents implements Listener {
             return;
         }
 
-        Region fromRegion = EventFunctions.getHighestPriorityRegion(from);
-        Region toRegion = EventFunctions.getHighestPriorityRegion(to);
+        Region fromRegion = regionManager.getRegionByLocation(from);
+        Region toRegion = regionManager.getRegionByLocation(to);
 
         // Prevent entering a region
         if (toRegion != null && (fromRegion == null || !fromRegion.equals(toRegion))) {
             // Check if "enter" is false
-            if (!toRegion.getFlags().enter) {
-                if (player.hasPermission("regions.bypass.enter." + toRegion.getName())) {
-                    return;
-                }
+            if (!toRegion.getFlags().getBoolean(RegionFlagEnum.ALLOW_ENTER) && !player.hasPermission("regions.bypass.enter." + toRegion.getName())) {
                 event.setCancelled(true);
-                EventFunctions.sendNoSpamMessage(player, "&cYou cannot enter this area. Caused by: &6" + event.getCause().name());
+                NoSpamMessages.sendMessage(player, LangKey.FLAG_ALLOW_ENTER_DENY_MESSAGE, config.cooldownMillis);
                 return;
             }
 
             // Check if permission is required
-            if (!Objects.equals(toRegion.getFlags().enterPermission, "")) {
-                if (!player.hasPermission(toRegion.getFlags().enterPermission)) {
+            if (!Objects.equals(toRegion.getFlags().getString(RegionFlagEnum.ENTER_PERMISSION), "")) {
+                if (!player.hasPermission(toRegion.getFlags().getString(RegionFlagEnum.ENTER_PERMISSION))) {
                     event.setCancelled(true);
-                    EventFunctions.sendNoSpamMessage(player, "&cYou don't have permission to enter this area. Caused by: &6" + event.getCause().name());
+                    NoSpamMessages.sendMessage(player, LangKey.FLAG_ENTER_PERMISSION_DENY_MESSAGE, config.cooldownMillis);
                     return;
                 }
             }
@@ -61,20 +61,21 @@ public class EntryEvents implements Listener {
         // Prevent leaving a region
         if (fromRegion != null && (toRegion == null || !toRegion.equals(fromRegion))) {
             // Check if "leave" is false
-            if (!fromRegion.getFlags().leave) {
+            if (!fromRegion.getFlags().getBoolean(RegionFlagEnum.ALLOW_LEAVE)) {
                 if (player.hasPermission("regions.bypass.leave." + fromRegion.getName())) {
                     return;
                 }
                 event.setCancelled(true);
-                EventFunctions.sendNoSpamMessage(player, "&cYou cannot leave this area. Caused by: &6" + event.getCause().name());
+                NoSpamMessages.sendMessage(player, LangKey.FLAG_ALLOW_LEAVE_DENY_MESSAGE, config.cooldownMillis);
                 return;
             }
 
             // Check if permission is required
-            if (!Objects.equals(fromRegion.getFlags().leavePermission, "")) {
-                if (!player.hasPermission(fromRegion.getFlags().leavePermission)) {
+            if (!Objects.equals(fromRegion.getFlags().getString(RegionFlagEnum.LEAVE_PERMISSION), "")) {
+                if (!player.hasPermission(fromRegion.getFlags().getString(RegionFlagEnum.LEAVE_PERMISSION))) {
                     event.setCancelled(true);
-                    EventFunctions.sendNoSpamMessage(player, "&cYou don't have permission to leave this area. Caused by: &6" + event.getCause().name());
+                    NoSpamMessages.sendMessage(player, LangKey.FLAG_LEAVE_PERMISSION_DENY_MESSAGE, config.cooldownMillis);
+                    return;
                 }
             }
 
@@ -82,6 +83,7 @@ public class EntryEvents implements Listener {
             Bukkit.getPluginManager().callEvent(leaveEvent);
         }
     }
+
     @EventHandler
     public void onRegionMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
@@ -92,40 +94,28 @@ public class EntryEvents implements Listener {
             return;
         }
 
-        Region fromRegion = EventFunctions.getHighestPriorityRegion(from);
-        Region toRegion = EventFunctions.getHighestPriorityRegion(to);
+        Region fromRegion = regionManager.getRegionByLocation(from);
+        Region toRegion = regionManager.getRegionByLocation(to);
 
         // Prevent entering a region
         if (toRegion != null && (fromRegion == null || !fromRegion.equals(toRegion))) {
             // Check if "enter" is false
-            if (!toRegion.getFlags().enter) {
+            if (!toRegion.getFlags().getBoolean(RegionFlagEnum.ALLOW_ENTER)) {
                 if (player.hasPermission("regions.bypass.enter." + toRegion.getName())) {
                     return;
                 }
                 event.setCancelled(true);
-                EventFunctions.sendNoSpamMessage(player, "&cYou cannot enter this area.");
+                NoSpamMessages.sendMessage(player, LangKey.FLAG_ALLOW_ENTER_DENY_MESSAGE, config.cooldownMillis);
                 return;
             }
 
             // Check if permission is required
-            if (!Objects.equals(toRegion.getFlags().enterPermission, "")) {
-                if (!player.hasPermission(toRegion.getFlags().enterPermission)) {
+            if (!Objects.equals(toRegion.getFlags().getString(RegionFlagEnum.ENTER_PERMISSION), "")) {
+                if (!player.hasPermission(toRegion.getFlags().getString(RegionFlagEnum.ENTER_PERMISSION))) {
                     event.setCancelled(true);
-                    EventFunctions.sendNoSpamMessage(player, "&cYou don't have permission to enter this area.");
+                    NoSpamMessages.sendMessage(player, LangKey.FLAG_ENTER_PERMISSION_DENY_MESSAGE, config.cooldownMillis);
                     return;
                 }
-            }
-
-            if (!Objects.equals(toRegion.getFlags().enterMessage, "")) {
-                Title title;
-                if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-                    String message = PlaceholderAPI.setPlaceholders(player, toRegion.getFlags().enterMessage);
-                    title = Title.title(Component.text(""), Component.text(message, NamedTextColor.GOLD));
-                } else {
-                    title = Title.title(Component.text(""), Component.text(toRegion.getFlags().enterMessage, NamedTextColor.GOLD));
-                }
-
-                player.showTitle(title);
             }
 
             RegionEnterEvent enterEvent = new RegionEnterEvent(player, fromRegion, toRegion);
@@ -135,33 +125,22 @@ public class EntryEvents implements Listener {
         // Prevent leaving a region
         if (fromRegion != null && (toRegion == null || !toRegion.equals(fromRegion))) {
             // Check if "leave" is false
-            if (!fromRegion.getFlags().leave) {
+            if (!fromRegion.getFlags().getBoolean(RegionFlagEnum.ALLOW_LEAVE)) {
                 if (player.hasPermission("regions.bypass.leave." + fromRegion.getName())) {
                     return;
                 }
                 event.setCancelled(true);
-                EventFunctions.sendNoSpamMessage(player, "&cYou cannot leave this area.");
+                NoSpamMessages.sendMessage(player, LangKey.FLAG_ALLOW_LEAVE_DENY_MESSAGE, config.cooldownMillis);
                 return;
             }
 
             // Check if permission is required
-            if (!Objects.equals(fromRegion.getFlags().leavePermission, "")) {
-                if (!player.hasPermission(fromRegion.getFlags().leavePermission)) {
+            if (!Objects.equals(fromRegion.getFlags().getString(RegionFlagEnum.LEAVE_PERMISSION), "")) {
+                if (!player.hasPermission(fromRegion.getFlags().getString(RegionFlagEnum.LEAVE_PERMISSION))) {
                     event.setCancelled(true);
-                    EventFunctions.sendNoSpamMessage(player, "&cYou don't have permission to leave this area.");
+                    NoSpamMessages.sendMessage(player, LangKey.FLAG_LEAVE_PERMISSION_DENY_MESSAGE, config.cooldownMillis);
+                    return;
                 }
-            }
-
-            if (!Objects.equals(fromRegion.getFlags().leaveMessage, "")) {
-                Title title;
-                if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-                    String message = PlaceholderAPI.setPlaceholders(player, fromRegion.getFlags().leaveMessage);
-                    title = Title.title(Component.text(""), Component.text(message, NamedTextColor.GOLD));
-                } else {
-                    title = Title.title(Component.text(""), Component.text(fromRegion.getFlags().leaveMessage, NamedTextColor.GOLD));
-                }
-
-                player.showTitle(title);
             }
 
             RegionLeaveEvent leaveEvent = new RegionLeaveEvent(player, fromRegion, toRegion);
