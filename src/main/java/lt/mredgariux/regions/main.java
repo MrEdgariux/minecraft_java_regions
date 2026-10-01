@@ -11,6 +11,7 @@ import lt.mredgariux.regions.databases.repositories.RegionRepository;
 import lt.mredgariux.regions.enums.LangKey;
 import lt.mredgariux.regions.events.WorldEditEvent;
 import lt.mredgariux.regions.utils.RegistrarCenter;
+import lt.mredgariux.regions.utils.expansions.chat_manager.NoSpamMessages;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
@@ -60,6 +61,7 @@ public final class main extends JavaPlugin {
             lang.loadLanguages();
 
             chat = new ChatManager(lang, getServer(), LangKey.PREFIX);
+            NoSpamMessages.initialize(chat);
 
             databaseManager = new DatabaseManager(this);
             databaseManager.connect();
@@ -114,6 +116,7 @@ public final class main extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        NoSpamMessages.shutdown();
 
         getLogger().info("[Regions | Danger] - Plugin disabled. Server is no longer protected!");
     }

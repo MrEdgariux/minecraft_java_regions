@@ -31,20 +31,18 @@ public class rgCommand extends AutoCommand {
         super(plugin);
     }
 
-    private static @NonNull String getType(Object value) {
-        String type;
-        if (value instanceof List<?> list) {
-            type = "List";
-        } else if (value instanceof String[]) {
-            type = "List (String)";
-        } else if (value instanceof String) {
-            type = "String";
-        } else if (value instanceof Boolean) {
-            type = "Boolean";
+    private static @NonNull String getType(Class<?> type) {
+        if (List.class.isAssignableFrom(type)) {
+            return "List";
+        } else if (type == String[].class) {
+            return "List (String)";
+        } else if (type == String.class) {
+            return "String";
+        } else if (type == Boolean.class || type == boolean.class) {
+            return "Boolean";
         } else {
-            type = "Unknown";
+            return "Unknown";
         }
-        return type;
     }
 
     @Override
@@ -106,8 +104,7 @@ public class rgCommand extends AutoCommand {
                     chatManager.sendMessage(commandSender, LangKey.REGION_CREATED, region_name);
                     break;
                 } catch (IncompleteRegionException e) {
-                    chatManager.sendMessage(commandSender, LangKey.ERROR_MESSAGE);
-                    plugin.getLogger().severe(e.getMessage());
+                    chatManager.sendMessage(commandSender, LangKey.ERROR_WORLD_EDIT_NO_SELECTION);
                     break;
                 }
             case "flag":

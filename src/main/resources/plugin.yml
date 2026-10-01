@@ -1,5 +1,5 @@
 name: Regions
-version: '0.2'
+version: '0.3'
 main: lt.mredgariux.regions.main
 api-version: '1.21'
 depends:

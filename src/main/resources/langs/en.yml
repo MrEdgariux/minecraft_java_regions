@@ -1,0 +1,155 @@
+prefix: '&8[&6Regions&8]&r'
+
+error-no-permission: '&cYou do not have permission to do that.'
+error-player-only: '&cOnly a player can use this command.'
+error-message: '&cAn error occurred. Check the server console for details.'
+error-world-edit-no-selection: '&cMake a WorldEdit selection first.'
+error-unknown-subcommand: '&cUnknown subcommand. Use &e/rg &cfor help.'
+
+plugin-reloaded: '&aRegions reloaded successfully.'
+plugin-reload-failed: '&cRegions could not be reloaded. Check the server console.'
+
+help-header: '&6Region commands:'
+help-create: '&e/rg create <name> &7- Create a region from your WorldEdit selection.'
+help-delete: '&e/rg delete <name> &7- Delete a region.'
+help-list: '&e/rg list &7- List all regions.'
+help-flag: '&e/rg flag <region> <flag> <value> [add|rem] &7- Set a flag; use add or rem for block lists.'
+help-flags: '&e/rg flags <region> &7- List the flags of a region.'
+
+# A boolean flag allows the action when true and blocks it when false.
+flag-blocks-place-title: '&ePlace blocks'
+flag-blocks-place-description: '&7Allow players to place blocks in the region.'
+flag-blocks-place-deny-message: '&cYou cannot place blocks in this region.'
+
+flag-blocks-place-specific-title: '&ePlace specific blocks'
+flag-blocks-place-specific-description: '&7Block types allowed even when block placing is disabled. Use material names such as STONE.'
+flag-blocks-place-specific-deny-message: '&cYou cannot place that block in this region.'
+
+flag-blocks-break-title: '&eBreak blocks'
+flag-blocks-break-description: '&7Allow players to break blocks in the region.'
+flag-blocks-break-deny-message: '&cYou cannot break blocks in this region.'
+
+flag-blocks-break-specific-title: '&eBreak specific blocks'
+flag-blocks-break-specific-description: '&7Block types allowed even when block breaking is disabled. Use material names such as STONE.'
+flag-blocks-break-specific-deny-message: '&cYou cannot break that block in this region.'
+
+flag-destroy-paintings-title: '&ePaintings'
+flag-destroy-paintings-description: '&7Allow players to place or destroy paintings in the region.'
+flag-destroy-paintings-deny-message: '&cYou cannot place or destroy paintings in this region.'
+
+flag-destroy-item-frames-title: '&eDestroy item frames'
+flag-destroy-item-frames-description: '&7Allow players to place or destroy item frames in the region.'
+flag-destroy-item-frames-deny-message: '&cYou cannot place or destroy item frames in this region.'
+
+flag-eat-cake-title: '&eEat cake'
+flag-eat-cake-description: '&7Allow players to eat cake in the region.'
+flag-eat-cake-deny-message: '&cYou cannot eat cake in this region.'
+
+flag-pvp-title: '&ePvP'
+flag-pvp-description: '&7Allow player combat and damage in the region.'
+flag-pvp-deny-message: '&cPvP is disabled in this region.'
+
+flag-tnt-title: '&eTNT'
+flag-tnt-description: '&7Allow TNT to be primed in the region.'
+flag-tnt-deny-message: '&cTNT is disabled in this region.'
+
+flag-ender-dragon-destroy-blocks-title: '&eEnder Dragon block damage'
+flag-ender-dragon-destroy-blocks-description: '&7Allow the Ender Dragon to destroy blocks in the region.'
+flag-ender-dragon-destroy-blocks-deny-message: '&cThe Ender Dragon cannot destroy blocks in this region.'
+
+flag-edit-signs-title: '&eEdit signs'
+flag-edit-signs-description: '&7Allow players to edit signs in the region.'
+flag-edit-signs-deny-message: '&cYou cannot edit signs in this region.'
+
+flag-use-pressure-plates-title: '&ePressure plates'
+flag-use-pressure-plates-description: '&7Allow players to activate pressure plates in the region.'
+flag-use-pressure-plates-deny-message: '&cYou cannot use pressure plates in this region.'
+
+flag-use-buttons-title: '&eButtons and levers'
+flag-use-buttons-description: '&7Allow players to use buttons and levers in the region.'
+flag-use-buttons-deny-message: '&cYou cannot use buttons or levers in this region.'
+
+flag-use-chest-title: '&eChests'
+flag-use-chest-description: '&7Allow players to open chests in the region.'
+flag-use-chest-deny-message: '&cYou cannot open chests in this region.'
+
+flag-use-furnace-title: '&eFurnaces'
+flag-use-furnace-description: '&7Allow players to use furnaces in the region.'
+flag-use-furnace-deny-message: '&cYou cannot use furnaces in this region.'
+
+flag-use-crafting-table-title: '&eCrafting tables'
+flag-use-crafting-table-description: '&7Allow players to use crafting tables in the region.'
+flag-use-crafting-table-deny-message: '&cYou cannot use crafting tables in this region.'
+
+flag-use-ender-chest-title: '&eEnder chests'
+flag-use-ender-chest-description: '&7Allow players to open ender chests in the region.'
+flag-use-ender-chest-deny-message: '&cYou cannot open ender chests in this region.'
+
+flag-use-container-blocks-title: '&eContainer blocks'
+flag-use-container-blocks-description: '&7Allow players to interact with inventory containers in the region.'
+flag-use-container-blocks-deny-message: '&cYou cannot use containers or interactive blocks in this region.'
+
+flag-use-item-frames-title: '&eItem frames'
+flag-use-item-frames-description: '&7Allow players to place item frames in the region.'
+flag-use-item-frames-deny-message: '&cYou cannot use item frames in this region.'
+
+flag-use-buckets-title: '&eBuckets'
+flag-use-buckets-description: '&7Allow players to fill and empty buckets in the region.'
+flag-use-buckets-deny-message: '&cYou cannot use buckets in this region.'
+
+flag-use-world-edit-title: '&eWorldEdit'
+flag-use-world-edit-description: '&7Allow players to change blocks with WorldEdit in the region.'
+flag-use-world-edit-deny-message: '&cYou cannot use WorldEdit in this region.'
+
+flag-use-throwable-potions-title: '&eThrowable potions'
+flag-use-throwable-potions-description: '&7Allow splash and lingering potions in the region.'
+flag-use-throwable-potions-deny-message: '&cYou cannot use throwable potions in this region.'
+
+flag-fire-spread-title: '&eFire spread'
+flag-fire-spread-description: '&7Allow fire to ignite and burn blocks in the region.'
+flag-fire-spread-deny-message: '&cYou cannot start a fire in this region.'
+
+flag-allow-enter-title: '&eEnter region'
+flag-allow-enter-description: '&7Allow players to enter the region.'
+flag-allow-enter-deny-message: '&cYou cannot enter this region.'
+
+flag-enter-permission-title: '&eEntry permission'
+flag-enter-permission-description: '&7Permission required to enter the region. Leave empty to allow everyone.'
+flag-enter-permission-deny-message: '&cYou do not have permission to enter this region.'
+
+flag-enter-message-title: '&eEntry message'
+flag-enter-message-description: '&7Message configured for players entering the region.'
+flag-enter-message-deny-message: '&cYou cannot enter this region.'
+
+flag-allow-leave-title: '&eLeave region'
+flag-allow-leave-description: '&7Allow players to leave the region.'
+flag-allow-leave-deny-message: '&cYou cannot leave this region.'
+
+flag-leave-permission-title: '&eExit permission'
+flag-leave-permission-description: '&7Permission required to leave the region. Leave empty to allow everyone.'
+flag-leave-permission-deny-message: '&cYou do not have permission to leave this region.'
+
+flag-leave-message-title: '&eExit message'
+flag-leave-message-description: '&7Message configured for players leaving the region.'
+flag-leave-message-deny-message: '&cYou cannot leave this region.'
+
+region-created: '&aRegion &e%0% &acreated.'
+region-deleted: '&aRegion &e%0% &adeleted.'
+region-not-found: '&cRegion &e%0% &cwas not found.'
+region-exists: '&cA region with that name already exists.'
+region-list-header: '&6Regions:'
+region-list-entry: '&7- &e%0%'
+
+flags-not-list: '&cThis flag does not contain a list.'
+flags-invalid-operation: '&cInvalid list operation. Use add or rem.'
+flags-unknown-type: '&cFlag &e%0% &chas an unsupported value type.'
+flags-unset-success: '&aFlag &e%0% &awas cleared for region &e%1%&a.'
+flags-updated-success: '&aFlag &e%0% &awas set to &e%2% &ain region &e%1%&a.'
+flags-list-header: '&6Flags for region &e%0%&6:'
+flags-list-entry: '&7- &e%1% &8(&7%0%&8)&7: &f%2%'
+flags-not-found: '&cUnknown flag: &e%0%&c.'
+
+usage-command-create: '&eUsage: /rg create <name> &7(Requires a WorldEdit selection)'
+usage-command-flag: '&eUsage: /rg flag <region> <flag> <value> [add|rem]'
+usage-command-flags: '&eUsage: /rg flags <region>'
+usage-command-delete: '&eUsage: /rg delete <name>'

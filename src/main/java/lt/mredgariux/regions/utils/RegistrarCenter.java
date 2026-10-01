@@ -32,7 +32,7 @@ public class RegistrarCenter {
 
         for (Class<? extends AutoCommand> clazz : classes) {
             try {
-                AutoCommand cmd = clazz.getDeclaredConstructor(main.class).newInstance(main);
+                AutoCommand cmd = clazz.getDeclaredConstructor(Plugin.class).newInstance(plugin);
 
                 String name = cmd.getName();
                 PluginCommand pluginCommand = main.getCommand(name);
@@ -58,7 +58,7 @@ public class RegistrarCenter {
 
         for (Class<? extends PluginListener> clazz : classes) {
             try {
-                PluginListener listener = clazz.getDeclaredConstructor(main.class).newInstance(main);
+                PluginListener listener = clazz.getDeclaredConstructor(Plugin.class).newInstance(plugin);
 
                 plugin.getServer().getPluginManager().registerEvents(listener, plugin);
                 listeners.put(clazz.getSimpleName(), listener);

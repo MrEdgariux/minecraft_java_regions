@@ -1,5 +1,6 @@
 package lt.mredgariux.regions.utils.expansions.chat_manager;
 
+import lt.mredgariux.messages.chat.ChatManager;
 import lt.mredgariux.regions.enums.LangKey;
 
 import org.bukkit.entity.Player;
@@ -8,7 +9,24 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class NoSpamMessages {
+    private static ChatManager chatManager;
     private static final HashMap<UUID, Long> sentMessagesList = new HashMap<>();
+
+    private NoSpamMessages() {
+        // Utility class; no instances needed.
+    }
+
+    public static void initialize(ChatManager manager) {
+        if (chatManager != null) {
+            throw new IllegalStateException("NoSpamMessages is already initialized");
+        }
+        chatManager = manager;
+    }
+
+    public static void shutdown() {
+        sentMessagesList.clear();
+        chatManager = null;
+    }
 
     private static boolean cannotSendMessage(UUID sender, long cooldownMillis) {
         long currentTime = System.currentTimeMillis();
@@ -17,6 +35,10 @@ public class NoSpamMessages {
             long timeSinceLastMessage = currentTime - lastSentTime;
 
             return timeSinceLastMessage < cooldownMillis;
+        }
+
+        if (chatManager == null) {
+            throw new IllegalStateException("ChatManager is not initialized.");
         }
         return false;
     }

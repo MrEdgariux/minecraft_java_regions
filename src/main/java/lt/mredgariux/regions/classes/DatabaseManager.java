@@ -63,7 +63,7 @@ public class DatabaseManager {
                         flag_name TEXT NOT NULL,
                         flag_value TEXT,
                         FOREIGN KEY (region_id) REFERENCES regions(id) ON DELETE CASCADE,
-                        FOREIGN KEY (flag_id) REFERENCES flags(id) ON DELETE CASCADE
+                        FOREIGN KEY (flag_name) REFERENCES flags(name) ON DELETE CASCADE
                     );
                     """);
         }
