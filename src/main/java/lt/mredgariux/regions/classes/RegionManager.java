@@ -7,6 +7,7 @@ import java.util.*;
 
 public class RegionManager {
     private final HashMap<String, Region> regions = new HashMap<>();
+    private final Set<Region> deleteRegions = new HashSet<>();
 
     public Map<String, Region> getRegions() {
         return Collections.unmodifiableMap(regions);
@@ -50,6 +51,11 @@ public class RegionManager {
 
     public void removeRegion(Region region) {
         regions.remove(region.getName());
+        deleteRegions.add(region);
+    }
+
+    public Set<Region> getDeleteRegions() {
+        return deleteRegions;
     }
 
     public Set<Region> getRegionsNeedSync() {

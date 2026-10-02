@@ -3,6 +3,7 @@ package lt.mredgariux.regions.classes;
 import org.bukkit.Location;
 
 public class Region {
+    private int id;
     private final String name;
     private final Location pos1;
     private final Location pos2;
@@ -18,6 +19,14 @@ public class Region {
         this.pos2 = pos2;
 
         this.volume = calculateVolume(pos1, pos2);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     private long calculateVolume(Location pos1, Location pos2) {
@@ -78,5 +87,6 @@ public class Region {
 
     public void resetSync() {
         needSync = false;
+        flags.resetDirty();
     }
 }

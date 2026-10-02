@@ -10,8 +10,10 @@ import lt.mredgariux.regions.classes.RegionFlags;
 import lt.mredgariux.regions.enums.LangKey;
 import lt.mredgariux.regions.enums.RegionFlagEnum;
 import lt.mredgariux.regions.interfaces.AutoCommand;
+import lt.mredgariux.regions.utils.BlockMaterials;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -23,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Locale;
 
 public class rgCommand extends AutoCommand {
     private final WorldEdit wedit = WorldEdit.getInstance();
@@ -122,8 +125,6 @@ public class rgCommand extends AutoCommand {
                     String raw_region_name = args[1];
                     String region_name = raw_region_name.replaceAll("[^a-zA-Z0-9_\\-]", "");
                     String flag = args[2];
-                    String value = String.join(" ", Arrays.copyOfRange(args, 3, args.length));
-                    String valueBlock = args[3];
 
                     Region reg = regionManager.getRegionByName(region_name);
                     if (reg == null) {
@@ -134,7 +135,7 @@ public class rgCommand extends AutoCommand {
                     RegionFlagEnum flagEnum;
 
                     try {
-                        flagEnum = RegionFlagEnum.valueOf(flag.toUpperCase());
+                        flagEnum = RegionFlagEnum.valueOf(flag.toUpperCase(Locale.ROOT));
                     } catch (IllegalArgumentException e) {
                         chatManager.sendMessage(commandSender, LangKey.FLAGS_NOT_FOUND, flag);
                         break;
@@ -142,47 +143,60 @@ public class rgCommand extends AutoCommand {
 
                     RegionFlags regFlags = reg.getFlags();
 
-                    if (flagEnum.getType().equals(boolean.class)) {
-                        regFlags.setBoolean(flagEnum, Boolean.parseBoolean(value));
-                    } else if (flagEnum.getType().equals(String.class)) {
-                        if (value.equals("null") || value.equals("none")) {
+                    Class<?> type = flagEnum.getType();
+
+                    if (type == Boolean.class || type == boolean.class) {
+                        if (args.length != 4 || !isBooleanValue(args[3])) {
+                            chatManager.sendMessage(commandSender, LangKey.FLAGS_INVALID_VALUE, flag);
+                            break;
+                        }
+                        regFlags.setBoolean(flagEnum, Boolean.parseBoolean(args[3]));
+
+                    } else if (type == String.class) {
+                        String value = String.join(" ", Arrays.copyOfRange(args, 3, args.length));
+                        if (value.equalsIgnoreCase("null") || value.equalsIgnoreCase("none")) {
                             regFlags.setString(flagEnum, "");
+                            chatManager.sendMessage(commandSender, LangKey.FLAGS_UNSET_SUCCESS, flag, region_name);
                         } else {
                             regFlags.setString(flagEnum, value);
+                            chatManager.sendMessage(commandSender, LangKey.FLAGS_UPDATED_SUCCESS, flag, region_name, value);
                         }
-                    } else if (flagEnum.getType().equals(String[].class)) {
-                        List<String> values = new ArrayList<>(
-                                Arrays.asList(regFlags.getStringArray(flagEnum))
-                        );
 
-                        if (args.length <= 5) {
+                    } else if (type == String[].class) {
+                        if (args.length != 5 || !(args[3].equalsIgnoreCase("add") || args[3].equalsIgnoreCase("rem"))) {
                             chatManager.sendMessage(commandSender, LangKey.FLAGS_INVALID_OPERATION);
                             break;
                         }
 
-                        switch (args[4].toLowerCase()) {
-                            case "add" -> values.add(valueBlock);
-                            case "rem" -> values.remove(valueBlock);
-                            default -> chatManager.sendMessage(commandSender, LangKey.FLAGS_INVALID_OPERATION);
+                        Material material = Material.matchMaterial(args[4]);
+                        if (material == null || !BlockMaterials.isPlaceableBlock(material)) {
+                            chatManager.sendMessage(commandSender, LangKey.FLAGS_INVALID_VALUE, flag);
+                            break;
                         }
 
+                        List<String> values = new ArrayList<>(Arrays.asList(regFlags.getStringArray(flagEnum)));
+                        if (args[3].equalsIgnoreCase("add")) {
+                            if (!values.contains(material.name())) {
+                                values.add(material.name());
+                            }
+                        } else {
+                            values.remove(material.name());
+                        }
                         regFlags.setStringArray(flagEnum, values.toArray(String[]::new));
+                        chatManager.sendMessage(commandSender, LangKey.FLAGS_UPDATED_SUCCESS, flag, region_name, material.name());
+
                     } else {
-                        chatManager.sendMessage(commandSender, LangKey.FLAGS_UNKNOWN_TYPE, flag);
+                        chatManager.sendMessage(
+                                commandSender,
+                                LangKey.FLAGS_UNKNOWN_TYPE,
+                                flag
+                        );
                         break;
                     }
 
                     reg.setFlags(regFlags);
-
-                    if (value.equals("null") || value.equals("none")) {
-                        chatManager.sendMessage(commandSender, LangKey.FLAGS_UNSET_SUCCESS, flag, region_name);
-                        break;
-                    }
-
-                    if (value.contains(" ") && !value.contains("add")) {
-                        chatManager.sendMessage(commandSender, LangKey.FLAGS_UPDATED_SUCCESS, flag, region_name, value);
-                    } else {
-                        chatManager.sendMessage(commandSender, LangKey.FLAGS_UPDATED_SUCCESS, flag, region_name, valueBlock);
+                    if (type == Boolean.class || type == boolean.class) {
+                        chatManager.sendMessage(commandSender, LangKey.FLAGS_UPDATED_SUCCESS, flag, region_name, args[3]);
                     }
 
                 } catch (Exception e) {
@@ -272,7 +286,11 @@ public class rgCommand extends AutoCommand {
                 chatManager.sendMessage(commandSender, LangKey.ERROR_UNKNOWN_SUBCOMMAND);
                 break;
         }
-        return false;
+        return true;
+    }
+
+    private static boolean isBooleanValue(String value) {
+        return value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false");
     }
 
     @Override

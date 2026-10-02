@@ -70,7 +70,6 @@ public final class main extends JavaPlugin {
 
             Set<Region> regions = regionRepository.getRegions();
             for (Region region : regions) {
-                region.resetSync(); // Reset sync status to avoid unnecessary database updates xD
                 regionManager.addRegion(region);
             }
             regions.clear();
@@ -134,15 +133,31 @@ public final class main extends JavaPlugin {
             return;
         }
 
-        Set<Region> regions = regionManager.getRegionsNeedSync();
-        if (regions.isEmpty()) {
+        Set<Region> modifiedRegions = regionManager.getRegionsNeedSync();
+        Set<Region> deleteRegions = regionManager.getDeleteRegions();
+        if (modifiedRegions.isEmpty() && deleteRegions.isEmpty()) {
             return;
         }
 
         RegionRepository regionRepository = new RegionRepository(databaseManager);
 
         try {
-            regionRepository.saveRegions(regions);
+
+            if (!modifiedRegions.isEmpty()) {
+                regionRepository.saveRegions(modifiedRegions);
+                for (Region region : modifiedRegions) {
+                    region.resetSync();
+                }
+                getLogger().info("[Regions | Info] Saved " + modifiedRegions.size() + " regions to the database.");
+                modifiedRegions.clear();
+            }
+
+            if (!deleteRegions.isEmpty()) {
+                regionRepository.deleteRegions(deleteRegions);
+                getLogger().info("[Regions | Info] Deleted " + deleteRegions.size() + " regions from the database.");
+                deleteRegions.clear();
+            }
+
         } catch (SQLException e) {
             getLogger().severe("[Regions | Critical] An error occurred while saving regions to the database: " + e.getMessage());
             saveTask.cancel();

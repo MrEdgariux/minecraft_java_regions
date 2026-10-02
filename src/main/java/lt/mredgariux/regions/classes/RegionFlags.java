@@ -20,6 +20,11 @@ public class RegionFlags {
         }
     }
 
+    private void set(RegionFlagEnum flag, Object value) {
+        flags.put(flag, value);
+        isDirty = true;
+    }
+
     public Map<RegionFlagEnum, Object> getFlags() {
         return flags;
     }
@@ -58,11 +63,6 @@ public class RegionFlags {
         return new ArrayList<>(List.of(array));
     }
 
-    public void set(RegionFlagEnum flag, Object value) {
-        flags.put(flag, value);
-        isDirty = true;
-    }
-
     public void setStringArray(RegionFlagEnum flag, String[] value) {
         if (flag.getType() != String[].class) {
             throw new IllegalArgumentException(flag.name() + " does not accept a string array");
@@ -88,7 +88,7 @@ public class RegionFlags {
         return isDirty;
     }
 
-    public void resetDirty(boolean dirty) {
-        isDirty = dirty;
+    public void resetDirty() {
+        isDirty = false;
     }
 }

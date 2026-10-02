@@ -24,6 +24,7 @@ public interface RegionRepositoryInterface {
     void saveRegions(Set<Region> regions) throws SQLException;
 
     void deleteRegion(Region region) throws SQLException;
+    void deleteRegions(Set<Region> regions) throws SQLException;
 
     // Region flags
 

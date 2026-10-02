@@ -11,6 +11,7 @@ import org.bukkit.World;
 
 import javax.annotation.Nullable;
 import java.sql.*;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -55,6 +56,7 @@ public class RegionRepository implements RegionRepositoryInterface {
                             pos1,
                             pos2
                     );
+                    reg.setId(resultSet.getInt("id"));
 
                     reg.setFlags(regionFlags);
 
@@ -82,58 +84,16 @@ public class RegionRepository implements RegionRepositoryInterface {
 
     @Override
     public void saveRegion(Region region) throws SQLException {
-        String regionSQL = """
-                INSERT INTO regions(name, world, x1, y1, z1, x2, y2, z2)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                ON CONFLICT(name) DO UPDATE SET
-                    world = excluded.world,
-                    x1 = excluded.x1,
-                    y1 = excluded.y1,
-                    z1 = excluded.z1,
-                    x2 = excluded.x2,
-                    y2 = excluded.y2,
-                    z2 = excluded.z2;
-                """;
-
-        try (Connection conn = dbManager.getConnection()) {
-            conn.setAutoCommit(false);
-
-            int regionId;
-
-            // Save region
-            try (PreparedStatement ps = conn.prepareStatement(regionSQL, Statement.RETURN_GENERATED_KEYS)) {
-                PrepareStatementRegion(ps, region);
-
-                ps.executeUpdate();
-            }
-
-            // Get region ID
-            try (PreparedStatement ps = conn.prepareStatement(
-                    "SELECT id FROM regions WHERE name = ?"
-            )) {
-                ps.setString(1, region.getName());
-
-                ResultSet rs = ps.executeQuery();
-
-                if (!rs.next()) {
-                    throw new SQLException("Region not found after saving");
-                }
-
-                regionId = rs.getInt("id");
-            }
-
-            saveRegionFlags(regionId, region.getFlags());
-
-            conn.commit();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        saveRegions(Set.of(region));
     }
 
     @Override
     public void saveRegions(Set<Region> regions) throws SQLException {
-        String sql = """
+        if (regions.isEmpty()) {
+            return;
+        }
+
+        String insertSql = """
                 INSERT INTO regions(name, world, x1, y1, z1, x2, y2, z2)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 ON CONFLICT(name) DO UPDATE SET
@@ -143,27 +103,69 @@ public class RegionRepository implements RegionRepositoryInterface {
                     z1 = excluded.z1,
                     x2 = excluded.x2,
                     y2 = excluded.y2,
-                    z2 = excluded.z2;
+                    z2 = excluded.z2
+                RETURNING id;
+                """;
+        String updateSql = """
+                UPDATE regions SET name = ?, world = ?, x1 = ?, y1 = ?, z1 = ?,
+                    x2 = ?, y2 = ?, z2 = ?
+                WHERE id = ?;
                 """;
 
-        try (Connection conn = dbManager.getConnection()) {
-
+        Connection conn = dbManager.getConnection();
+        boolean previousAutoCommit = conn.getAutoCommit();
+        Map<Region, Integer> newIds = new HashMap<>();
+        try {
             conn.setAutoCommit(false);
 
-            try (PreparedStatement ps = conn.prepareStatement(sql)) {
-
+            try (PreparedStatement insert = conn.prepareStatement(insertSql);
+                 PreparedStatement update = conn.prepareStatement(updateSql)) {
                 for (Region region : regions) {
-
-                    PrepareStatementRegion(ps, region);
-
-                    ps.addBatch();
+                    if (region.getId() == 0) {
+                        PrepareStatementRegion(insert, region);
+                        try (ResultSet rs = insert.executeQuery()) {
+                            if (!rs.next()) {
+                                throw new SQLException("Region ID not returned after saving");
+                            }
+                            newIds.put(region, rs.getInt("id"));
+                        }
+                    } else {
+                        PrepareStatementRegion(update, region);
+                        update.setInt(9, region.getId());
+                        update.addBatch();
+                    }
                 }
 
-                ps.executeBatch();
+                for (int count : update.executeBatch()) {
+                    if (count == 0) {
+                        throw new SQLException("Region not found while updating by ID");
+                    }
+                }
+            }
+
+            try (PreparedStatement deleteFlags = conn.prepareStatement(
+                         "DELETE FROM region_flags WHERE region_id = ?");
+                 PreparedStatement insertFlags = conn.prepareStatement(
+                         "INSERT INTO region_flags(region_id, flag_name, flag_value) VALUES (?, ?, ?)")) {
+                for (Region region : regions) {
+                    int regionId = newIds.getOrDefault(region, region.getId());
+                    deleteFlags.setInt(1, regionId);
+                    deleteFlags.addBatch();
+                    PrepareStatementRegionFlags(insertFlags, regionId, region.getFlags());
+                }
+
+                deleteFlags.executeBatch();
+                insertFlags.executeBatch();
             }
 
             conn.commit();
+            newIds.forEach(Region::setId);
 
+        } catch (SQLException e) {
+            conn.rollback();
+            throw e;
+        } finally {
+            conn.setAutoCommit(previousAutoCommit);
         }
     }
 
@@ -180,14 +182,50 @@ public class RegionRepository implements RegionRepositoryInterface {
         ps.setInt(8, region.getPos2().getBlockZ());
     }
 
+    private void PrepareStatementRegionFlags(PreparedStatement ps, int regionId, RegionFlags regionFlags) throws SQLException {
+        for (Map.Entry<RegionFlagEnum, Object> entry : regionFlags.getFlags().entrySet()) {
+            Object value = entry.getValue();
+            if (value == null) {
+                continue;
+            }
+
+            ps.setInt(1, regionId);
+            ps.setString(2, entry.getKey().name());
+            ps.setString(3, value instanceof String[] values ? String.join(",", values) : value.toString());
+
+            ps.addBatch();
+        }
+    }
+
     @Override
     public void deleteRegion(Region region) {
+        Connection conn = dbManager.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM regions WHERE id = ?")) {
+            ps.setInt(1, region.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
+    @Override
+    public void deleteRegions(Set<Region> regions) {
+        Connection conn = dbManager.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM regions WHERE id = ?")) {
+            for (Region region : regions) {
+                ps.setInt(1, region.getId());
+                ps.addBatch();
+            }
+            ps.executeBatch();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public @Nullable RegionFlags getRegionFlagsById(int id) {
-        try (Connection conn = dbManager.getConnection()) {
+        Connection conn = dbManager.getConnection();
+        try {
             String sql = "SELECT flag_name, flag_value FROM region_flags WHERE region_id = ?";
             try (PreparedStatement ps = conn.prepareStatement(sql)) {
                 ps.setInt(1, id);
@@ -218,25 +256,24 @@ public class RegionRepository implements RegionRepositoryInterface {
 
     @Override
     public void saveRegionFlags(int id, RegionFlags regionFlags) throws SQLException {
-        try (Connection conn = dbManager.getConnection()) {
-            String sql = """
+        Connection conn = dbManager.getConnection();
+        String sql = """
                     INSERT INTO region_flags(region_id, flag_name, flag_value)
                     VALUES (?, ?, ?)
                     ON CONFLICT(region_id, flag_name) DO UPDATE SET
                         flag_value = excluded.flag_value;
                     """;
 
-            try (PreparedStatement ps = conn.prepareStatement(sql)) {
-                for (Map.Entry<RegionFlagEnum, Object> entry : regionFlags.getFlags().entrySet()) {
-                    ps.setInt(1, id);
-                    ps.setString(2, entry.getKey().name());
-                    ps.setString(3, entry.getValue().toString());
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            for (Map.Entry<RegionFlagEnum, Object> entry : regionFlags.getFlags().entrySet()) {
+                ps.setInt(1, id);
+                ps.setString(2, entry.getKey().name());
+                ps.setString(3, entry.getValue().toString());
 
-                    ps.addBatch();
-                }
-
-                ps.executeBatch();
+                ps.addBatch();
             }
+
+            ps.executeBatch();
         }
     }
 }

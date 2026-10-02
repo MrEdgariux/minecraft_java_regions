@@ -153,6 +153,7 @@ public enum LangKey implements LanguageKey {
 
     FLAGS_NOT_LIST("flags-not-list"),
     FLAGS_INVALID_OPERATION("flags-invalid-operation"),
+    FLAGS_INVALID_VALUE("flags-invalid-value"),
     FLAGS_UNKNOWN_TYPE("flags-unknown-type"),
     FLAGS_UNSET_SUCCESS("flags-unset-success"),
     FLAGS_UPDATED_SUCCESS("flags-updated-success"),

@@ -2,10 +2,10 @@ package lt.mredgariux.regions.enums;
 
 public enum RegionFlagEnum {
     BLOCKS_PLACE(Boolean.class, false),
-    BLOCKS_PLACE_SPECIFIC(String[].class, null),
+    BLOCKS_PLACE_SPECIFIC(String[].class, new String[]{}),
 
     BLOCKS_BREAK(Boolean.class, false),
-    BLOCKS_BREAK_SPECIFIC(String[].class, null),
+    BLOCKS_BREAK_SPECIFIC(String[].class, new String[]{}),
 
     DESTROY_PAINTINGS(Boolean.class, false),
     DESTROY_ITEM_FRAMES(Boolean.class, false),

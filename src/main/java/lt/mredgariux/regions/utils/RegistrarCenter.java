@@ -1,6 +1,7 @@
 package lt.mredgariux.regions.utils;
 
 import lt.mredgariux.regions.interfaces.AutoCommand;
+import lt.mredgariux.regions.interfaces.AutoTabCompleter;
 import lt.mredgariux.regions.interfaces.PluginListener;
 import lt.mredgariux.regions.main;
 import org.bukkit.command.PluginCommand;
@@ -50,6 +51,26 @@ public class RegistrarCenter {
         }
     }
 
+    private void autoRegisterTabCompleters() {
+        Reflections reflections = new Reflections("lt.mredgariux.regions.completers");
+        Set<Class<? extends AutoTabCompleter>> classes =
+                reflections.getSubTypesOf(AutoTabCompleter.class);
+
+        for (Class<? extends AutoTabCompleter> clazz : classes) {
+            try {
+                AutoTabCompleter completer = clazz.getDeclaredConstructor(Plugin.class).newInstance(plugin);
+                PluginCommand pluginCommand = commands.get(completer.getName());
+                if (pluginCommand != null) {
+                    pluginCommand.setTabCompleter(completer);
+                } else {
+                    plugin.getLogger().severe("[AUTO] Command not registered for tab completer: " + completer.getName());
+                }
+            } catch (Exception e) {
+                plugin.getLogger().severe("[AUTO] Error registering tab completer " + clazz.getSimpleName() + ": " + e.getMessage());
+            }
+        }
+    }
+
     private void autoRegisterListeners() {
         Reflections reflections = new Reflections("lt.mredgariux.regions.events");
 
@@ -80,6 +101,7 @@ public class RegistrarCenter {
     public void registerAll() {
         if (registered) return;
         autoRegisterCommands();
+        autoRegisterTabCompleters();
         autoRegisterListeners();
 
         if (commands.isEmpty()) {
