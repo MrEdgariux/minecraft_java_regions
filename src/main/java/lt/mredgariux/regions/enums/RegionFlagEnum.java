@@ -24,6 +24,7 @@ public enum RegionFlagEnum {
     USE_CRAFTING_TABLE(Boolean.class, false),
     USE_ENDER_CHEST(Boolean.class, false),
     USE_CONTAINER_BLOCKS(Boolean.class, false),
+    USE_FUNCTIONAL_BLOCKS(Boolean.class, false),
     USE_ITEM_FRAMES(Boolean.class, false),
     USE_BUCKETS(Boolean.class, false),
     USE_WORLD_EDIT(Boolean.class, false),

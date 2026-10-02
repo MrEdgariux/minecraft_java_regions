@@ -30,15 +30,19 @@ public class RgTabCompleter extends PluginComponent implements AutoTabCompleter 
     public @NotNull List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command,
                                                 @NotNull String alias, @NotNull String @NotNull [] args) {
         if (args.length == 1) {
-            return sender instanceof Player && !sender.hasPermission("regions.flag")
-                    ? List.of() : complete(Stream.of("flag"), args[0]);
+            return complete(Stream.of("create", "delete", "flag", "flags", "list")
+                    .filter(subcommand -> canUse(sender, subcommand)), args[0]);
         }
-        if (!args[0].equalsIgnoreCase("flag") ||
-                (sender instanceof Player && !sender.hasPermission("regions.flag"))) {
+        String subcommand = args[0].toLowerCase(Locale.ROOT);
+        if (!canUse(sender, subcommand)) {
             return List.of();
         }
-        if (args.length == 2) {
+        if (args.length == 2 && (subcommand.equals("flag") || subcommand.equals("flags") ||
+                subcommand.equals("delete"))) {
             return complete(regionManager.getRegions().keySet().stream(), args[1]);
+        }
+        if (!subcommand.equals("flag")) {
+            return List.of();
         }
         if (args.length == 3) {
             return complete(Arrays.stream(RegionFlagEnum.values()).map(Enum::name), args[2]);
@@ -65,6 +69,17 @@ public class RgTabCompleter extends PluginComponent implements AutoTabCompleter 
                     .map(Enum::name), args[4]);
         }
         return List.of();
+    }
+
+    private static boolean canUse(CommandSender sender, String subcommand) {
+        if (subcommand.equals("create")) {
+            return sender instanceof Player && sender.hasPermission("regions.create");
+        }
+        if (subcommand.equals("flag") || subcommand.equals("flags") ||
+                subcommand.equals("delete") || subcommand.equals("list")) {
+            return !(sender instanceof Player) || sender.hasPermission("regions." + subcommand);
+        }
+        return false;
     }
 
     private static List<String> complete(Stream<String> options, String prefix) {

@@ -87,7 +87,11 @@ flag-use-ender-chest-deny-message: '&cYou cannot open ender chests in this regio
 
 flag-use-container-blocks-title: '&eContainer blocks'
 flag-use-container-blocks-description: '&7Allow players to interact with inventory containers in the region.'
-flag-use-container-blocks-deny-message: '&cYou cannot use containers or interactive blocks in this region.'
+flag-use-container-blocks-deny-message: '&cYou cannot use containers in this region.'
+
+flag-use-functional-blocks-title: '&eFunctional blocks'
+flag-use-functional-blocks-description: '&7Allow players to use beacons, note blocks, composters, looms, jukeboxes, bells, workstations, doors, and other functional blocks in the region.'
+flag-use-functional-blocks-deny-message: '&cYou cannot use functional blocks in this region.'
 
 flag-use-item-frames-title: '&eItem frames'
 flag-use-item-frames-description: '&7Allow players to place item frames in the region.'

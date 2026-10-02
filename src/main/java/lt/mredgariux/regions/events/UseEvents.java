@@ -1,16 +1,21 @@
 package lt.mredgariux.regions.events;
 
 import lt.mredgariux.regions.classes.Region;
+import lt.mredgariux.regions.classes.RegionFlags;
 import lt.mredgariux.regions.enums.LangKey;
 import lt.mredgariux.regions.enums.RegionFlagEnum;
 import lt.mredgariux.regions.interfaces.PluginListener;
 import lt.mredgariux.regions.utils.expansions.chat_manager.NoSpamMessages;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.Openable;
+import org.bukkit.block.data.type.Switch;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Painting;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
@@ -20,8 +25,6 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.plugin.Plugin;
 
-import java.util.Objects;
-
 public class UseEvents extends PluginListener {
 
     public UseEvents(Plugin plugin) {
@@ -30,16 +33,23 @@ public class UseEvents extends PluginListener {
 
     @EventHandler
     public void onBlockUse(PlayerInteractEvent event) {
-        Player player = event.getPlayer();
-        if (!Objects.equals(event.getHand(), EquipmentSlot.HAND)) {
+        Action action = event.getAction();
+        if (action != Action.RIGHT_CLICK_BLOCK && action != Action.LEFT_CLICK_BLOCK && action != Action.PHYSICAL) {
             return;
         }
         Block block = event.getClickedBlock();
         if (block == null) return;
-        Location loc = event.getInteractionPoint();
-        if (loc == null) return;
 
-        Region highestPriorityRegion = regionManager.getRegionByLocation(loc);
+        if (action != Action.PHYSICAL && event.getHand() != EquipmentSlot.HAND &&
+                event.getHand() != EquipmentSlot.OFF_HAND) {
+            return;
+        }
+
+        RegionFlagEnum flag = interactionFlag(block, action);
+        if (flag == null) return;
+
+        Player player = event.getPlayer();
+        Region highestPriorityRegion = regionManager.getRegionByLocation(block.getLocation());
 
         if (highestPriorityRegion == null) return;
 
@@ -47,70 +57,75 @@ public class UseEvents extends PluginListener {
             return;
         }
 
-        boolean cancel = false;
-
-        String blokas = block.getType().name().toLowerCase().replace("_", " ");
-
-        if (block.getBlockData() instanceof InventoryHolder) {
-            if (!highestPriorityRegion.getFlags().getBoolean(RegionFlagEnum.USE_CONTAINER_BLOCKS)) {
-                event.setCancelled(true);
-                NoSpamMessages.sendMessage(player, LangKey.FLAG_USE_CONTAINER_BLOCKS_DENY_MESSAGE, config.cooldownMillis);
-            }
-            return;
-        }
-
-
-        switch (block.getType()) {
-            case CRAFTING_TABLE:
-                if (!highestPriorityRegion.getFlags().getBoolean(RegionFlagEnum.USE_CRAFTING_TABLE)) {
-                    cancel = true;
-                }
-                break;
-            case FURNACE:
-                if (!highestPriorityRegion.getFlags().getBoolean(RegionFlagEnum.USE_FURNACE)) {
-                    cancel = true;
-                }
-                break;
-
-            case CHEST:
-                if (!highestPriorityRegion.getFlags().getBoolean(RegionFlagEnum.USE_CHEST)) {
-                    cancel = true;
-                }
-                break;
-            case ENDER_CHEST:
-                if (!highestPriorityRegion.getFlags().getBoolean(RegionFlagEnum.USE_ENDER_CHEST)) {
-                    cancel = true;
-                }
-                break;
-            case LEVER, ACACIA_BUTTON, BAMBOO_BUTTON, BIRCH_BUTTON, CHERRY_BUTTON, CRIMSON_BUTTON, DARK_OAK_BUTTON,
-                 JUNGLE_BUTTON, MANGROVE_BUTTON, OAK_BUTTON, SPRUCE_BUTTON, STONE_BUTTON, POLISHED_BLACKSTONE_BUTTON,
-                 WARPED_BUTTON:
-                if (!highestPriorityRegion.getFlags().getBoolean(RegionFlagEnum.USE_BUTTONS)) {
-                    cancel = true;
-                }
-                break;
-            case ACACIA_PRESSURE_PLATE, BAMBOO_PRESSURE_PLATE, BIRCH_PRESSURE_PLATE, CHERRY_PRESSURE_PLATE,
-                 CRIMSON_PRESSURE_PLATE, DARK_OAK_PRESSURE_PLATE, HEAVY_WEIGHTED_PRESSURE_PLATE, JUNGLE_PRESSURE_PLATE,
-                 LIGHT_WEIGHTED_PRESSURE_PLATE, MANGROVE_PRESSURE_PLATE, OAK_PRESSURE_PLATE,
-                 POLISHED_BLACKSTONE_PRESSURE_PLATE, SPRUCE_PRESSURE_PLATE, STONE_PRESSURE_PLATE, WARPED_PRESSURE_PLATE:
-                if (!highestPriorityRegion.getFlags().getBoolean(RegionFlagEnum.USE_PRESSURE_PLATES)) {
-                    cancel = true;
-                }
-                break;
-            case CAKE:
-                if (!highestPriorityRegion.getFlags().getBoolean(RegionFlagEnum.EAT_CAKE)) {
-                    event.setCancelled(true);
-                    NoSpamMessages.sendMessage(player, LangKey.FLAG_EAT_CAKE_DENY_MESSAGE, config.cooldownMillis);
-                }
-                break;
-            default:
-                break;
-        }
-
-        if (cancel) {
+        RegionFlags flags = highestPriorityRegion.getFlags();
+        if (!flags.getBoolean(flag)) {
             event.setCancelled(true);
-            NoSpamMessages.sendMessage(player, LangKey.FLAG_USE_CONTAINER_BLOCKS_DENY_MESSAGE, config.cooldownMillis, blokas);
+            NoSpamMessages.sendMessage(player, denyMessage(flag), config.cooldownMillis);
         }
+    }
+
+    private static RegionFlagEnum interactionFlag(Block block, Action action) {
+        Material material = block.getType();
+        String name = material.name();
+
+        if (action == Action.PHYSICAL) {
+            if (name.endsWith("_PRESSURE_PLATE")) return RegionFlagEnum.USE_PRESSURE_PLATES;
+            if (material == Material.TRIPWIRE) return RegionFlagEnum.USE_FUNCTIONAL_BLOCKS;
+            return null;
+        }
+        if (action == Action.LEFT_CLICK_BLOCK) {
+            return material == Material.BELL || material == Material.NOTE_BLOCK
+                    ? RegionFlagEnum.USE_FUNCTIONAL_BLOCKS : null;
+        }
+
+        if (material == Material.CHEST || material == Material.TRAPPED_CHEST) return RegionFlagEnum.USE_CHEST;
+        if (material == Material.FURNACE || material == Material.BLAST_FURNACE || material == Material.SMOKER) {
+            return RegionFlagEnum.USE_FURNACE;
+        }
+        if (material == Material.ENDER_CHEST) return RegionFlagEnum.USE_ENDER_CHEST;
+        if (material == Material.CRAFTING_TABLE) return RegionFlagEnum.USE_CRAFTING_TABLE;
+        if (material == Material.CAKE || name.endsWith("_CANDLE_CAKE")) return RegionFlagEnum.EAT_CAKE;
+        if (block.getBlockData() instanceof Switch) return RegionFlagEnum.USE_BUTTONS;
+        if (name.endsWith("_SIGN")) return RegionFlagEnum.EDIT_SIGNS;
+        if (isFunctionalBlock(material) || block.getBlockData() instanceof Openable) {
+            return RegionFlagEnum.USE_FUNCTIONAL_BLOCKS;
+        }
+        if (block.getState() instanceof InventoryHolder) return RegionFlagEnum.USE_CONTAINER_BLOCKS;
+        return null;
+    }
+
+    private static boolean isFunctionalBlock(Material material) {
+        String name = material.name();
+        if (name.endsWith("_BED") || name.endsWith("_CANDLE") || name.endsWith("_CAULDRON") ||
+                name.startsWith("POTTED_")) {
+            return true;
+        }
+        return switch (material) {
+            case BEACON, NOTE_BLOCK, COMPOSTER, LOOM, JUKEBOX, BELL,
+                 CARTOGRAPHY_TABLE, STONECUTTER, GRINDSTONE, SMITHING_TABLE, ENCHANTING_TABLE,
+                 ANVIL, CHIPPED_ANVIL, DAMAGED_ANVIL, BREWING_STAND, LECTERN,
+                 RESPAWN_ANCHOR, DAYLIGHT_DETECTOR, REPEATER, COMPARATOR,
+                 FLOWER_POT, CAMPFIRE, SOUL_CAMPFIRE, BEE_NEST, BEEHIVE,
+                 LODESTONE, TRIAL_SPAWNER, VAULT, SUSPICIOUS_SAND, SUSPICIOUS_GRAVEL,
+                 COMMAND_BLOCK, CHAIN_COMMAND_BLOCK, REPEATING_COMMAND_BLOCK,
+                 STRUCTURE_BLOCK, JIGSAW, SPAWNER, END_PORTAL_FRAME, DRAGON_EGG -> true;
+            default -> false;
+        };
+    }
+
+    private static LangKey denyMessage(RegionFlagEnum flag) {
+        return switch (flag) {
+            case USE_PRESSURE_PLATES -> LangKey.FLAG_USE_PRESSURE_PLATES_DENY_MESSAGE;
+            case USE_BUTTONS -> LangKey.FLAG_USE_BUTTONS_DENY_MESSAGE;
+            case USE_CHEST -> LangKey.FLAG_USE_CHEST_DENY_MESSAGE;
+            case USE_FURNACE -> LangKey.FLAG_USE_FURNACE_DENY_MESSAGE;
+            case USE_CRAFTING_TABLE -> LangKey.FLAG_USE_CRAFTING_TABLE_DENY_MESSAGE;
+            case USE_ENDER_CHEST -> LangKey.FLAG_USE_ENDER_CHEST_DENY_MESSAGE;
+            case USE_CONTAINER_BLOCKS -> LangKey.FLAG_USE_CONTAINER_BLOCKS_DENY_MESSAGE;
+            case EAT_CAKE -> LangKey.FLAG_EAT_CAKE_DENY_MESSAGE;
+            case EDIT_SIGNS -> LangKey.FLAG_EDIT_SIGNS_DENY_MESSAGE;
+            default -> LangKey.FLAG_USE_FUNCTIONAL_BLOCKS_DENY_MESSAGE;
+        };
     }
 
     @EventHandler

@@ -100,6 +100,10 @@ public enum LangKey implements LanguageKey {
     FLAG_USE_CONTAINER_BLOCKS_DESCRIPTION("flag-use-container-blocks-description"),
     FLAG_USE_CONTAINER_BLOCKS_DENY_MESSAGE("flag-use-container-blocks-deny-message"),
 
+    FLAG_USE_FUNCTIONAL_BLOCKS_TITLE("flag-use-functional-blocks-title"),
+    FLAG_USE_FUNCTIONAL_BLOCKS_DESCRIPTION("flag-use-functional-blocks-description"),
+    FLAG_USE_FUNCTIONAL_BLOCKS_DENY_MESSAGE("flag-use-functional-blocks-deny-message"),
+
     FLAG_USE_ITEM_FRAMES_TITLE("flag-use-item-frames-title"),
     FLAG_USE_ITEM_FRAMES_DESCRIPTION("flag-use-item-frames-description"),
     FLAG_USE_ITEM_FRAMES_DENY_MESSAGE("flag-use-item-frames-deny-message"),
