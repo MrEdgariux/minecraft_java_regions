@@ -18,10 +18,14 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.io.File;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Set;
 
 public final class main extends JavaPlugin {
+    private static final List<String> BUNDLED_LANGUAGES = List.of(
+            "en", "lt", "zh", "hi", "es", "ar", "fr", "bn", "pt", "ru", "id");
 
     private final PluginConfig config = new PluginConfig(getConfig());
     private final RegionManager regionManager = new RegionManager();
@@ -52,13 +56,22 @@ public final class main extends JavaPlugin {
                     getServer().getPluginManager().disablePlugin(this);
                     return;
                 }
-
-                this.saveDefaultConfig();
             }
+
+            this.saveDefaultConfig();
+
             FileConfiguration config = this.getConfig();
 
-            lang = new LanguageManager(this, LangKey.class, config.getString("language", "en"));
+            for (String code : BUNDLED_LANGUAGES) {
+                String resourcePath = "langs/" + code + ".yml";
+                if (!new File(getDataFolder(), resourcePath).isFile()) {
+                    saveResource(resourcePath, false);
+                }
+            }
+
+            lang = new LanguageManager(this, LangKey.class, "en");
             lang.loadLanguages();
+            lang.setDefaultLanguage(config.getString("language", "en"));
 
             chat = new ChatManager(lang, getServer(), LangKey.PREFIX);
             NoSpamMessages.initialize(chat);

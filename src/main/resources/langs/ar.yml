@@ -1,0 +1,160 @@
+prefix: '&8[&6Regions&8]&r'
+
+error-no-permission: '&cليس لديك إذن للقيام بذلك.'
+error-player-only: '&cيمكن للاعب فقط استخدام هذا الأمر.'
+error-message: '&cحدث خطأ. راجع وحدة تحكم الخادم للتفاصيل.'
+error-world-edit-no-selection: '&cحدد منطقة باستخدام WorldEdit أولاً.'
+error-unknown-subcommand: '&cأمر فرعي غير معروف. استخدم &e/rg &cللمساعدة.'
+
+plugin-reloaded: '&aأُعيد تحميل المناطق بنجاح.'
+plugin-reload-failed: '&cتعذرت إعادة تحميل المناطق. راجع وحدة تحكم الخادم.'
+
+help-header: '&6أوامر المناطق:'
+help-create: '&e/rg create <name> &7- إنشاء منطقة من تحديد WorldEdit.'
+help-delete: '&e/rg delete <name> &7- حذف منطقة.'
+help-list: '&e/rg list &7- عرض جميع المناطق.'
+help-flag: '&e/rg flag <region> <flag> <value> &7- تعيين خاصية؛ لقوائم الكتل استخدم add|rem <block>.'
+help-flags: '&e/rg flags <region> &7- عرض خصائص المنطقة.'
+
+# A boolean flag allows the action when true and blocks it when false.
+flag-blocks-place-title: '&eوضع الكتل'
+flag-blocks-place-description: '&7السماح للاعبين بوضع الكتل في المنطقة.'
+flag-blocks-place-deny-message: '&cلا يمكنك وضع الكتل في هذه المنطقة.'
+
+flag-blocks-place-specific-title: '&eوضع كتل محددة'
+flag-blocks-place-specific-description: '&7أنواع الكتل المسموح بوضعها حتى عند تعطيل وضع الكتل. استخدم أسماء المواد مثل STONE.'
+flag-blocks-place-specific-deny-message: '&cلا يمكنك وضع هذه الكتلة في المنطقة.'
+
+flag-blocks-break-title: '&eكسر الكتل'
+flag-blocks-break-description: '&7السماح للاعبين بكسر الكتل في المنطقة.'
+flag-blocks-break-deny-message: '&cلا يمكنك كسر الكتل في هذه المنطقة.'
+
+flag-blocks-break-specific-title: '&eكسر كتل محددة'
+flag-blocks-break-specific-description: '&7أنواع الكتل المسموح بكسرها حتى عند تعطيل كسر الكتل. استخدم أسماء المواد مثل STONE.'
+flag-blocks-break-specific-deny-message: '&cلا يمكنك كسر هذه الكتلة في المنطقة.'
+
+flag-destroy-paintings-title: '&eاللوحات'
+flag-destroy-paintings-description: '&7السماح للاعبين بوضع اللوحات أو تدميرها في المنطقة.'
+flag-destroy-paintings-deny-message: '&cلا يمكنك وضع اللوحات أو تدميرها في هذه المنطقة.'
+
+flag-destroy-item-frames-title: '&eتدمير إطارات العناصر'
+flag-destroy-item-frames-description: '&7السماح للاعبين بوضع إطارات العناصر أو تدميرها في المنطقة.'
+flag-destroy-item-frames-deny-message: '&cلا يمكنك وضع إطارات العناصر أو تدميرها في هذه المنطقة.'
+
+flag-eat-cake-title: '&eأكل الكعكة'
+flag-eat-cake-description: '&7السماح للاعبين بأكل الكعكة في المنطقة.'
+flag-eat-cake-deny-message: '&cلا يمكنك أكل الكعكة في هذه المنطقة.'
+
+flag-pvp-title: '&ePvP'
+flag-pvp-description: '&7السماح بالقتال وإلحاق الضرر بين اللاعبين في المنطقة.'
+flag-pvp-deny-message: '&cتم تعطيل PvP في هذه المنطقة.'
+
+flag-tnt-title: '&eTNT'
+flag-tnt-description: '&7السماح بتفعيل TNT في المنطقة.'
+flag-tnt-deny-message: '&cتم تعطيل TNT في هذه المنطقة.'
+
+flag-ender-dragon-destroy-blocks-title: '&eتدمير الكتل بواسطة تنين الإند'
+flag-ender-dragon-destroy-blocks-description: '&7السماح لتنين الإند بتدمير الكتل في المنطقة.'
+flag-ender-dragon-destroy-blocks-deny-message: '&cلا يمكن لتنين الإند تدمير الكتل في هذه المنطقة.'
+
+flag-edit-signs-title: '&eتعديل اللافتات'
+flag-edit-signs-description: '&7السماح للاعبين بتعديل اللافتات في المنطقة.'
+flag-edit-signs-deny-message: '&cلا يمكنك تعديل اللافتات في هذه المنطقة.'
+
+flag-use-pressure-plates-title: '&eألواح الضغط'
+flag-use-pressure-plates-description: '&7السماح للاعبين بتفعيل ألواح الضغط في المنطقة.'
+flag-use-pressure-plates-deny-message: '&cلا يمكنك استخدام ألواح الضغط في هذه المنطقة.'
+
+flag-use-buttons-title: '&eالأزرار والروافع'
+flag-use-buttons-description: '&7السماح للاعبين باستخدام الأزرار والروافع في المنطقة.'
+flag-use-buttons-deny-message: '&cلا يمكنك استخدام الأزرار أو الروافع في هذه المنطقة.'
+
+flag-use-chest-title: '&eالصناديق'
+flag-use-chest-description: '&7السماح للاعبين بفتح الصناديق في المنطقة.'
+flag-use-chest-deny-message: '&cلا يمكنك فتح الصناديق في هذه المنطقة.'
+
+flag-use-furnace-title: '&eالأفران'
+flag-use-furnace-description: '&7السماح للاعبين باستخدام الأفران في المنطقة.'
+flag-use-furnace-deny-message: '&cلا يمكنك استخدام الأفران في هذه المنطقة.'
+
+flag-use-crafting-table-title: '&eطاولات التصنيع'
+flag-use-crafting-table-description: '&7السماح للاعبين باستخدام طاولات التصنيع في المنطقة.'
+flag-use-crafting-table-deny-message: '&cلا يمكنك استخدام طاولات التصنيع في هذه المنطقة.'
+
+flag-use-ender-chest-title: '&eصناديق الإندر'
+flag-use-ender-chest-description: '&7السماح للاعبين بفتح صناديق الإندر في المنطقة.'
+flag-use-ender-chest-deny-message: '&cلا يمكنك فتح صناديق الإندر في هذه المنطقة.'
+
+flag-use-container-blocks-title: '&eكتل الحاويات'
+flag-use-container-blocks-description: '&7السماح للاعبين بالتفاعل مع الحاويات ذات المخزون في المنطقة.'
+flag-use-container-blocks-deny-message: '&cلا يمكنك استخدام الحاويات في هذه المنطقة.'
+
+flag-use-functional-blocks-title: '&eالكتل الوظيفية'
+flag-use-functional-blocks-description: '&7السماح للاعبين باستخدام المنارات وكتل النوتة والسمادات والأنوال ومشغلات الموسيقى والأجراس ومحطات العمل والأبواب والكتل الوظيفية الأخرى في المنطقة.'
+flag-use-functional-blocks-deny-message: '&cلا يمكنك استخدام الكتل الوظيفية في هذه المنطقة.'
+
+flag-use-item-frames-title: '&eإطارات العناصر'
+flag-use-item-frames-description: '&7السماح للاعبين بوضع إطارات العناصر في المنطقة.'
+flag-use-item-frames-deny-message: '&cلا يمكنك استخدام إطارات العناصر في هذه المنطقة.'
+
+flag-use-buckets-title: '&eالدلاء'
+flag-use-buckets-description: '&7السماح للاعبين بملء الدلاء وإفراغها في المنطقة.'
+flag-use-buckets-deny-message: '&cلا يمكنك استخدام الدلاء في هذه المنطقة.'
+
+flag-use-world-edit-title: '&eWorldEdit'
+flag-use-world-edit-description: '&7السماح للاعبين بتغيير الكتل باستخدام WorldEdit في المنطقة.'
+flag-use-world-edit-deny-message: '&cلا يمكنك استخدام WorldEdit في هذه المنطقة.'
+
+flag-use-throwable-potions-title: '&eالجرعات القابلة للرمي'
+flag-use-throwable-potions-description: '&7السماح بجرعات الرش والجرعات العالقة في المنطقة.'
+flag-use-throwable-potions-deny-message: '&cلا يمكنك استخدام الجرعات القابلة للرمي في هذه المنطقة.'
+
+flag-fire-spread-title: '&eانتشار النار'
+flag-fire-spread-description: '&7السماح للنار بإشعال الكتل وحرقها في المنطقة.'
+flag-fire-spread-deny-message: '&cلا يمكنك إشعال النار في هذه المنطقة.'
+
+flag-allow-enter-title: '&eدخول المنطقة'
+flag-allow-enter-description: '&7السماح للاعبين بدخول المنطقة.'
+flag-allow-enter-deny-message: '&cلا يمكنك دخول هذه المنطقة.'
+
+flag-enter-permission-title: '&eإذن الدخول'
+flag-enter-permission-description: '&7الإذن المطلوب لدخول المنطقة. اتركه فارغاً للسماح للجميع.'
+flag-enter-permission-deny-message: '&cليس لديك إذن لدخول هذه المنطقة.'
+
+flag-enter-message-title: '&eرسالة الدخول'
+flag-enter-message-description: '&7الرسالة المعروضة للاعبين عند دخول المنطقة.'
+flag-enter-message-deny-message: '&cلا يمكنك دخول هذه المنطقة.'
+
+flag-allow-leave-title: '&eمغادرة المنطقة'
+flag-allow-leave-description: '&7السماح للاعبين بمغادرة المنطقة.'
+flag-allow-leave-deny-message: '&cلا يمكنك مغادرة هذه المنطقة.'
+
+flag-leave-permission-title: '&eإذن المغادرة'
+flag-leave-permission-description: '&7الإذن المطلوب لمغادرة المنطقة. اتركه فارغاً للسماح للجميع.'
+flag-leave-permission-deny-message: '&cليس لديك إذن لمغادرة هذه المنطقة.'
+
+flag-leave-message-title: '&eرسالة المغادرة'
+flag-leave-message-description: '&7الرسالة المعروضة للاعبين عند مغادرة المنطقة.'
+flag-leave-message-deny-message: '&cلا يمكنك مغادرة هذه المنطقة.'
+
+region-created: '&aتم إنشاء المنطقة &e%0%&a.'
+region-deleted: '&aتم حذف المنطقة &e%0%&a.'
+region-not-found: '&cلم يتم العثور على المنطقة &e%0%&c.'
+region-exists: '&cتوجد منطقة بهذا الاسم بالفعل.'
+region-list-header: '&6المناطق:'
+region-list-entry: '&7- &e%0%'
+
+flags-not-list: '&cهذه الخاصية لا تحتوي على قائمة.'
+flags-invalid-operation: '&cعملية قائمة غير صالحة. استخدم add أو rem.'
+flags-invalid-value: '&cقيمة غير صالحة للخاصية &e%0%&c.'
+flags-unknown-type: '&cنوع قيمة الخاصية &e%0% &cغير مدعوم.'
+flags-unset-success: '&aتم مسح الخاصية &e%0% &aللمنطقة &e%1%&a.'
+flags-updated-success: '&aتم تعيين الخاصية &e%0% &aإلى &e%2% &aفي المنطقة &e%1%&a.'
+flags-list-header: '&6خصائص المنطقة &e%0%&6:'
+flags-list-entry: '&7- &e%1% &8(&7%0%&8)&7: &f%2%'
+flags-not-found: '&cخاصية غير معروفة: &e%0%&c.'
+
+usage-command-create: '&e/rg create <name> &7(يتطلب تحديداً باستخدام WorldEdit)'
+usage-command-flag: '&e/rg flag <region> <flag> <value> أو /rg flag <region> <block-list-flag> add|rem <block>'
+usage-command-flags: '&e/rg flags <region>'
+usage-command-delete: '&e/rg delete <name>'

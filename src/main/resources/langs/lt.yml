@@ -1,0 +1,160 @@
+prefix: '&8[&6Regionai&8]&r'
+
+error-no-permission: '&cNeturite teisės to daryti.'
+error-player-only: '&cŠią komandą gali naudoti tik žaidėjas.'
+error-message: '&cĮvyko klaida. Išsamesnės informacijos ieškokite serverio konsolėje.'
+error-world-edit-no-selection: '&cPirmiausia pažymėkite sritį su WorldEdit.'
+error-unknown-subcommand: '&cNežinoma subkomanda. Pagalbai naudokite &e/rg&c.'
+
+plugin-reloaded: '&aRegionai sėkmingai įkelti iš naujo.'
+plugin-reload-failed: '&cNepavyko iš naujo įkelti Regionų. Patikrinkite serverio konsolę.'
+
+help-header: '&6Regionų komandos:'
+help-create: '&e/rg create <name> &7- Sukurti regioną iš WorldEdit pažymėtos srities.'
+help-delete: '&e/rg delete <name> &7- Ištrinti regioną.'
+help-list: '&e/rg list &7- Rodyti visus regionus.'
+help-flag: '&e/rg flag <region> <flag> <value> &7- Nustatyti vėliavėlę; blokų sąrašams naudokite add|rem <block>.'
+help-flags: '&e/rg flags <region> &7- Rodyti regiono vėliavėles.'
+
+# A boolean flag allows the action when true and blocks it when false.
+flag-blocks-place-title: '&eBlokų dėjimas'
+flag-blocks-place-description: '&7Leisti žaidėjams dėti blokus regione.'
+flag-blocks-place-deny-message: '&cŠiame regione negalite dėti blokų.'
+
+flag-blocks-place-specific-title: '&eKonkrečių blokų dėjimas'
+flag-blocks-place-specific-description: '&7Blokų tipai, kuriuos galima dėti net uždraudus blokų dėjimą. Naudokite medžiagų pavadinimus, pvz., STONE.'
+flag-blocks-place-specific-deny-message: '&cŠiame regione negalite dėti šio bloko.'
+
+flag-blocks-break-title: '&eBlokų ardymas'
+flag-blocks-break-description: '&7Leisti žaidėjams ardyti blokus regione.'
+flag-blocks-break-deny-message: '&cŠiame regione negalite ardyti blokų.'
+
+flag-blocks-break-specific-title: '&eKonkrečių blokų ardymas'
+flag-blocks-break-specific-description: '&7Blokų tipai, kuriuos galima ardyti net uždraudus blokų ardymą. Naudokite medžiagų pavadinimus, pvz., STONE.'
+flag-blocks-break-specific-deny-message: '&cŠiame regione negalite ardyti šio bloko.'
+
+flag-destroy-paintings-title: '&ePaveikslai'
+flag-destroy-paintings-description: '&7Leisti žaidėjams dėti arba naikinti paveikslus regione.'
+flag-destroy-paintings-deny-message: '&cŠiame regione negalite dėti ar naikinti paveikslų.'
+
+flag-destroy-item-frames-title: '&eDaiktų rėmelių naikinimas'
+flag-destroy-item-frames-description: '&7Leisti žaidėjams dėti arba naikinti daiktų rėmelius regione.'
+flag-destroy-item-frames-deny-message: '&cŠiame regione negalite dėti ar naikinti daiktų rėmelių.'
+
+flag-eat-cake-title: '&eTorto valgymas'
+flag-eat-cake-description: '&7Leisti žaidėjams valgyti tortą regione.'
+flag-eat-cake-deny-message: '&cŠiame regione negalite valgyti torto.'
+
+flag-pvp-title: '&ePvP'
+flag-pvp-description: '&7Leisti žaidėjų kovas ir žalą regione.'
+flag-pvp-deny-message: '&cŠiame regione PvP išjungtas.'
+
+flag-tnt-title: '&eTNT'
+flag-tnt-description: '&7Leisti aktyvuoti TNT regione.'
+flag-tnt-deny-message: '&cŠiame regione TNT išjungtas.'
+
+flag-ender-dragon-destroy-blocks-title: '&eEnderio drakono daroma žala blokams'
+flag-ender-dragon-destroy-blocks-description: '&7Leisti Enderio drakonui naikinti blokus regione.'
+flag-ender-dragon-destroy-blocks-deny-message: '&cEnderio drakonas negali naikinti blokų šiame regione.'
+
+flag-edit-signs-title: '&eLentelių redagavimas'
+flag-edit-signs-description: '&7Leisti žaidėjams redaguoti lenteles regione.'
+flag-edit-signs-deny-message: '&cŠiame regione negalite redaguoti lentelių.'
+
+flag-use-pressure-plates-title: '&eSlėgio plokštės'
+flag-use-pressure-plates-description: '&7Leisti žaidėjams aktyvuoti slėgio plokštes regione.'
+flag-use-pressure-plates-deny-message: '&cŠiame regione negalite naudoti slėgio plokščių.'
+
+flag-use-buttons-title: '&eMygtukai ir svirtys'
+flag-use-buttons-description: '&7Leisti žaidėjams naudoti mygtukus ir svirtis regione.'
+flag-use-buttons-deny-message: '&cŠiame regione negalite naudoti mygtukų ar svirčių.'
+
+flag-use-chest-title: '&eSkrynios'
+flag-use-chest-description: '&7Leisti žaidėjams atidaryti skrynias regione.'
+flag-use-chest-deny-message: '&cŠiame regione negalite atidaryti skrynių.'
+
+flag-use-furnace-title: '&eKrosnys'
+flag-use-furnace-description: '&7Leisti žaidėjams naudoti krosnis regione.'
+flag-use-furnace-deny-message: '&cŠiame regione negalite naudoti krosnių.'
+
+flag-use-crafting-table-title: '&eDarbastaliai'
+flag-use-crafting-table-description: '&7Leisti žaidėjams naudoti darbastalius regione.'
+flag-use-crafting-table-deny-message: '&cŠiame regione negalite naudoti darbastalių.'
+
+flag-use-ender-chest-title: '&eEnderio skrynios'
+flag-use-ender-chest-description: '&7Leisti žaidėjams atidaryti Enderio skrynias regione.'
+flag-use-ender-chest-deny-message: '&cŠiame regione negalite atidaryti Enderio skrynių.'
+
+flag-use-container-blocks-title: '&eKonteinerių blokai'
+flag-use-container-blocks-description: '&7Leisti žaidėjams naudoti inventorių turinčius blokus regione.'
+flag-use-container-blocks-deny-message: '&cŠiame regione negalite naudoti konteinerių.'
+
+flag-use-functional-blocks-title: '&eFunkciniai blokai'
+flag-use-functional-blocks-description: '&7Leisti žaidėjams naudoti švyturius, natų blokus, kompostines, stakles, patefonus, varpus, darbo vietas, duris ir kitus funkcinius blokus regione.'
+flag-use-functional-blocks-deny-message: '&cŠiame regione negalite naudoti funkcinių blokų.'
+
+flag-use-item-frames-title: '&eDaiktų rėmeliai'
+flag-use-item-frames-description: '&7Leisti žaidėjams dėti daiktų rėmelius regione.'
+flag-use-item-frames-deny-message: '&cŠiame regione negalite naudoti daiktų rėmelių.'
+
+flag-use-buckets-title: '&eKibirai'
+flag-use-buckets-description: '&7Leisti žaidėjams pripildyti ir ištuštinti kibirus regione.'
+flag-use-buckets-deny-message: '&cŠiame regione negalite naudoti kibirų.'
+
+flag-use-world-edit-title: '&eWorldEdit'
+flag-use-world-edit-description: '&7Leisti žaidėjams keisti blokus su WorldEdit regione.'
+flag-use-world-edit-deny-message: '&cŠiame regione negalite naudoti WorldEdit.'
+
+flag-use-throwable-potions-title: '&eMetamieji eliksyrai'
+flag-use-throwable-potions-description: '&7Leisti regione naudoti purslinius ir ilgai veikiančius eliksyrus.'
+flag-use-throwable-potions-deny-message: '&cŠiame regione negalite naudoti metamųjų eliksyrų.'
+
+flag-fire-spread-title: '&eUgnies plitimas'
+flag-fire-spread-description: '&7Leisti ugniai uždegti ir deginti blokus regione.'
+flag-fire-spread-deny-message: '&cŠiame regione negalite įžiebti ugnies.'
+
+flag-allow-enter-title: '&eĮėjimas į regioną'
+flag-allow-enter-description: '&7Leisti žaidėjams įeiti į regioną.'
+flag-allow-enter-deny-message: '&cNegalite įeiti į šį regioną.'
+
+flag-enter-permission-title: '&eĮėjimo leidimas'
+flag-enter-permission-description: '&7Leidimas, būtinas norint įeiti į regioną. Palikite tuščią, kad leistumėte visiems.'
+flag-enter-permission-deny-message: '&cNeturite leidimo įeiti į šį regioną.'
+
+flag-enter-message-title: '&eĮėjimo pranešimas'
+flag-enter-message-description: '&7Pranešimas, rodomas žaidėjams įeinant į regioną.'
+flag-enter-message-deny-message: '&cNegalite įeiti į šį regioną.'
+
+flag-allow-leave-title: '&eIšėjimas iš regiono'
+flag-allow-leave-description: '&7Leisti žaidėjams išeiti iš regiono.'
+flag-allow-leave-deny-message: '&cNegalite išeiti iš šio regiono.'
+
+flag-leave-permission-title: '&eIšėjimo leidimas'
+flag-leave-permission-description: '&7Leidimas, būtinas norint išeiti iš regiono. Palikite tuščią, kad leistumėte visiems.'
+flag-leave-permission-deny-message: '&cNeturite leidimo išeiti iš šio regiono.'
+
+flag-leave-message-title: '&eIšėjimo pranešimas'
+flag-leave-message-description: '&7Pranešimas, rodomas žaidėjams išeinant iš regiono.'
+flag-leave-message-deny-message: '&cNegalite išeiti iš šio regiono.'
+
+region-created: '&aRegionas &e%0% &asukurtas.'
+region-deleted: '&aRegionas &e%0% &aištrintas.'
+region-not-found: '&cRegionas &e%0% &cnerastas.'
+region-exists: '&cRegionas tokiu pavadinimu jau yra.'
+region-list-header: '&6Regionai:'
+region-list-entry: '&7- &e%0%'
+
+flags-not-list: '&cŠi vėliavėlė neturi sąrašo.'
+flags-invalid-operation: '&cNeteisinga sąrašo operacija. Naudokite add arba rem.'
+flags-invalid-value: '&cNeteisinga vėliavėlės &e%0% &creikšmė.'
+flags-unknown-type: '&cVėliavėlės &e%0% &creikšmės tipas nepalaikomas.'
+flags-unset-success: '&aVėliavėlė &e%0% &aišvalyta regione &e%1%&a.'
+flags-updated-success: '&aVėliavėlė &e%0% &anustatyta į &e%2% &aregione &e%1%&a.'
+flags-list-header: '&6Regiono &e%0% &6vėliavėlės:'
+flags-list-entry: '&7- &e%1% &8(&7%0%&8)&7: &f%2%'
+flags-not-found: '&cNežinoma vėliavėlė: &e%0%&c.'
+
+usage-command-create: '&e/rg create <name> &7(Nepamirškite pažymėti srities su WorldEdit)'
+usage-command-flag: '&e/rg flag <region> <flag> <value> arba /rg flag <region> <block-list-flag> add|rem <block>'
+usage-command-flags: '&e/rg flags <region>'
+usage-command-delete: '&e/rg delete <name>'

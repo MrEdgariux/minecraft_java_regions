@@ -1,0 +1,160 @@
+prefix: '&8[&6Regions&8]&r'
+
+error-no-permission: '&c您没有权限执行此操作。'
+error-player-only: '&c只有玩家可以使用此命令。'
+error-message: '&c发生错误。请查看服务器控制台了解详情。'
+error-world-edit-no-selection: '&c请先使用 WorldEdit 选择区域。'
+error-unknown-subcommand: '&c未知子命令。使用 &e/rg &c查看帮助。'
+
+plugin-reloaded: '&a区域已成功重新加载。'
+plugin-reload-failed: '&c无法重新加载区域。请查看服务器控制台。'
+
+help-header: '&6区域命令：'
+help-create: '&e/rg create <name> &7- 根据 WorldEdit 选区创建区域。'
+help-delete: '&e/rg delete <name> &7- 删除区域。'
+help-list: '&e/rg list &7- 列出所有区域。'
+help-flag: '&e/rg flag <region> <flag> <value> &7- 设置标志；方块列表请使用 add|rem <block>。'
+help-flags: '&e/rg flags <region> &7- 列出区域的标志。'
+
+# A boolean flag allows the action when true and blocks it when false.
+flag-blocks-place-title: '&e放置方块'
+flag-blocks-place-description: '&7允许玩家在区域内放置方块。'
+flag-blocks-place-deny-message: '&c您不能在此区域放置方块。'
+
+flag-blocks-place-specific-title: '&e放置指定方块'
+flag-blocks-place-specific-description: '&7即使禁止放置方块，仍允许放置的方块类型。请使用 STONE 等材料名称。'
+flag-blocks-place-specific-deny-message: '&c您不能在此区域放置该方块。'
+
+flag-blocks-break-title: '&e破坏方块'
+flag-blocks-break-description: '&7允许玩家在区域内破坏方块。'
+flag-blocks-break-deny-message: '&c您不能在此区域破坏方块。'
+
+flag-blocks-break-specific-title: '&e破坏指定方块'
+flag-blocks-break-specific-description: '&7即使禁止破坏方块，仍允许破坏的方块类型。请使用 STONE 等材料名称。'
+flag-blocks-break-specific-deny-message: '&c您不能在此区域破坏该方块。'
+
+flag-destroy-paintings-title: '&e画'
+flag-destroy-paintings-description: '&7允许玩家在区域内放置或破坏画。'
+flag-destroy-paintings-deny-message: '&c您不能在此区域放置或破坏画。'
+
+flag-destroy-item-frames-title: '&e破坏物品展示框'
+flag-destroy-item-frames-description: '&7允许玩家在区域内放置或破坏物品展示框。'
+flag-destroy-item-frames-deny-message: '&c您不能在此区域放置或破坏物品展示框。'
+
+flag-eat-cake-title: '&e吃蛋糕'
+flag-eat-cake-description: '&7允许玩家在区域内吃蛋糕。'
+flag-eat-cake-deny-message: '&c您不能在此区域吃蛋糕。'
+
+flag-pvp-title: '&ePvP'
+flag-pvp-description: '&7允许玩家在区域内战斗并造成伤害。'
+flag-pvp-deny-message: '&c此区域已禁用 PvP。'
+
+flag-tnt-title: '&eTNT'
+flag-tnt-description: '&7允许在区域内点燃 TNT。'
+flag-tnt-deny-message: '&c此区域已禁用 TNT。'
+
+flag-ender-dragon-destroy-blocks-title: '&e末影龙破坏方块'
+flag-ender-dragon-destroy-blocks-description: '&7允许末影龙破坏区域内的方块。'
+flag-ender-dragon-destroy-blocks-deny-message: '&c末影龙不能破坏此区域内的方块。'
+
+flag-edit-signs-title: '&e编辑告示牌'
+flag-edit-signs-description: '&7允许玩家在区域内编辑告示牌。'
+flag-edit-signs-deny-message: '&c您不能在此区域编辑告示牌。'
+
+flag-use-pressure-plates-title: '&e压力板'
+flag-use-pressure-plates-description: '&7允许玩家在区域内触发压力板。'
+flag-use-pressure-plates-deny-message: '&c您不能在此区域使用压力板。'
+
+flag-use-buttons-title: '&e按钮和拉杆'
+flag-use-buttons-description: '&7允许玩家在区域内使用按钮和拉杆。'
+flag-use-buttons-deny-message: '&c您不能在此区域使用按钮或拉杆。'
+
+flag-use-chest-title: '&e箱子'
+flag-use-chest-description: '&7允许玩家在区域内打开箱子。'
+flag-use-chest-deny-message: '&c您不能在此区域打开箱子。'
+
+flag-use-furnace-title: '&e熔炉'
+flag-use-furnace-description: '&7允许玩家在区域内使用熔炉。'
+flag-use-furnace-deny-message: '&c您不能在此区域使用熔炉。'
+
+flag-use-crafting-table-title: '&e工作台'
+flag-use-crafting-table-description: '&7允许玩家在区域内使用工作台。'
+flag-use-crafting-table-deny-message: '&c您不能在此区域使用工作台。'
+
+flag-use-ender-chest-title: '&e末影箱'
+flag-use-ender-chest-description: '&7允许玩家在区域内打开末影箱。'
+flag-use-ender-chest-deny-message: '&c您不能在此区域打开末影箱。'
+
+flag-use-container-blocks-title: '&e容器方块'
+flag-use-container-blocks-description: '&7允许玩家与区域内带物品栏的容器交互。'
+flag-use-container-blocks-deny-message: '&c您不能在此区域使用容器。'
+
+flag-use-functional-blocks-title: '&e功能方块'
+flag-use-functional-blocks-description: '&7允许玩家在区域内使用信标、音符盒、堆肥桶、织布机、唱片机、钟、工作站、门等功能方块。'
+flag-use-functional-blocks-deny-message: '&c您不能在此区域使用功能方块。'
+
+flag-use-item-frames-title: '&e物品展示框'
+flag-use-item-frames-description: '&7允许玩家在区域内放置物品展示框。'
+flag-use-item-frames-deny-message: '&c您不能在此区域使用物品展示框。'
+
+flag-use-buckets-title: '&e桶'
+flag-use-buckets-description: '&7允许玩家在区域内装满和倒空桶。'
+flag-use-buckets-deny-message: '&c您不能在此区域使用桶。'
+
+flag-use-world-edit-title: '&eWorldEdit'
+flag-use-world-edit-description: '&7允许玩家使用 WorldEdit 修改区域内的方块。'
+flag-use-world-edit-deny-message: '&c您不能在此区域使用 WorldEdit。'
+
+flag-use-throwable-potions-title: '&e投掷型药水'
+flag-use-throwable-potions-description: '&7允许在区域内使用喷溅型和滞留型药水。'
+flag-use-throwable-potions-deny-message: '&c您不能在此区域使用投掷型药水。'
+
+flag-fire-spread-title: '&e火焰蔓延'
+flag-fire-spread-description: '&7允许火焰在区域内点燃并烧毁方块。'
+flag-fire-spread-deny-message: '&c您不能在此区域生火。'
+
+flag-allow-enter-title: '&e进入区域'
+flag-allow-enter-description: '&7允许玩家进入区域。'
+flag-allow-enter-deny-message: '&c您不能进入此区域。'
+
+flag-enter-permission-title: '&e进入权限'
+flag-enter-permission-description: '&7进入区域所需的权限。留空则允许所有人进入。'
+flag-enter-permission-deny-message: '&c您没有进入此区域的权限。'
+
+flag-enter-message-title: '&e进入消息'
+flag-enter-message-description: '&7玩家进入区域时显示的消息。'
+flag-enter-message-deny-message: '&c您不能进入此区域。'
+
+flag-allow-leave-title: '&e离开区域'
+flag-allow-leave-description: '&7允许玩家离开区域。'
+flag-allow-leave-deny-message: '&c您不能离开此区域。'
+
+flag-leave-permission-title: '&e离开权限'
+flag-leave-permission-description: '&7离开区域所需的权限。留空则允许所有人离开。'
+flag-leave-permission-deny-message: '&c您没有离开此区域的权限。'
+
+flag-leave-message-title: '&e离开消息'
+flag-leave-message-description: '&7玩家离开区域时显示的消息。'
+flag-leave-message-deny-message: '&c您不能离开此区域。'
+
+region-created: '&a区域 &e%0% &a已创建。'
+region-deleted: '&a区域 &e%0% &a已删除。'
+region-not-found: '&c未找到区域 &e%0%&c。'
+region-exists: '&c同名区域已存在。'
+region-list-header: '&6区域：'
+region-list-entry: '&7- &e%0%'
+
+flags-not-list: '&c此标志不包含列表。'
+flags-invalid-operation: '&c无效的列表操作。请使用 add 或 rem。'
+flags-invalid-value: '&c标志 &e%0% &c的值无效。'
+flags-unknown-type: '&c标志 &e%0% &c的值类型不受支持。'
+flags-unset-success: '&a已清除区域 &e%1% &a的标志 &e%0%&a。'
+flags-updated-success: '&a已将区域 &e%1% &a的标志 &e%0% &a设为 &e%2%&a。'
+flags-list-header: '&6区域 &e%0% &6的标志：'
+flags-list-entry: '&7- &e%1% &8(&7%0%&8)&7: &f%2%'
+flags-not-found: '&c未知标志：&e%0%&c。'
+
+usage-command-create: '&e/rg create <name> &7（需要 WorldEdit 选区）'
+usage-command-flag: '&e/rg flag <region> <flag> <value> 或 /rg flag <region> <block-list-flag> add|rem <block>'
+usage-command-flags: '&e/rg flags <region>'
+usage-command-delete: '&e/rg delete <name>'

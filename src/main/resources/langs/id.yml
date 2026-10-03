@@ -1,0 +1,160 @@
+prefix: '&8[&6Regions&8]&r'
+
+error-no-permission: '&cAnda tidak memiliki izin untuk melakukan itu.'
+error-player-only: '&cHanya pemain yang dapat menggunakan perintah ini.'
+error-message: '&cTerjadi kesalahan. Periksa konsol server untuk detailnya.'
+error-world-edit-no-selection: '&cBuat seleksi WorldEdit terlebih dahulu.'
+error-unknown-subcommand: '&cSubperintah tidak dikenal. Gunakan &e/rg &cuntuk bantuan.'
+
+plugin-reloaded: '&aWilayah berhasil dimuat ulang.'
+plugin-reload-failed: '&cWilayah tidak dapat dimuat ulang. Periksa konsol server.'
+
+help-header: '&6Perintah wilayah:'
+help-create: '&e/rg create <name> &7- Buat wilayah dari seleksi WorldEdit Anda.'
+help-delete: '&e/rg delete <name> &7- Hapus wilayah.'
+help-list: '&e/rg list &7- Tampilkan semua wilayah.'
+help-flag: '&e/rg flag <region> <flag> <value> &7- Atur flag; untuk daftar blok gunakan add|rem <block>.'
+help-flags: '&e/rg flags <region> &7- Tampilkan flag suatu wilayah.'
+
+# A boolean flag allows the action when true and blocks it when false.
+flag-blocks-place-title: '&eMenempatkan blok'
+flag-blocks-place-description: '&7Izinkan pemain menempatkan blok di wilayah.'
+flag-blocks-place-deny-message: '&cAnda tidak dapat menempatkan blok di wilayah ini.'
+
+flag-blocks-place-specific-title: '&eMenempatkan blok tertentu'
+flag-blocks-place-specific-description: '&7Jenis blok yang tetap diizinkan meskipun penempatan blok dinonaktifkan. Gunakan nama material seperti STONE.'
+flag-blocks-place-specific-deny-message: '&cAnda tidak dapat menempatkan blok itu di wilayah ini.'
+
+flag-blocks-break-title: '&eMenghancurkan blok'
+flag-blocks-break-description: '&7Izinkan pemain menghancurkan blok di wilayah.'
+flag-blocks-break-deny-message: '&cAnda tidak dapat menghancurkan blok di wilayah ini.'
+
+flag-blocks-break-specific-title: '&eMenghancurkan blok tertentu'
+flag-blocks-break-specific-description: '&7Jenis blok yang tetap diizinkan meskipun penghancuran blok dinonaktifkan. Gunakan nama material seperti STONE.'
+flag-blocks-break-specific-deny-message: '&cAnda tidak dapat menghancurkan blok itu di wilayah ini.'
+
+flag-destroy-paintings-title: '&eLukisan'
+flag-destroy-paintings-description: '&7Izinkan pemain menempatkan atau menghancurkan lukisan di wilayah.'
+flag-destroy-paintings-deny-message: '&cAnda tidak dapat menempatkan atau menghancurkan lukisan di wilayah ini.'
+
+flag-destroy-item-frames-title: '&eMenghancurkan bingkai item'
+flag-destroy-item-frames-description: '&7Izinkan pemain menempatkan atau menghancurkan bingkai item di wilayah.'
+flag-destroy-item-frames-deny-message: '&cAnda tidak dapat menempatkan atau menghancurkan bingkai item di wilayah ini.'
+
+flag-eat-cake-title: '&eMemakan kue'
+flag-eat-cake-description: '&7Izinkan pemain memakan kue di wilayah.'
+flag-eat-cake-deny-message: '&cAnda tidak dapat memakan kue di wilayah ini.'
+
+flag-pvp-title: '&ePvP'
+flag-pvp-description: '&7Izinkan pertarungan dan kerusakan antarpemain di wilayah.'
+flag-pvp-deny-message: '&cPvP dinonaktifkan di wilayah ini.'
+
+flag-tnt-title: '&eTNT'
+flag-tnt-description: '&7Izinkan TNT diaktifkan di wilayah.'
+flag-tnt-deny-message: '&cTNT dinonaktifkan di wilayah ini.'
+
+flag-ender-dragon-destroy-blocks-title: '&eKerusakan blok oleh Ender Dragon'
+flag-ender-dragon-destroy-blocks-description: '&7Izinkan Ender Dragon menghancurkan blok di wilayah.'
+flag-ender-dragon-destroy-blocks-deny-message: '&cEnder Dragon tidak dapat menghancurkan blok di wilayah ini.'
+
+flag-edit-signs-title: '&eMengedit papan tanda'
+flag-edit-signs-description: '&7Izinkan pemain mengedit papan tanda di wilayah.'
+flag-edit-signs-deny-message: '&cAnda tidak dapat mengedit papan tanda di wilayah ini.'
+
+flag-use-pressure-plates-title: '&ePelat tekanan'
+flag-use-pressure-plates-description: '&7Izinkan pemain mengaktifkan pelat tekanan di wilayah.'
+flag-use-pressure-plates-deny-message: '&cAnda tidak dapat menggunakan pelat tekanan di wilayah ini.'
+
+flag-use-buttons-title: '&eTombol dan tuas'
+flag-use-buttons-description: '&7Izinkan pemain menggunakan tombol dan tuas di wilayah.'
+flag-use-buttons-deny-message: '&cAnda tidak dapat menggunakan tombol atau tuas di wilayah ini.'
+
+flag-use-chest-title: '&ePeti'
+flag-use-chest-description: '&7Izinkan pemain membuka peti di wilayah.'
+flag-use-chest-deny-message: '&cAnda tidak dapat membuka peti di wilayah ini.'
+
+flag-use-furnace-title: '&eTungku'
+flag-use-furnace-description: '&7Izinkan pemain menggunakan tungku di wilayah.'
+flag-use-furnace-deny-message: '&cAnda tidak dapat menggunakan tungku di wilayah ini.'
+
+flag-use-crafting-table-title: '&eMeja kerja'
+flag-use-crafting-table-description: '&7Izinkan pemain menggunakan meja kerja di wilayah.'
+flag-use-crafting-table-deny-message: '&cAnda tidak dapat menggunakan meja kerja di wilayah ini.'
+
+flag-use-ender-chest-title: '&ePeti Ender'
+flag-use-ender-chest-description: '&7Izinkan pemain membuka peti Ender di wilayah.'
+flag-use-ender-chest-deny-message: '&cAnda tidak dapat membuka peti Ender di wilayah ini.'
+
+flag-use-container-blocks-title: '&eBlok penyimpanan'
+flag-use-container-blocks-description: '&7Izinkan pemain berinteraksi dengan kontainer inventaris di wilayah.'
+flag-use-container-blocks-deny-message: '&cAnda tidak dapat menggunakan kontainer di wilayah ini.'
+
+flag-use-functional-blocks-title: '&eBlok fungsional'
+flag-use-functional-blocks-description: '&7Izinkan pemain menggunakan beacon, blok nada, komposter, alat tenun, jukebox, lonceng, meja kerja, pintu, dan blok fungsional lainnya di wilayah.'
+flag-use-functional-blocks-deny-message: '&cAnda tidak dapat menggunakan blok fungsional di wilayah ini.'
+
+flag-use-item-frames-title: '&eBingkai item'
+flag-use-item-frames-description: '&7Izinkan pemain menempatkan bingkai item di wilayah.'
+flag-use-item-frames-deny-message: '&cAnda tidak dapat menggunakan bingkai item di wilayah ini.'
+
+flag-use-buckets-title: '&eEmber'
+flag-use-buckets-description: '&7Izinkan pemain mengisi dan mengosongkan ember di wilayah.'
+flag-use-buckets-deny-message: '&cAnda tidak dapat menggunakan ember di wilayah ini.'
+
+flag-use-world-edit-title: '&eWorldEdit'
+flag-use-world-edit-description: '&7Izinkan pemain mengubah blok dengan WorldEdit di wilayah.'
+flag-use-world-edit-deny-message: '&cAnda tidak dapat menggunakan WorldEdit di wilayah ini.'
+
+flag-use-throwable-potions-title: '&eRamuan lempar'
+flag-use-throwable-potions-description: '&7Izinkan ramuan percik dan ramuan menetap di wilayah.'
+flag-use-throwable-potions-deny-message: '&cAnda tidak dapat menggunakan ramuan lempar di wilayah ini.'
+
+flag-fire-spread-title: '&ePenyebaran api'
+flag-fire-spread-description: '&7Izinkan api menyulut dan membakar blok di wilayah.'
+flag-fire-spread-deny-message: '&cAnda tidak dapat menyalakan api di wilayah ini.'
+
+flag-allow-enter-title: '&eMemasuki wilayah'
+flag-allow-enter-description: '&7Izinkan pemain memasuki wilayah.'
+flag-allow-enter-deny-message: '&cAnda tidak dapat memasuki wilayah ini.'
+
+flag-enter-permission-title: '&eIzin masuk'
+flag-enter-permission-description: '&7Izin yang diperlukan untuk memasuki wilayah. Biarkan kosong agar semua orang dapat masuk.'
+flag-enter-permission-deny-message: '&cAnda tidak memiliki izin untuk memasuki wilayah ini.'
+
+flag-enter-message-title: '&ePesan masuk'
+flag-enter-message-description: '&7Pesan yang ditampilkan kepada pemain saat memasuki wilayah.'
+flag-enter-message-deny-message: '&cAnda tidak dapat memasuki wilayah ini.'
+
+flag-allow-leave-title: '&eMeninggalkan wilayah'
+flag-allow-leave-description: '&7Izinkan pemain meninggalkan wilayah.'
+flag-allow-leave-deny-message: '&cAnda tidak dapat meninggalkan wilayah ini.'
+
+flag-leave-permission-title: '&eIzin keluar'
+flag-leave-permission-description: '&7Izin yang diperlukan untuk meninggalkan wilayah. Biarkan kosong agar semua orang dapat keluar.'
+flag-leave-permission-deny-message: '&cAnda tidak memiliki izin untuk meninggalkan wilayah ini.'
+
+flag-leave-message-title: '&ePesan keluar'
+flag-leave-message-description: '&7Pesan yang ditampilkan kepada pemain saat meninggalkan wilayah.'
+flag-leave-message-deny-message: '&cAnda tidak dapat meninggalkan wilayah ini.'
+
+region-created: '&aWilayah &e%0% &aberhasil dibuat.'
+region-deleted: '&aWilayah &e%0% &aberhasil dihapus.'
+region-not-found: '&cWilayah &e%0% &ctidak ditemukan.'
+region-exists: '&cWilayah dengan nama itu sudah ada.'
+region-list-header: '&6Wilayah:'
+region-list-entry: '&7- &e%0%'
+
+flags-not-list: '&cFlag ini tidak memiliki daftar.'
+flags-invalid-operation: '&cOperasi daftar tidak valid. Gunakan add atau rem.'
+flags-invalid-value: '&cNilai tidak valid untuk flag &e%0%&c.'
+flags-unknown-type: '&cFlag &e%0% &cmemiliki jenis nilai yang tidak didukung.'
+flags-unset-success: '&aFlag &e%0% &adikosongkan untuk wilayah &e%1%&a.'
+flags-updated-success: '&aFlag &e%0% &adiatur menjadi &e%2% &adi wilayah &e%1%&a.'
+flags-list-header: '&6Flag untuk wilayah &e%0%&6:'
+flags-list-entry: '&7- &e%1% &8(&7%0%&8)&7: &f%2%'
+flags-not-found: '&cFlag tidak dikenal: &e%0%&c.'
+
+usage-command-create: '&e/rg create <name> &7(Memerlukan seleksi WorldEdit)'
+usage-command-flag: '&e/rg flag <region> <flag> <value> atau /rg flag <region> <block-list-flag> add|rem <block>'
+usage-command-flags: '&e/rg flags <region>'
+usage-command-delete: '&e/rg delete <name>'

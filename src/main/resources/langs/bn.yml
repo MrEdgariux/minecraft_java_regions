@@ -1,0 +1,160 @@
+prefix: '&8[&6Regions&8]&r'
+
+error-no-permission: '&cএটি করার অনুমতি আপনার নেই।'
+error-player-only: '&cশুধু খেলোয়াড় এই কমান্ড ব্যবহার করতে পারে।'
+error-message: '&cএকটি ত্রুটি ঘটেছে। বিস্তারিত জানতে সার্ভারের কনসোল দেখুন।'
+error-world-edit-no-selection: '&cপ্রথমে WorldEdit দিয়ে একটি এলাকা নির্বাচন করুন।'
+error-unknown-subcommand: '&cঅজানা সাবকমান্ড। সাহায্যের জন্য &e/rg &cব্যবহার করুন।'
+
+plugin-reloaded: '&aঅঞ্চলগুলো সফলভাবে পুনরায় লোড হয়েছে।'
+plugin-reload-failed: '&cঅঞ্চলগুলো পুনরায় লোড করা যায়নি। সার্ভারের কনসোল দেখুন।'
+
+help-header: '&6অঞ্চলের কমান্ডসমূহ:'
+help-create: '&e/rg create <name> &7- WorldEdit নির্বাচিত এলাকা থেকে অঞ্চল তৈরি করুন।'
+help-delete: '&e/rg delete <name> &7- একটি অঞ্চল মুছুন।'
+help-list: '&e/rg list &7- সব অঞ্চল দেখান।'
+help-flag: '&e/rg flag <region> <flag> <value> &7- একটি ফ্ল্যাগ সেট করুন; ব্লকের তালিকার জন্য add|rem <block> ব্যবহার করুন।'
+help-flags: '&e/rg flags <region> &7- অঞ্চলের ফ্ল্যাগগুলো দেখান।'
+
+# A boolean flag allows the action when true and blocks it when false.
+flag-blocks-place-title: '&eব্লক স্থাপন'
+flag-blocks-place-description: '&7খেলোয়াড়দের অঞ্চলে ব্লক স্থাপন করতে দিন।'
+flag-blocks-place-deny-message: '&cআপনি এই অঞ্চলে ব্লক স্থাপন করতে পারবেন না।'
+
+flag-blocks-place-specific-title: '&eনির্দিষ্ট ব্লক স্থাপন'
+flag-blocks-place-specific-description: '&7ব্লক স্থাপন নিষিদ্ধ থাকলেও যেসব ব্লক স্থাপন করা যাবে। STONE-এর মতো উপাদানের নাম ব্যবহার করুন।'
+flag-blocks-place-specific-deny-message: '&cআপনি এই অঞ্চলে ওই ব্লক স্থাপন করতে পারবেন না।'
+
+flag-blocks-break-title: '&eব্লক ভাঙা'
+flag-blocks-break-description: '&7খেলোয়াড়দের অঞ্চলে ব্লক ভাঙতে দিন।'
+flag-blocks-break-deny-message: '&cআপনি এই অঞ্চলে ব্লক ভাঙতে পারবেন না।'
+
+flag-blocks-break-specific-title: '&eনির্দিষ্ট ব্লক ভাঙা'
+flag-blocks-break-specific-description: '&7ব্লক ভাঙা নিষিদ্ধ থাকলেও যেসব ব্লক ভাঙা যাবে। STONE-এর মতো উপাদানের নাম ব্যবহার করুন।'
+flag-blocks-break-specific-deny-message: '&cআপনি এই অঞ্চলে ওই ব্লক ভাঙতে পারবেন না।'
+
+flag-destroy-paintings-title: '&eছবি'
+flag-destroy-paintings-description: '&7খেলোয়াড়দের অঞ্চলে ছবি স্থাপন বা ধ্বংস করতে দিন।'
+flag-destroy-paintings-deny-message: '&cআপনি এই অঞ্চলে ছবি স্থাপন বা ধ্বংস করতে পারবেন না।'
+
+flag-destroy-item-frames-title: '&eআইটেম ফ্রেম ধ্বংস'
+flag-destroy-item-frames-description: '&7খেলোয়াড়দের অঞ্চলে আইটেম ফ্রেম স্থাপন বা ধ্বংস করতে দিন।'
+flag-destroy-item-frames-deny-message: '&cআপনি এই অঞ্চলে আইটেম ফ্রেম স্থাপন বা ধ্বংস করতে পারবেন না।'
+
+flag-eat-cake-title: '&eকেক খাওয়া'
+flag-eat-cake-description: '&7খেলোয়াড়দের অঞ্চলে কেক খেতে দিন।'
+flag-eat-cake-deny-message: '&cআপনি এই অঞ্চলে কেক খেতে পারবেন না।'
+
+flag-pvp-title: '&ePvP'
+flag-pvp-description: '&7অঞ্চলে খেলোয়াড়দের লড়াই ও ক্ষতি করার অনুমতি দিন।'
+flag-pvp-deny-message: '&cএই অঞ্চলে PvP নিষ্ক্রিয়।'
+
+flag-tnt-title: '&eTNT'
+flag-tnt-description: '&7অঞ্চলে TNT সক্রিয় করার অনুমতি দিন।'
+flag-tnt-deny-message: '&cএই অঞ্চলে TNT নিষ্ক্রিয়।'
+
+flag-ender-dragon-destroy-blocks-title: '&eএন্ডার ড্রাগনের ব্লক ধ্বংস'
+flag-ender-dragon-destroy-blocks-description: '&7এন্ডার ড্রাগনকে অঞ্চলের ব্লক ধ্বংস করতে দিন।'
+flag-ender-dragon-destroy-blocks-deny-message: '&cএন্ডার ড্রাগন এই অঞ্চলের ব্লক ধ্বংস করতে পারবে না।'
+
+flag-edit-signs-title: '&eসাইন সম্পাদনা'
+flag-edit-signs-description: '&7খেলোয়াড়দের অঞ্চলে সাইন সম্পাদনা করতে দিন।'
+flag-edit-signs-deny-message: '&cআপনি এই অঞ্চলে সাইন সম্পাদনা করতে পারবেন না।'
+
+flag-use-pressure-plates-title: '&eপ্রেশার প্লেট'
+flag-use-pressure-plates-description: '&7খেলোয়াড়দের অঞ্চলে প্রেশার প্লেট সক্রিয় করতে দিন।'
+flag-use-pressure-plates-deny-message: '&cআপনি এই অঞ্চলে প্রেশার প্লেট ব্যবহার করতে পারবেন না।'
+
+flag-use-buttons-title: '&eবোতাম ও লিভার'
+flag-use-buttons-description: '&7খেলোয়াড়দের অঞ্চলে বোতাম ও লিভার ব্যবহার করতে দিন।'
+flag-use-buttons-deny-message: '&cআপনি এই অঞ্চলে বোতাম বা লিভার ব্যবহার করতে পারবেন না।'
+
+flag-use-chest-title: '&eচেস্ট'
+flag-use-chest-description: '&7খেলোয়াড়দের অঞ্চলে চেস্ট খুলতে দিন।'
+flag-use-chest-deny-message: '&cআপনি এই অঞ্চলে চেস্ট খুলতে পারবেন না।'
+
+flag-use-furnace-title: '&eফার্নেস'
+flag-use-furnace-description: '&7খেলোয়াড়দের অঞ্চলে ফার্নেস ব্যবহার করতে দিন।'
+flag-use-furnace-deny-message: '&cআপনি এই অঞ্চলে ফার্নেস ব্যবহার করতে পারবেন না।'
+
+flag-use-crafting-table-title: '&eক্রাফটিং টেবিল'
+flag-use-crafting-table-description: '&7খেলোয়াড়দের অঞ্চলে ক্রাফটিং টেবিল ব্যবহার করতে দিন।'
+flag-use-crafting-table-deny-message: '&cআপনি এই অঞ্চলে ক্রাফটিং টেবিল ব্যবহার করতে পারবেন না।'
+
+flag-use-ender-chest-title: '&eএন্ডার চেস্ট'
+flag-use-ender-chest-description: '&7খেলোয়াড়দের অঞ্চলে এন্ডার চেস্ট খুলতে দিন।'
+flag-use-ender-chest-deny-message: '&cআপনি এই অঞ্চলে এন্ডার চেস্ট খুলতে পারবেন না।'
+
+flag-use-container-blocks-title: '&eকন্টেইনার ব্লক'
+flag-use-container-blocks-description: '&7খেলোয়াড়দের অঞ্চলে ইনভেন্টরিযুক্ত কন্টেইনার ব্যবহার করতে দিন।'
+flag-use-container-blocks-deny-message: '&cআপনি এই অঞ্চলে কন্টেইনার ব্যবহার করতে পারবেন না।'
+
+flag-use-functional-blocks-title: '&eকার্যকরী ব্লক'
+flag-use-functional-blocks-description: '&7খেলোয়াড়দের অঞ্চলে বিকন, নোট ব্লক, কম্পোস্টার, লুম, জুকবক্স, ঘণ্টা, ওয়ার্কস্টেশন, দরজা এবং অন্যান্য কার্যকরী ব্লক ব্যবহার করতে দিন।'
+flag-use-functional-blocks-deny-message: '&cআপনি এই অঞ্চলে কার্যকরী ব্লক ব্যবহার করতে পারবেন না।'
+
+flag-use-item-frames-title: '&eআইটেম ফ্রেম'
+flag-use-item-frames-description: '&7খেলোয়াড়দের অঞ্চলে আইটেম ফ্রেম স্থাপন করতে দিন।'
+flag-use-item-frames-deny-message: '&cআপনি এই অঞ্চলে আইটেম ফ্রেম ব্যবহার করতে পারবেন না।'
+
+flag-use-buckets-title: '&eবালতি'
+flag-use-buckets-description: '&7খেলোয়াড়দের অঞ্চলে বালতি ভর্তি ও খালি করতে দিন।'
+flag-use-buckets-deny-message: '&cআপনি এই অঞ্চলে বালতি ব্যবহার করতে পারবেন না।'
+
+flag-use-world-edit-title: '&eWorldEdit'
+flag-use-world-edit-description: '&7খেলোয়াড়দের WorldEdit দিয়ে অঞ্চলের ব্লক পরিবর্তন করতে দিন।'
+flag-use-world-edit-deny-message: '&cআপনি এই অঞ্চলে WorldEdit ব্যবহার করতে পারবেন না।'
+
+flag-use-throwable-potions-title: '&eনিক্ষেপযোগ্য পোশন'
+flag-use-throwable-potions-description: '&7অঞ্চলে স্প্ল্যাশ ও লিঙ্গারিং পোশন ব্যবহারের অনুমতি দিন।'
+flag-use-throwable-potions-deny-message: '&cআপনি এই অঞ্চলে নিক্ষেপযোগ্য পোশন ব্যবহার করতে পারবেন না।'
+
+flag-fire-spread-title: '&eআগুন ছড়ানো'
+flag-fire-spread-description: '&7অঞ্চলে আগুনকে ব্লকে লাগতে ও ব্লক পোড়াতে দিন।'
+flag-fire-spread-deny-message: '&cআপনি এই অঞ্চলে আগুন জ্বালাতে পারবেন না।'
+
+flag-allow-enter-title: '&eঅঞ্চলে প্রবেশ'
+flag-allow-enter-description: '&7খেলোয়াড়দের অঞ্চলে প্রবেশ করতে দিন।'
+flag-allow-enter-deny-message: '&cআপনি এই অঞ্চলে প্রবেশ করতে পারবেন না।'
+
+flag-enter-permission-title: '&eপ্রবেশের অনুমতি'
+flag-enter-permission-description: '&7অঞ্চলে প্রবেশের জন্য প্রয়োজনীয় অনুমতি। সবাইকে অনুমতি দিতে খালি রাখুন।'
+flag-enter-permission-deny-message: '&cআপনার এই অঞ্চলে প্রবেশের অনুমতি নেই।'
+
+flag-enter-message-title: '&eপ্রবেশ বার্তা'
+flag-enter-message-description: '&7অঞ্চলে প্রবেশকারী খেলোয়াড়দের দেখানো বার্তা।'
+flag-enter-message-deny-message: '&cআপনি এই অঞ্চলে প্রবেশ করতে পারবেন না।'
+
+flag-allow-leave-title: '&eঅঞ্চল ত্যাগ'
+flag-allow-leave-description: '&7খেলোয়াড়দের অঞ্চল ত্যাগ করতে দিন।'
+flag-allow-leave-deny-message: '&cআপনি এই অঞ্চল ত্যাগ করতে পারবেন না।'
+
+flag-leave-permission-title: '&eবের হওয়ার অনুমতি'
+flag-leave-permission-description: '&7অঞ্চল ত্যাগের জন্য প্রয়োজনীয় অনুমতি। সবাইকে অনুমতি দিতে খালি রাখুন।'
+flag-leave-permission-deny-message: '&cআপনার এই অঞ্চল ত্যাগের অনুমতি নেই।'
+
+flag-leave-message-title: '&eবের হওয়ার বার্তা'
+flag-leave-message-description: '&7অঞ্চল ত্যাগকারী খেলোয়াড়দের দেখানো বার্তা।'
+flag-leave-message-deny-message: '&cআপনি এই অঞ্চল ত্যাগ করতে পারবেন না।'
+
+region-created: '&aঅঞ্চল &e%0% &aতৈরি হয়েছে।'
+region-deleted: '&aঅঞ্চল &e%0% &aমুছে ফেলা হয়েছে।'
+region-not-found: '&cঅঞ্চল &e%0% &cপাওয়া যায়নি।'
+region-exists: '&cএই নামে একটি অঞ্চল ইতিমধ্যে আছে।'
+region-list-header: '&6অঞ্চলসমূহ:'
+region-list-entry: '&7- &e%0%'
+
+flags-not-list: '&cএই ফ্ল্যাগে কোনো তালিকা নেই।'
+flags-invalid-operation: '&cতালিকার কাজটি সঠিক নয়। add বা rem ব্যবহার করুন।'
+flags-invalid-value: '&cফ্ল্যাগ &e%0% &cএর জন্য ভুল মান।'
+flags-unknown-type: '&cফ্ল্যাগ &e%0% &cএর মানের ধরন সমর্থিত নয়।'
+flags-unset-success: '&aঅঞ্চল &e%1% &aথেকে ফ্ল্যাগ &e%0% &aমুছে দেওয়া হয়েছে।'
+flags-updated-success: '&aঅঞ্চল &e%1% &aএ ফ্ল্যাগ &e%0% &aএর মান &e%2% &aকরা হয়েছে।'
+flags-list-header: '&6অঞ্চল &e%0% &6এর ফ্ল্যাগসমূহ:'
+flags-list-entry: '&7- &e%1% &8(&7%0%&8)&7: &f%2%'
+flags-not-found: '&cঅজানা ফ্ল্যাগ: &e%0%&c।'
+
+usage-command-create: '&e/rg create <name> &7(WorldEdit নির্বাচন প্রয়োজন)'
+usage-command-flag: '&e/rg flag <region> <flag> <value> অথবা /rg flag <region> <block-list-flag> add|rem <block>'
+usage-command-flags: '&e/rg flags <region>'
+usage-command-delete: '&e/rg delete <name>'

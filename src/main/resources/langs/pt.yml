@@ -1,0 +1,160 @@
+prefix: '&8[&6Regions&8]&r'
+
+error-no-permission: '&cVocê não tem permissão para fazer isso.'
+error-player-only: '&cApenas um jogador pode usar este comando.'
+error-message: '&cOcorreu um erro. Consulte o console do servidor para obter detalhes.'
+error-world-edit-no-selection: '&cFaça primeiro uma seleção com o WorldEdit.'
+error-unknown-subcommand: '&cSubcomando desconhecido. Use &e/rg &cpara obter ajuda.'
+
+plugin-reloaded: '&aAs regiões foram recarregadas com sucesso.'
+plugin-reload-failed: '&cNão foi possível recarregar as regiões. Consulte o console do servidor.'
+
+help-header: '&6Comandos de regiões:'
+help-create: '&e/rg create <name> &7- Cria uma região a partir da sua seleção do WorldEdit.'
+help-delete: '&e/rg delete <name> &7- Exclui uma região.'
+help-list: '&e/rg list &7- Lista todas as regiões.'
+help-flag: '&e/rg flag <region> <flag> <value> &7- Define uma opção; para listas de blocos, use add|rem <block>.'
+help-flags: '&e/rg flags <region> &7- Lista as opções de uma região.'
+
+# A boolean flag allows the action when true and blocks it when false.
+flag-blocks-place-title: '&eColocar blocos'
+flag-blocks-place-description: '&7Permite que jogadores coloquem blocos na região.'
+flag-blocks-place-deny-message: '&cVocê não pode colocar blocos nesta região.'
+
+flag-blocks-place-specific-title: '&eColocar blocos específicos'
+flag-blocks-place-specific-description: '&7Tipos de blocos permitidos mesmo quando colocar blocos está desativado. Use nomes de materiais como STONE.'
+flag-blocks-place-specific-deny-message: '&cVocê não pode colocar esse bloco nesta região.'
+
+flag-blocks-break-title: '&eQuebrar blocos'
+flag-blocks-break-description: '&7Permite que jogadores quebrem blocos na região.'
+flag-blocks-break-deny-message: '&cVocê não pode quebrar blocos nesta região.'
+
+flag-blocks-break-specific-title: '&eQuebrar blocos específicos'
+flag-blocks-break-specific-description: '&7Tipos de blocos permitidos mesmo quando quebrar blocos está desativado. Use nomes de materiais como STONE.'
+flag-blocks-break-specific-deny-message: '&cVocê não pode quebrar esse bloco nesta região.'
+
+flag-destroy-paintings-title: '&ePinturas'
+flag-destroy-paintings-description: '&7Permite que jogadores coloquem ou destruam pinturas na região.'
+flag-destroy-paintings-deny-message: '&cVocê não pode colocar nem destruir pinturas nesta região.'
+
+flag-destroy-item-frames-title: '&eDestruir molduras de itens'
+flag-destroy-item-frames-description: '&7Permite que jogadores coloquem ou destruam molduras de itens na região.'
+flag-destroy-item-frames-deny-message: '&cVocê não pode colocar nem destruir molduras de itens nesta região.'
+
+flag-eat-cake-title: '&eComer bolo'
+flag-eat-cake-description: '&7Permite que jogadores comam bolo na região.'
+flag-eat-cake-deny-message: '&cVocê não pode comer bolo nesta região.'
+
+flag-pvp-title: '&ePvP'
+flag-pvp-description: '&7Permite combate e dano entre jogadores na região.'
+flag-pvp-deny-message: '&cO PvP está desativado nesta região.'
+
+flag-tnt-title: '&eTNT'
+flag-tnt-description: '&7Permite ativar TNT na região.'
+flag-tnt-deny-message: '&cO TNT está desativado nesta região.'
+
+flag-ender-dragon-destroy-blocks-title: '&eDano do Dragão do End nos blocos'
+flag-ender-dragon-destroy-blocks-description: '&7Permite que o Dragão do End destrua blocos na região.'
+flag-ender-dragon-destroy-blocks-deny-message: '&cO Dragão do End não pode destruir blocos nesta região.'
+
+flag-edit-signs-title: '&eEditar placas'
+flag-edit-signs-description: '&7Permite que jogadores editem placas na região.'
+flag-edit-signs-deny-message: '&cVocê não pode editar placas nesta região.'
+
+flag-use-pressure-plates-title: '&ePlacas de pressão'
+flag-use-pressure-plates-description: '&7Permite que jogadores ativem placas de pressão na região.'
+flag-use-pressure-plates-deny-message: '&cVocê não pode usar placas de pressão nesta região.'
+
+flag-use-buttons-title: '&eBotões e alavancas'
+flag-use-buttons-description: '&7Permite que jogadores usem botões e alavancas na região.'
+flag-use-buttons-deny-message: '&cVocê não pode usar botões nem alavancas nesta região.'
+
+flag-use-chest-title: '&eBaús'
+flag-use-chest-description: '&7Permite que jogadores abram baús na região.'
+flag-use-chest-deny-message: '&cVocê não pode abrir baús nesta região.'
+
+flag-use-furnace-title: '&eFornalhas'
+flag-use-furnace-description: '&7Permite que jogadores usem fornalhas na região.'
+flag-use-furnace-deny-message: '&cVocê não pode usar fornalhas nesta região.'
+
+flag-use-crafting-table-title: '&eBancadas de trabalho'
+flag-use-crafting-table-description: '&7Permite que jogadores usem bancadas de trabalho na região.'
+flag-use-crafting-table-deny-message: '&cVocê não pode usar bancadas de trabalho nesta região.'
+
+flag-use-ender-chest-title: '&eBaús do Ender'
+flag-use-ender-chest-description: '&7Permite que jogadores abram baús do Ender na região.'
+flag-use-ender-chest-deny-message: '&cVocê não pode abrir baús do Ender nesta região.'
+
+flag-use-container-blocks-title: '&eBlocos de armazenamento'
+flag-use-container-blocks-description: '&7Permite que jogadores interajam com recipientes de inventário na região.'
+flag-use-container-blocks-deny-message: '&cVocê não pode usar recipientes nesta região.'
+
+flag-use-functional-blocks-title: '&eBlocos funcionais'
+flag-use-functional-blocks-description: '&7Permite que jogadores usem sinalizadores, blocos musicais, composteiras, teares, jukeboxes, sinos, bancadas, portas e outros blocos funcionais na região.'
+flag-use-functional-blocks-deny-message: '&cVocê não pode usar blocos funcionais nesta região.'
+
+flag-use-item-frames-title: '&eMolduras de itens'
+flag-use-item-frames-description: '&7Permite que jogadores coloquem molduras de itens na região.'
+flag-use-item-frames-deny-message: '&cVocê não pode usar molduras de itens nesta região.'
+
+flag-use-buckets-title: '&eBaldes'
+flag-use-buckets-description: '&7Permite que jogadores encham e esvaziem baldes na região.'
+flag-use-buckets-deny-message: '&cVocê não pode usar baldes nesta região.'
+
+flag-use-world-edit-title: '&eWorldEdit'
+flag-use-world-edit-description: '&7Permite que jogadores alterem blocos com WorldEdit na região.'
+flag-use-world-edit-deny-message: '&cVocê não pode usar WorldEdit nesta região.'
+
+flag-use-throwable-potions-title: '&ePoções arremessáveis'
+flag-use-throwable-potions-description: '&7Permite poções arremessáveis e prolongadas na região.'
+flag-use-throwable-potions-deny-message: '&cVocê não pode usar poções arremessáveis nesta região.'
+
+flag-fire-spread-title: '&ePropagação do fogo'
+flag-fire-spread-description: '&7Permite que o fogo incendeie e queime blocos na região.'
+flag-fire-spread-deny-message: '&cVocê não pode iniciar um incêndio nesta região.'
+
+flag-allow-enter-title: '&eEntrar na região'
+flag-allow-enter-description: '&7Permite que jogadores entrem na região.'
+flag-allow-enter-deny-message: '&cVocê não pode entrar nesta região.'
+
+flag-enter-permission-title: '&ePermissão de entrada'
+flag-enter-permission-description: '&7Permissão necessária para entrar na região. Deixe em branco para permitir a todos.'
+flag-enter-permission-deny-message: '&cVocê não tem permissão para entrar nesta região.'
+
+flag-enter-message-title: '&eMensagem de entrada'
+flag-enter-message-description: '&7Mensagem exibida aos jogadores que entram na região.'
+flag-enter-message-deny-message: '&cVocê não pode entrar nesta região.'
+
+flag-allow-leave-title: '&eSair da região'
+flag-allow-leave-description: '&7Permite que jogadores saiam da região.'
+flag-allow-leave-deny-message: '&cVocê não pode sair desta região.'
+
+flag-leave-permission-title: '&ePermissão de saída'
+flag-leave-permission-description: '&7Permissão necessária para sair da região. Deixe em branco para permitir a todos.'
+flag-leave-permission-deny-message: '&cVocê não tem permissão para sair desta região.'
+
+flag-leave-message-title: '&eMensagem de saída'
+flag-leave-message-description: '&7Mensagem exibida aos jogadores que saem da região.'
+flag-leave-message-deny-message: '&cVocê não pode sair desta região.'
+
+region-created: '&aRegião &e%0% &acriada.'
+region-deleted: '&aRegião &e%0% &aexcluída.'
+region-not-found: '&cRegião &e%0% &cnão encontrada.'
+region-exists: '&cJá existe uma região com esse nome.'
+region-list-header: '&6Regiões:'
+region-list-entry: '&7- &e%0%'
+
+flags-not-list: '&cEsta opção não contém uma lista.'
+flags-invalid-operation: '&cOperação de lista inválida. Use add ou rem.'
+flags-invalid-value: '&cValor inválido para a opção &e%0%&c.'
+flags-unknown-type: '&cA opção &e%0% &ctem um tipo de valor não suportado.'
+flags-unset-success: '&aA opção &e%0% &afoi limpa na região &e%1%&a.'
+flags-updated-success: '&aA opção &e%0% &afoi definida como &e%2% &ana região &e%1%&a.'
+flags-list-header: '&6Opções da região &e%0%&6:'
+flags-list-entry: '&7- &e%1% &8(&7%0%&8)&7: &f%2%'
+flags-not-found: '&cOpção desconhecida: &e%0%&c.'
+
+usage-command-create: '&e/rg create <name> &7(Requer uma seleção do WorldEdit)'
+usage-command-flag: '&e/rg flag <region> <flag> <value> ou /rg flag <region> <block-list-flag> add|rem <block>'
+usage-command-flags: '&e/rg flags <region>'
+usage-command-delete: '&e/rg delete <name>'

@@ -1,3 +1,4 @@
+# Available: en, lt, zh, hi, es, ar, fr, bn, pt, ru, id
 language: en
 no_spam_extension:
   duration: 1000 # In milliseconds, how long it should take for message to appear again after a denial message was sent.

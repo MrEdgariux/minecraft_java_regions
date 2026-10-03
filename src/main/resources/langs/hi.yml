@@ -1,0 +1,160 @@
+prefix: '&8[&6Regions&8]&r'
+
+error-no-permission: '&cआपको यह करने की अनुमति नहीं है।'
+error-player-only: '&cयह कमांड केवल खिलाड़ी उपयोग कर सकता है।'
+error-message: '&cएक त्रुटि हुई। विवरण के लिए सर्वर कंसोल देखें।'
+error-world-edit-no-selection: '&cपहले WorldEdit से एक क्षेत्र चुनें।'
+error-unknown-subcommand: '&cअज्ञात उपकमांड। मदद के लिए &e/rg &cका उपयोग करें।'
+
+plugin-reloaded: '&aक्षेत्र सफलतापूर्वक पुनः लोड हो गए।'
+plugin-reload-failed: '&cक्षेत्र पुनः लोड नहीं हो सके। सर्वर कंसोल देखें।'
+
+help-header: '&6क्षेत्र कमांड:'
+help-create: '&e/rg create <name> &7- WorldEdit चयन से क्षेत्र बनाएँ।'
+help-delete: '&e/rg delete <name> &7- क्षेत्र हटाएँ।'
+help-list: '&e/rg list &7- सभी क्षेत्र दिखाएँ।'
+help-flag: '&e/rg flag <region> <flag> <value> &7- फ़्लैग सेट करें; ब्लॉक सूची के लिए add|rem <block> उपयोग करें।'
+help-flags: '&e/rg flags <region> &7- क्षेत्र के फ़्लैग दिखाएँ।'
+
+# A boolean flag allows the action when true and blocks it when false.
+flag-blocks-place-title: '&eब्लॉक रखना'
+flag-blocks-place-description: '&7खिलाड़ियों को क्षेत्र में ब्लॉक रखने दें।'
+flag-blocks-place-deny-message: '&cआप इस क्षेत्र में ब्लॉक नहीं रख सकते।'
+
+flag-blocks-place-specific-title: '&eविशिष्ट ब्लॉक रखना'
+flag-blocks-place-specific-description: '&7ब्लॉक रखना बंद होने पर भी अनुमत ब्लॉक प्रकार। STONE जैसे मटेरियल नाम उपयोग करें।'
+flag-blocks-place-specific-deny-message: '&cआप इस क्षेत्र में यह ब्लॉक नहीं रख सकते।'
+
+flag-blocks-break-title: '&eब्लॉक तोड़ना'
+flag-blocks-break-description: '&7खिलाड़ियों को क्षेत्र में ब्लॉक तोड़ने दें।'
+flag-blocks-break-deny-message: '&cआप इस क्षेत्र में ब्लॉक नहीं तोड़ सकते।'
+
+flag-blocks-break-specific-title: '&eविशिष्ट ब्लॉक तोड़ना'
+flag-blocks-break-specific-description: '&7ब्लॉक तोड़ना बंद होने पर भी अनुमत ब्लॉक प्रकार। STONE जैसे मटेरियल नाम उपयोग करें।'
+flag-blocks-break-specific-deny-message: '&cआप इस क्षेत्र में यह ब्लॉक नहीं तोड़ सकते।'
+
+flag-destroy-paintings-title: '&eपेंटिंग'
+flag-destroy-paintings-description: '&7खिलाड़ियों को क्षेत्र में पेंटिंग लगाने या हटाने दें।'
+flag-destroy-paintings-deny-message: '&cआप इस क्षेत्र में पेंटिंग नहीं लगा या हटा सकते।'
+
+flag-destroy-item-frames-title: '&eआइटम फ़्रेम नष्ट करना'
+flag-destroy-item-frames-description: '&7खिलाड़ियों को क्षेत्र में आइटम फ़्रेम लगाने या हटाने दें।'
+flag-destroy-item-frames-deny-message: '&cआप इस क्षेत्र में आइटम फ़्रेम नहीं लगा या हटा सकते।'
+
+flag-eat-cake-title: '&eकेक खाना'
+flag-eat-cake-description: '&7खिलाड़ियों को क्षेत्र में केक खाने दें।'
+flag-eat-cake-deny-message: '&cआप इस क्षेत्र में केक नहीं खा सकते।'
+
+flag-pvp-title: '&ePvP'
+flag-pvp-description: '&7क्षेत्र में खिलाड़ियों के बीच लड़ाई और क्षति की अनुमति दें।'
+flag-pvp-deny-message: '&cइस क्षेत्र में PvP बंद है।'
+
+flag-tnt-title: '&eTNT'
+flag-tnt-description: '&7क्षेत्र में TNT सक्रिय करने दें।'
+flag-tnt-deny-message: '&cइस क्षेत्र में TNT बंद है।'
+
+flag-ender-dragon-destroy-blocks-title: '&eएंडर ड्रैगन द्वारा ब्लॉक क्षति'
+flag-ender-dragon-destroy-blocks-description: '&7एंडर ड्रैगन को क्षेत्र में ब्लॉक नष्ट करने दें।'
+flag-ender-dragon-destroy-blocks-deny-message: '&cएंडर ड्रैगन इस क्षेत्र में ब्लॉक नष्ट नहीं कर सकता।'
+
+flag-edit-signs-title: '&eसाइन संपादित करना'
+flag-edit-signs-description: '&7खिलाड़ियों को क्षेत्र में साइन संपादित करने दें।'
+flag-edit-signs-deny-message: '&cआप इस क्षेत्र में साइन संपादित नहीं कर सकते।'
+
+flag-use-pressure-plates-title: '&eप्रेशर प्लेट'
+flag-use-pressure-plates-description: '&7खिलाड़ियों को क्षेत्र में प्रेशर प्लेट सक्रिय करने दें।'
+flag-use-pressure-plates-deny-message: '&cआप इस क्षेत्र में प्रेशर प्लेट उपयोग नहीं कर सकते।'
+
+flag-use-buttons-title: '&eबटन और लीवर'
+flag-use-buttons-description: '&7खिलाड़ियों को क्षेत्र में बटन और लीवर उपयोग करने दें।'
+flag-use-buttons-deny-message: '&cआप इस क्षेत्र में बटन या लीवर उपयोग नहीं कर सकते।'
+
+flag-use-chest-title: '&eचेस्ट'
+flag-use-chest-description: '&7खिलाड़ियों को क्षेत्र में चेस्ट खोलने दें।'
+flag-use-chest-deny-message: '&cआप इस क्षेत्र में चेस्ट नहीं खोल सकते।'
+
+flag-use-furnace-title: '&eभट्ठी'
+flag-use-furnace-description: '&7खिलाड़ियों को क्षेत्र में भट्ठी उपयोग करने दें।'
+flag-use-furnace-deny-message: '&cआप इस क्षेत्र में भट्ठी उपयोग नहीं कर सकते।'
+
+flag-use-crafting-table-title: '&eक्राफ्टिंग टेबल'
+flag-use-crafting-table-description: '&7खिलाड़ियों को क्षेत्र में क्राफ्टिंग टेबल उपयोग करने दें।'
+flag-use-crafting-table-deny-message: '&cआप इस क्षेत्र में क्राफ्टिंग टेबल उपयोग नहीं कर सकते।'
+
+flag-use-ender-chest-title: '&eएंडर चेस्ट'
+flag-use-ender-chest-description: '&7खिलाड़ियों को क्षेत्र में एंडर चेस्ट खोलने दें।'
+flag-use-ender-chest-deny-message: '&cआप इस क्षेत्र में एंडर चेस्ट नहीं खोल सकते।'
+
+flag-use-container-blocks-title: '&eकंटेनर ब्लॉक'
+flag-use-container-blocks-description: '&7खिलाड़ियों को क्षेत्र में इन्वेंटरी वाले कंटेनर उपयोग करने दें।'
+flag-use-container-blocks-deny-message: '&cआप इस क्षेत्र में कंटेनर उपयोग नहीं कर सकते।'
+
+flag-use-functional-blocks-title: '&eउपयोगी ब्लॉक'
+flag-use-functional-blocks-description: '&7खिलाड़ियों को क्षेत्र में बीकन, नोट ब्लॉक, कंपोस्टर, लूम, ज्यूकबॉक्स, घंटियाँ, कार्यस्थल, दरवाज़े और अन्य उपयोगी ब्लॉक उपयोग करने दें।'
+flag-use-functional-blocks-deny-message: '&cआप इस क्षेत्र में उपयोगी ब्लॉक उपयोग नहीं कर सकते।'
+
+flag-use-item-frames-title: '&eआइटम फ़्रेम'
+flag-use-item-frames-description: '&7खिलाड़ियों को क्षेत्र में आइटम फ़्रेम लगाने दें।'
+flag-use-item-frames-deny-message: '&cआप इस क्षेत्र में आइटम फ़्रेम उपयोग नहीं कर सकते।'
+
+flag-use-buckets-title: '&eबाल्टी'
+flag-use-buckets-description: '&7खिलाड़ियों को क्षेत्र में बाल्टी भरने और खाली करने दें।'
+flag-use-buckets-deny-message: '&cआप इस क्षेत्र में बाल्टी उपयोग नहीं कर सकते।'
+
+flag-use-world-edit-title: '&eWorldEdit'
+flag-use-world-edit-description: '&7खिलाड़ियों को WorldEdit से क्षेत्र में ब्लॉक बदलने दें।'
+flag-use-world-edit-deny-message: '&cआप इस क्षेत्र में WorldEdit उपयोग नहीं कर सकते।'
+
+flag-use-throwable-potions-title: '&eफेंकने योग्य पोशन'
+flag-use-throwable-potions-description: '&7क्षेत्र में स्प्लैश और लिंगरिंग पोशन की अनुमति दें।'
+flag-use-throwable-potions-deny-message: '&cआप इस क्षेत्र में फेंकने योग्य पोशन उपयोग नहीं कर सकते।'
+
+flag-fire-spread-title: '&eआग फैलना'
+flag-fire-spread-description: '&7क्षेत्र में आग को ब्लॉक जलाने और फैलने दें।'
+flag-fire-spread-deny-message: '&cआप इस क्षेत्र में आग नहीं लगा सकते।'
+
+flag-allow-enter-title: '&eक्षेत्र में प्रवेश'
+flag-allow-enter-description: '&7खिलाड़ियों को क्षेत्र में प्रवेश करने दें।'
+flag-allow-enter-deny-message: '&cआप इस क्षेत्र में प्रवेश नहीं कर सकते।'
+
+flag-enter-permission-title: '&eप्रवेश की अनुमति'
+flag-enter-permission-description: '&7क्षेत्र में प्रवेश के लिए आवश्यक अनुमति। सभी को अनुमति देने के लिए खाली छोड़ें।'
+flag-enter-permission-deny-message: '&cआपको इस क्षेत्र में प्रवेश की अनुमति नहीं है।'
+
+flag-enter-message-title: '&eप्रवेश संदेश'
+flag-enter-message-description: '&7क्षेत्र में प्रवेश करने वाले खिलाड़ियों को दिखाया जाने वाला संदेश।'
+flag-enter-message-deny-message: '&cआप इस क्षेत्र में प्रवेश नहीं कर सकते।'
+
+flag-allow-leave-title: '&eक्षेत्र से निकलना'
+flag-allow-leave-description: '&7खिलाड़ियों को क्षेत्र से निकलने दें।'
+flag-allow-leave-deny-message: '&cआप इस क्षेत्र से नहीं निकल सकते।'
+
+flag-leave-permission-title: '&eनिकास की अनुमति'
+flag-leave-permission-description: '&7क्षेत्र से निकलने के लिए आवश्यक अनुमति। सभी को अनुमति देने के लिए खाली छोड़ें।'
+flag-leave-permission-deny-message: '&cआपको इस क्षेत्र से निकलने की अनुमति नहीं है।'
+
+flag-leave-message-title: '&eनिकास संदेश'
+flag-leave-message-description: '&7क्षेत्र से निकलने वाले खिलाड़ियों को दिखाया जाने वाला संदेश।'
+flag-leave-message-deny-message: '&cआप इस क्षेत्र से नहीं निकल सकते।'
+
+region-created: '&aक्षेत्र &e%0% &aबनाया गया।'
+region-deleted: '&aक्षेत्र &e%0% &aहटाया गया।'
+region-not-found: '&cक्षेत्र &e%0% &cनहीं मिला।'
+region-exists: '&cइस नाम का क्षेत्र पहले से मौजूद है।'
+region-list-header: '&6क्षेत्र:'
+region-list-entry: '&7- &e%0%'
+
+flags-not-list: '&cइस फ़्लैग में सूची नहीं है।'
+flags-invalid-operation: '&cअमान्य सूची क्रिया। add या rem उपयोग करें।'
+flags-invalid-value: '&cफ़्लैग &e%0% &cके लिए अमान्य मान।'
+flags-unknown-type: '&cफ़्लैग &e%0% &cका मान प्रकार समर्थित नहीं है।'
+flags-unset-success: '&aक्षेत्र &e%1% &aमें फ़्लैग &e%0% &aहटा दिया गया।'
+flags-updated-success: '&aक्षेत्र &e%1% &aमें फ़्लैग &e%0% &aका मान &e%2% &aसेट किया गया।'
+flags-list-header: '&6क्षेत्र &e%0% &6के फ़्लैग:'
+flags-list-entry: '&7- &e%1% &8(&7%0%&8)&7: &f%2%'
+flags-not-found: '&cअज्ञात फ़्लैग: &e%0%&c।'
+
+usage-command-create: '&e/rg create <name> &7(WorldEdit चयन आवश्यक है)'
+usage-command-flag: '&e/rg flag <region> <flag> <value> या /rg flag <region> <block-list-flag> add|rem <block>'
+usage-command-flags: '&e/rg flags <region>'
+usage-command-delete: '&e/rg delete <name>'
