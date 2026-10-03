@@ -104,6 +104,10 @@ public final class main extends JavaPlugin {
         return chat;
     }
 
+    public LanguageManager getLanguageManager() {
+        return lang;
+    }
+
     public PluginConfig getPluginConfig() {
         return config;
     }

@@ -3,6 +3,7 @@ package lt.mredgariux.regions.classes;
 import lt.mredgariux.regions.enums.RegionFlagEnum;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -67,7 +68,9 @@ public class RegionFlags {
         if (flag.getType() != String[].class) {
             throw new IllegalArgumentException(flag.name() + " does not accept a string array");
         }
-        this.set(flag, value);
+        this.set(flag, Arrays.stream(value)
+                .filter(item -> item != null && !item.isBlank())
+                .toArray(String[]::new));
     }
 
     public void setBoolean(RegionFlagEnum flag, boolean value) {
